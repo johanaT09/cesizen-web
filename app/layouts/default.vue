@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import NavBar from './navbar.vue'
+import Footer from './footer.vue'
 </script>
 
 <template>
@@ -8,5 +9,6 @@ import NavBar from './navbar.vue'
     <main class="flex-1">
       <slot />
     </main>
+    <Footer />
   </div>
 </template>
