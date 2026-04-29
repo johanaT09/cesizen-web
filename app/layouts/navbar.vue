@@ -15,6 +15,7 @@ watch(() => route.path, () => {
 </script>
 
 <template>
+  <!-- On garde le header sticky -->
   <header class="sticky top-0 z-40 border-b border-gray-200 bg-navbar/90 backdrop-blur-md">
     <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
 
@@ -32,6 +33,7 @@ watch(() => route.path, () => {
         </div>
       </NuxtLink>
 
+      <!-- Desktop Nav -->
       <nav class="hidden items-center gap-1 md:flex">
         <NuxtLink v-for="item in NAV_LINKS" :key="item.to" :to="item.to"
           class="rounded-lg px-4 py-2 text-sm font-bold transition-colors" :class="[
@@ -59,8 +61,9 @@ watch(() => route.path, () => {
         </NuxtLink>
       </div>
 
+      <!-- Burger Button -->
       <button type="button" @click="isMenuOpen = !isMenuOpen"
-        class="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 bg-white textPrimary md:hidden active:bg-gray-50"
+        class="relative z-[60] flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 bg-white textPrimary md:hidden active:bg-gray-50"
         aria-label="Menu">
         <svg v-if="!isMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
           stroke="currentColor">
@@ -73,11 +76,19 @@ watch(() => route.path, () => {
       </button>
     </div>
 
-    <transition enter-active-class="transition duration-300 ease-out" enter-from-class="translate-x-full"
-      enter-to-class="translate-x-0" leave-active-class="transition duration-200 ease-in"
-      leave-from-class="translate-x-0" leave-to-class="translate-x-full">
-      <div v-if="isMenuOpen" class="fixed inset-0 top-[110px] z-50 bg-white md:hidden">
-        <nav class="flex flex-col gap-2 p-6">
+    <!-- MOBILE MENU CORRIGÉ -->
+    <transition 
+      enter-active-class="transition duration-300 ease-out" 
+      enter-from-class="translate-x-full opacity-0"
+      enter-to-class="translate-x-0 opacity-100" 
+      leave-active-class="transition duration-200 ease-in"
+      leave-from-class="translate-x-0 opacity-100" 
+      leave-to-class="translate-x-full opacity-0"
+    >
+      <!-- Ajout de h-screen et bg-white forcé -->
+      <div v-if="isMenuOpen" 
+           class="fixed inset-0 top-[73px] left-0 right-0 bottom-0 z-50 h-screen w-full bg-white opacity-100 md:hidden overflow-y-auto">
+        <nav class="flex flex-col gap-2 p-6 bg-white h-full">
           <NuxtLink v-for="item in NAV_LINKS" :key="item.to" :to="item.to"
             class="rounded-xl px-4 py-4 text-lg font-bold border border-transparent" :class="[
               route.path === item.to
@@ -102,9 +113,3 @@ watch(() => route.path, () => {
     </transition>
   </header>
 </template>
-
-<style scoped>
-body.menu-open {
-  overflow: hidden;
-}
-</style>
