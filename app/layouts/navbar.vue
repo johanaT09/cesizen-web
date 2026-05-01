@@ -6,7 +6,7 @@ const NAV_LINKS = [
   { to: "/", label: "Accueil" },
   { to: "/activites", label: "Activités" },
   { to: "/informations", label: "S'informer" },
-  { to: "/a-propos", label: "À propos" },
+  { to: "/about", label: "À propos" },
 ];
 
 watch(() => route.path, () => {
