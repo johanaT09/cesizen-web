@@ -29,7 +29,7 @@
           <ul class="space-y-4 text-gray-600">
             <li><NuxtLink to="/activites" class="hover:text-buttonPrimary transition-colors">Activités de détente</NuxtLink></li>
             <li><NuxtLink to="/informations" class="hover:text-buttonPrimary transition-colors">S'informer</NuxtLink></li>
-            <li><NuxtLink to="/a-propos" class="hover:text-buttonPrimary transition-colors">À propos</NuxtLink></li>
+            <li><NuxtLink to="/about" class="hover:text-buttonPrimary transition-colors">À propos</NuxtLink></li>
           </ul>
         </div>
 
