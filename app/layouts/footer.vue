@@ -2,10 +2,8 @@
   <footer class="bg-footer border-t border-gray-200 pt-16 pb-12 font-body textPrimary">
     <div class="mx-auto max-w-7xl px-6">
       
-      <!-- Section principale avec décalage (col-start-2) -->
       <div class="grid grid-cols-1 gap-12 md:grid-cols-12 md:gap-4">
         
-        <!-- Colonne Logo : commence à la colonne 2 sur desktop pour décaler à droite -->
         <div class="md:col-span-5 md:col-start-2 lg:col-span-4 lg:col-start-2">
           <div class="flex items-center gap-4 mb-6">
             <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-buttonPrimary textSecondary shadow-sm">
@@ -23,7 +21,6 @@
           </p>
         </div>
 
-        <!-- Colonne Plateforme : décalée vers le milieu/droite -->
         <div class="md:col-span-3 md:col-start-7 lg:col-start-7">
           <h3 class="font-heading text-xl font-bold mb-6">Plateforme</h3>
           <ul class="space-y-4 text-gray-600">
@@ -33,7 +30,6 @@
           </ul>
         </div>
 
-        <!-- Colonne Légal : décalée vers la droite -->
         <div class="md:col-span-3 md:col-start-10 lg:col-start-10">
           <h3 class="font-heading text-xl font-bold mb-6">Légal</h3>
           <ul class="space-y-4 text-gray-600">
@@ -44,7 +40,6 @@
         </div>
       </div>
 
-      <!-- Ligne du bas (Copyright) : alignée sur le même décalage -->
       <div class="mt-20 border-t border-gray-300 pt-8">
         <div class="grid grid-cols-1 md:grid-cols-12">
           <div class="md:col-span-10 md:col-start-2 flex flex-col gap-4 md:flex-row md:items-center md:justify-between text-sm text-gray-500">
