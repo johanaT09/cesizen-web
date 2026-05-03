@@ -92,7 +92,6 @@ watch(() => route.path, () => {
       <transition enter-active-class="transition duration-300 ease-out" enter-from-class="translate-x-full opacity-0"
         enter-to-class="translate-x-0 opacity-100" leave-active-class="transition duration-200 ease-in"
         leave-from-class="translate-x-0 opacity-100" leave-to-class="translate-x-full opacity-0">
-        <!-- Ajout de h-screen et bg-white forcé -->
         <div v-if="isMenuOpen"
           class="fixed inset-0 top-[73px] left-0 right-0 bottom-0 z-50 h-screen w-full bg-white opacity-100 md:hidden overflow-y-auto">
           <nav class="flex flex-col gap-2 p-6 bg-white h-full">
@@ -106,7 +105,7 @@ watch(() => route.path, () => {
             </NuxtLink>
 
             <div class="mt-8 grid grid-cols-1 gap-4">
-              <NuxtLink to="/connexion"
+              <NuxtLink to="/login"
                 class="flex h-14 items-center justify-center rounded-xl border-2 border-gray-100 font-bold textPrimary active:bg-gray-50">
                 Connexion
               </NuxtLink>

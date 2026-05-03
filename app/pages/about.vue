@@ -2,17 +2,14 @@
   <section class="bg-navbar py-12 md:py-24 px-4">
     <div class="max-w-4xl mx-auto">
       
-      <!-- Surtitre -->
       <span class="text-[#52c467] font-bold text-xs tracking-[0.2em] uppercase mb-4 block">
         À propos
       </span>
 
-      <!-- Titre Principal -->
       <h2 class="text-[#1a2b3b] text-3xl md:text-5xl font-serif font-bold leading-tight mb-8">
         Une initiative publique pour le bien-être de tous
       </h2>
 
-      <!-- Description principale -->
       <div class="space-y-6 text-gray-600 leading-relaxed mb-16 text-sm md:text-base text-justify">
         <p>
           CESIZen est une plateforme du <strong class="text-[#1a2b3b] font-bold">Ministère de la Santé et de la Prévention</strong>, conçue pour offrir aux citoyens des outils accessibles et fiables afin de mieux gérer le stress et préserver leur santé mentale.
@@ -22,9 +19,7 @@
         </p>
       </div>
 
-      <!-- Grid Sections : Engagements & Chiffres -->
       <div class="grid md:grid-cols-2 gap-12 mb-20">
-        <!-- Section Nos engagements -->
         <div>
           <h3 class="text-[#1a2b3b] text-xl md:text-2xl font-serif font-bold mb-6">
             Nos engagements
@@ -41,7 +36,6 @@
           </ul>
         </div>
 
-        <!-- Section Chiffres ou Impact -->
         <div class="bg-[#fdfbf7] p-8 rounded-2xl border border-gray-100">
           <h3 class="text-[#1a2b3b] text-lg font-bold mb-4 uppercase tracking-wide">L'impact en France</h3>
           <div class="space-y-6">
@@ -58,7 +52,6 @@
         </div>
       </div>
 
-      <!-- Section Méthodologie (Nouveau) -->
       <div class="mb-20">
         <h3 class="text-[#1a2b3b] text-xl md:text-2xl font-serif font-bold mb-6">
           Une approche scientifique
@@ -73,7 +66,6 @@
         </div>
       </div>
 
-      <!-- Section Numéros utiles -->
       <div class="border-t border-gray-100 pt-12">
         <h3 class="text-[#1a2b3b] text-xl md:text-2xl font-serif font-bold mb-4">
           Besoin d'une aide immédiate ?
@@ -104,8 +96,6 @@ const engagements = [
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
-
 .font-serif {
   font-family: 'Playfair Display', serif;
 }

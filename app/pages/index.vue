@@ -87,7 +87,6 @@
     <section class="py-24 bg-white px-6">
         <div class="mx-auto max-w-5xl">
 
-            <!-- En-tête de section -->
             <div class="text-center mb-20 space-y-6">
                 <h1 class="text-2xl md:text-4xl font-heading font-bold text-slate-900 leading-tight tracking-tight">
                     La santé mentale, une priorité de santé <br class="hidden md:block" /> publique
@@ -98,10 +97,8 @@
                 </p>
             </div>
 
-            <!-- Grille des 3 cartes -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-                <!-- Carte 1 -->
                 <div
                     class="bg-white border border-slate-400 rounded-[2rem] p-6 shadow-xl shadow-slate-200/40 hover:shadow-2xl transition-shadow duration-100">
                     <div class="w-12 h-12 rounded-[1.2rem] flex items-center justify-center mb-4">
@@ -117,7 +114,6 @@
                     </p>
                 </div>
 
-                <!-- Carte 2 -->
                 <div
                     class="bg-white border border-slate-400 rounded-[2rem] p-6 shadow-xl shadow-slate-200/40 hover:shadow-2xl transition-shadow duration-300">
                     <div class="w-12 h-12 rounded-[1.2rem] flex items-center justify-center mb-4">
@@ -133,7 +129,6 @@
                     </p>
                 </div>
 
-                <!-- Carte 3 -->
                 <div
                     class="bg-white border border-slate-400 rounded-[2rem] p-6 shadow-xl shadow-slate-200/40 hover:shadow-2xl transition-shadow duration-300">
                     <div class="w-12 h-12 rounded-[1.2rem] flex items-center justify-center mb-4">
@@ -154,11 +149,9 @@
     </section>
     <section>
         <div class="p-4 md:p-8 bg-backgroundPrimary min-h-[300px] flex items-center justify-center">
-            <!-- Container principal -->
             <div
                 class="bg-[#52c467] rounded-[24px] p-8 md:p-12 w-full max-w-5xl flex flex-col md:flex-row items-center justify-between gap-8 shadow-sm">
 
-                <!-- Texte -->
                 <div class="text-white max-w-lg">
                     <h1 class="text-2xl md:text-4xl font-serif font-bold mb-4 leading-tight">
                         Construisez votre routine bien-être
@@ -169,7 +162,6 @@
                     </p>
                 </div>
 
-                <!-- Boutons -->
                 <div class="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
                     <button
                         class="bg-buttonSecondaryDegrade1 hover:bg-buttonSecondaryDegrade2 text-textPrimary font-medium py-2 px-6 rounded-xl transition-colors duration-200 whitespace-nowrap text-center">
@@ -187,8 +179,6 @@
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
-
 h1 {
     font-family: 'Playfair Display', serif;
 }
