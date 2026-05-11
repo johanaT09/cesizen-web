@@ -115,7 +115,6 @@ const touched = ref({
   password: false
 });
 
-// Validation visuelle (Front)
 const fieldErrors = computed(() => {
   const errors: any = {};
   if (touched.value.firstName && !form.value.firstName) errors.firstName = "Prénom requis";
@@ -126,7 +125,6 @@ const fieldErrors = computed(() => {
   return errors;
 });
 
-// État du bouton
 const isFormInvalid = computed(() => {
   return !form.value.firstName || !form.value.genderId || !form.value.birthday ||
     !/^\S+@\S+\.\S+$/.test(form.value.email) || form.value.password.length < 8 ||
@@ -156,8 +154,6 @@ const handleRegister = async () => {
       }
     });
 
-    // 1. On récupère le token renvoyé par le backend
-    // Assure-toi que ton Laravel fait : return response()->json(['token' => $token, ...]);
     if (data.token) {
       const authCookie = useCookie('auth_token', { 
         maxAge: 60 * 60 * 24 * 7, // On passe à 7 jours pour "Rester connecté"
@@ -166,14 +162,12 @@ const handleRegister = async () => {
       });
       authCookie.value = data.token;
       
-      // Optionnel : stocker les infos de l'utilisateur si renvoyées
       if (data.user) {
         const userCookie = useCookie('user_data', { maxAge: 60 * 60 * 24 * 7, path: '/' });
         userCookie.value = JSON.stringify(data.user);
       }
     }
 
-    // 2. Redirection vers l'accueil (le cookie étant là, il sera vu comme connecté)
     await navigateTo('/');
 
   } catch (err: any) {
