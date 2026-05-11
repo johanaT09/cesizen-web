@@ -2,6 +2,19 @@
 const route = useRoute();
 const isMenuOpen = ref(false);
 
+// 1. Logique de connexion : Récupère le token via le cookie
+const authToken = useCookie('auth_token');
+
+// 2. État réactif pour l'affichage conditionnel
+const isLoggedIn = computed(() => !!authToken.value);
+
+// 3. Fonction de déconnexion
+const handleLogout = async () => {
+  authToken.value = null; // Supprime le cookie
+  isMenuOpen.value = false;
+  await navigateTo('/login');
+};
+
 const NAV_LINKS = [
   { to: "/", label: "Accueil" },
   { to: "/activites", label: "Activités" },
@@ -17,29 +30,23 @@ watch(() => route.path, () => {
 <template>
   <header class="sticky top-0 z-50 shadow-sm">
     <div class="w-full bg-[#111921] text-white">
-      <div
-        class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 text-[10px] sm:text-[11px] tracking-widest uppercase">
-
+      <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 text-[10px] sm:text-[11px] tracking-widest uppercase">
         <div class="font-bold border-r border-white/20 pr-4 md:border-none">
           République Française
         </div>
-
         <div class="hidden sm:block font-medium opacity-90 lowercase first-letter:uppercase">
           Liberté • Égalité • Fraternité
         </div>
-
       </div>
     </div>
+
     <div class="top-0 z-40 border-b border-gray-200 bg-navbar/90 backdrop-blur-md">
       <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
 
         <NuxtLink to="/" class="flex items-center gap-3 transition-opacity hover:opacity-90">
-          <div
-            class="flex h-10 w-10 items-center justify-center rounded-xl bg-buttonPrimaryDegrade1 hover:bg-buttonPrimaryDegrade2 buttonPrimary textSecondary shadow-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path
-                d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-buttonPrimaryDegrade1 hover:bg-buttonPrimaryDegrade2 buttonPrimary textSecondary shadow-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
             </svg>
           </div>
           <div class="flex flex-col leading-none">
@@ -60,19 +67,38 @@ watch(() => route.path, () => {
         </nav>
 
         <div class="hidden items-center gap-3 md:flex">
-          <NuxtLink to="/connexion"
-            class="flex items-center px-3 py-2 text-sm font-bold textPrimary hover:text-buttonPrimary transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-            </svg>
-            Connexion
-          </NuxtLink>
-          <NuxtLink to="/inscription"
-            class="rounded-full bg-buttonPrimaryDegrade1 hover:bg-buttonPrimaryDegrade2  px-6 py-2.5 text-sm font-bold textSecondary shadow-md hover:brightness-110 transition-all active:scale-95">
-            Créer un compte
-          </NuxtLink>
+          
+          <template v-if="isLoggedIn">
+            <NuxtLink to="/profil" class="flex items-center px-3 py-2 text-sm font-bold textPrimary hover:text-buttonPrimary transition-colors group">
+              <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-full bg-buttonPrimary/10 text-buttonPrimary group-hover:bg-buttonPrimary group-hover:text-white transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              </div>
+              Mon compte
+            </NuxtLink>
+            <button @click="handleLogout" 
+              class="px-4 py-2 text-sm font-bold text-red-500 hover:bg-red-50 rounded-lg transition-colors">
+              Déconnexion
+            </button>
+          </template>
+
+          <template v-else>
+            <NuxtLink to="/login"
+              class="flex items-center px-3 py-2 text-sm font-bold textPrimary hover:text-buttonPrimary transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Connexion
+            </NuxtLink>
+            <NuxtLink to="/inscription"
+              class="rounded-full bg-buttonPrimaryDegrade1 hover:bg-buttonPrimaryDegrade2 px-6 py-2.5 text-sm font-bold textSecondary shadow-md hover:brightness-110 transition-all active:scale-95">
+              Créer un compte
+            </NuxtLink>
+          </template>
         </div>
 
         <button type="button" @click="isMenuOpen = !isMenuOpen"
@@ -105,14 +131,27 @@ watch(() => route.path, () => {
             </NuxtLink>
 
             <div class="mt-8 grid grid-cols-1 gap-4">
-              <NuxtLink to="/login"
-                class="flex h-14 items-center justify-center rounded-xl border-2 border-gray-100 font-bold textPrimary active:bg-gray-50">
-                Connexion
-              </NuxtLink>
-              <NuxtLink to="/inscription"
-                class="flex h-14 items-center justify-center rounded-xl bg-buttonPrimaryDegrade1 hover:bg-buttonPrimaryDegrade2 font-bold textSecondary shadow-lg active:brightness-90">
-                Créer un compte
-              </NuxtLink>
+              <template v-if="isLoggedIn">
+                <NuxtLink to="/profil"
+                  class="flex h-14 items-center justify-center rounded-xl border-2 border-gray-100 font-bold textPrimary active:bg-gray-50">
+                  Mon Profil
+                </NuxtLink>
+                <button @click="handleLogout"
+                  class="flex h-14 items-center justify-center rounded-xl border-2 border-red-100 font-bold text-red-500 active:bg-red-50">
+                  Se déconnecter
+                </button>
+              </template>
+
+              <template v-else>
+                <NuxtLink to="/login"
+                  class="flex h-14 items-center justify-center rounded-xl border-2 border-gray-100 font-bold textPrimary active:bg-gray-50">
+                  Connexion
+                </NuxtLink>
+                <NuxtLink to="/inscription"
+                  class="flex h-14 items-center justify-center rounded-xl bg-buttonPrimaryDegrade1 hover:bg-buttonPrimaryDegrade2 font-bold textSecondary shadow-lg active:brightness-90">
+                  Créer un compte
+                </NuxtLink>
+              </template>
             </div>
           </nav>
         </div>
@@ -120,3 +159,9 @@ watch(() => route.path, () => {
     </div>
   </header>
 </template>
+
+<style scoped>
+.font-serif {
+  font-family: 'Playfair Display', serif;
+}
+</style>
