@@ -40,7 +40,7 @@
                             </svg>
                         </NuxtLink>
 
-                        <NuxtLink to="/inscription"
+                        <NuxtLink v-if="!isLoggedIn" to="/inscription"
                             class="bg-white border border-slate-100 text-slate-900 px-7 py-3.5 rounded-xl font-bold hover:bg-white transition-all shadow-xl shadow-gray-300/30 active:scale-95 text-sm">
                             Créer un compte
                         </NuxtLink>
@@ -80,7 +80,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
@@ -183,3 +182,8 @@ h1 {
     font-family: 'Playfair Display', serif;
 }
 </style>
+
+<script setup lang="ts">
+const token = useCookie('auth_token');
+const isLoggedIn = computed(() => !!token.value);
+</script>
