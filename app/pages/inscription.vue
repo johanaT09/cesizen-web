@@ -156,7 +156,7 @@ const handleRegister = async () => {
 
     if (data.token) {
       const authCookie = useCookie('auth_token', { 
-        maxAge: 60 * 60 * 24 * 7, // On passe à 7 jours pour "Rester connecté"
+        maxAge: 60 * 60 * 24 * 7, 
         sameSite: 'lax',
         path: '/' 
       });

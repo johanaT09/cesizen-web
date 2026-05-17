@@ -76,32 +76,25 @@ const handleLogin = async () => {
   errorMessage.value = '';
 
   try {
-    // Appel à ton contrôleur Laravel
     const data = await $fetch<any>(`${config.public.apiBase}/login`, {
       method: 'POST',
       body: {
         email: form.value.email,
-        mot_de_passe: form.value.password // On envoie 'mot_de_passe' au Back
+        mot_de_passe: form.value.password 
       }
     });
 
-    // 1. On stocke le token dans un cookie pour le Web
     const token = useCookie('auth_token', {
-      maxAge: 60 * 60 * 7, // 7 heures (comme ton token Laravel)
+      maxAge: 60 * 60 * 7, 
       sameSite: 'lax'
     });
     token.value = data.token;
 
-    // 2. TODO: Stockage spécifique Capacitor (si besoin plus tard)
-    // localStorage.setItem('auth_token', data.token);
-
     console.log('Connexion réussie, utilisateur:', data.user);
 
-    // Redirection vers le tableau de bord ou l'accueil
     await navigateTo('/');
 
   } catch (err: any) {
-    // Gestion des erreurs (401, 422, etc.)
     errorMessage.value = err.data?.message || 'Identifiants invalides ou erreur serveur.';
     console.error('Erreur login:', err);
   } finally {
