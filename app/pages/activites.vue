@@ -37,7 +37,8 @@
                     </select>
                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
                         <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
-                            <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                            <path
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
                         </svg>
                     </div>
                 </div>
@@ -52,7 +53,8 @@
                     </select>
                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
                         <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
-                            <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                            <path
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
                         </svg>
                     </div>
                 </div>
@@ -70,7 +72,7 @@
 
             <article v-for="act in activities" :key="act.id_activite"
                 class="bg-white rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col border border-gray-100">
-                
+
                 <div class="h-64 w-full bg-emerald-50 overflow-hidden relative">
                     <img :src="getPlaceholderImage(act.id_categorie)"
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -87,9 +89,10 @@
                         <span class="text-gray-400">• {{ act.duree_estimee || '5 min' }}</span>
                     </div>
                     <h3 class="text-2xl font-bold text-slate-900 mb-3 leading-tight">{{ act.titre_activite }}</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed line-clamp-2 mb-6">{{ act.description_activite }}</p>
+                    <p class="text-gray-500 text-sm leading-relaxed line-clamp-2 mb-6">{{ act.description_activite }}
+                    </p>
                     <div class="mt-auto">
-                        <router-link :to="`/activites/${act.id_activite}`"
+                        <router-link :to="`/activite/${act.id_activite}`"
                             class="text-green-600 font-bold text-sm hover:underline">
                             Voir l'activité &rarr;
                         </router-link>
@@ -99,11 +102,8 @@
         </div>
 
         <div v-if="totalPages > 1" class="max-w-7xl mx-auto mt-12 flex justify-center items-center gap-4">
-            <button 
-                @click="changePage(currentPage - 1)" 
-                :disabled="currentPage === 1"
-                class="px-4 py-2 border rounded-xl bg-white disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 transition"
-            >
+            <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1"
+                class="px-4 py-2 border rounded-xl bg-white disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 transition">
                 Précédent
             </button>
 
@@ -111,11 +111,8 @@
                 Page {{ currentPage }} sur {{ totalPages }}
             </span>
 
-            <button 
-                @click="changePage(currentPage + 1)" 
-                :disabled="currentPage === totalPages"
-                class="px-4 py-2 border rounded-xl bg-white disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 transition"
-            >
+            <button @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages"
+                class="px-4 py-2 border rounded-xl bg-white disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 transition">
                 Suivant
             </button>
         </div>
