@@ -15,8 +15,8 @@
         <NuxtLink to="/" class="flex items-center gap-3 transition-opacity hover:opacity-90">
           <div
             class="flex h-10 w-10 items-center justify-center rounded-xl bg-buttonPrimaryDegrade1 text-secondary shadow-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/xl" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path
                 d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
             </svg>
@@ -37,7 +37,9 @@
 
         <div class="hidden items-center gap-3 md:flex">
           <template v-if="isLoggedIn">
-            <NuxtLink to="/profil" class="text-sm font-bold text-primary hover:text-buttonPrimary">Mon compte</NuxtLink>
+            <NuxtLink to="/profil" class="text-sm font-bold text-primary hover:text-buttonPrimary capitalize">
+              {{ userPrenom || 'Mon compte' }}
+            </NuxtLink>
             <button @click="handleLogout"
               class="px-4 py-2 text-sm font-bold text-red-500 hover:bg-red-50 rounded-lg">Déconnexion</button>
           </template>
@@ -55,9 +57,13 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+
 const route = useRoute();
 const authToken = useCookie('auth_token');
-const userRole = useCookie<number | null>('user_role'); 
+const userRole = useCookie<number | null>('user_role');
+
+const userPrenom = useCookie<string | null>('user_prenom');
 
 const isLoggedIn = computed(() => !!authToken.value);
 const isAdmin = computed(() => isLoggedIn.value && String(userRole.value) === '2');
@@ -83,6 +89,8 @@ const navLinks = computed(() => {
 const handleLogout = () => {
   authToken.value = null;
   userRole.value = null;
+  userPrenom.value = null;
+
   navigateTo('/login');
 };
 </script>

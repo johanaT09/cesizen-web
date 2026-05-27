@@ -56,6 +56,8 @@ const form = ref({
 
 const loading = ref(false)
 const errorMessage = ref('')
+const { user } = useAuth();
+const config = useRuntimeConfig();
 
 const handleLogin = async () => {
   if (loading.value) return
@@ -64,9 +66,7 @@ const handleLogin = async () => {
   errorMessage.value = ''
 
   try {
-    const config = useRuntimeConfig()
     const apiUrl = `${config.public.apiBase}/login`
-
     console.log("Envoi de la requête vers l'API :", apiUrl)
 
     const data = await $fetch<any>(apiUrl, {
@@ -81,23 +81,26 @@ const handleLogin = async () => {
       }
     })
 
-    // 1. Stockage sécurisé du jeton d'authentification
+    const userData = data.user || data.utilisateur
+    const roleValue = userData.id_role || userData.role
+
+    user.value = {
+      id: userData.id_utilisateur || userData.id,
+      name: userData.prenom,
+      role: Number(roleValue) === 2 ? 'admin' : 'user'
+    }
+
     const token = useCookie('auth_token', { maxAge: 60 * 60 * 24, path: '/' })
     token.value = data.token
 
-    // 2. Interception sécurisée du rôle (gère le format 'data.user' ou 'data.utilisateur')
-    const userData = data.user || data.utilisateur
     const userRole = useCookie('user_role', { maxAge: 60 * 60 * 24, path: '/' })
+    userRole.value = String(roleValue)
 
-    if (userData && (userData.id_role || userData.role)) {
-      userRole.value = String(userData.id_role || userData.role)
-    } else {
-      userRole.value = null
-    }
+    const userPrenom = useCookie('user_prenom', { maxAge: 60 * 60 * 24, path: '/' })
+    userPrenom.value = userData.prenom ?? ''
 
-    console.log('Connexion réussie ! Rôle détecté :', userRole.value)
+    console.log('Connexion réussie ! Utilisateur mis à jour :', user.value)
 
-    // Redirection immédiate vers le tableau de bord ou l'accueil
     await navigateTo('/')
 
   } catch (err: any) {
