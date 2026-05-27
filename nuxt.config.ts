@@ -1,12 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  srcDir: "app/",
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
   ssr: false,
-  // nitro: {
-  //   preset: 'service-worker'
-  // },
+
   modules: ["@nuxtjs/tailwindcss"],
+
   app: {
     head: {
       link: [
@@ -23,9 +23,13 @@ export default defineNuxtConfig({
       ],
     },
   },
+
   runtimeConfig: {
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE,
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || "http://localhost:8000/api",
     },
+  },
+  imports: {
+    autoImport: true,
   },
 });
