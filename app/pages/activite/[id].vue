@@ -9,7 +9,7 @@
       </NuxtLink>
 
       <div v-if="loading" class="text-center py-20">
-        <p class="text-textPrimary/50 italic font-body">Chargement de l'activité...</p>
+        <p class="text-textPrimary/50 italic font-body">Limpieza du catalogue...</p>
       </div>
 
       <article v-else-if="activite"
@@ -27,9 +27,18 @@
             </span>
           </div>
 
-          <h1 class="text-2xl md:text-4xl lg:text-5xl font-serif font-bold text-textPrimary leading-tight mb-6">
-            {{ activite.titre_activite }}
-          </h1>
+          <div class="flex justify-between items-start gap-4 mb-6">
+            <h1 class="text-2xl md:text-4xl lg:text-5xl font-serif font-bold text-textPrimary leading-tight">
+              {{ activite.titre_activite }}
+            </h1>
+
+            <button v-if="isLoggedIn" @click="handleToggleFavori"
+              class="p-3 rounded-2xl border transition-all duration-200 flex-shrink-0 flex items-center justify-center"
+              :class="isFavori ? 'bg-textVert/10 border-textVert/20 text-textVert' : 'bg-backgroundPrimary border-textPrimary/10 text-textPrimary/40 hover:text-textVert hover:bg-textVert/5'"
+              title="Ajouter aux favoris">
+              <BaseIcon :name="isFavori ? 'heart-filled' : 'heart-outline'" customClass="h-6 w-6" />
+            </button>
+          </div>
 
           <div class="py-4 border-y border-textPrimary/5">
             <p class="text-textPrimary font-bold text-sm md:text-base">
@@ -67,9 +76,13 @@
 <script setup lang="ts">
 const route = useRoute()
 const config = useRuntimeConfig()
+const authToken = useCookie('auth_token')
 
 const activite = ref<any>(null)
 const loading = ref(true)
+const isFavori = ref(false)
+
+const isLoggedIn = computed(() => !!authToken.value)
 
 const fetchActivite = async () => {
   try {
@@ -88,8 +101,42 @@ const fetchActivite = async () => {
   }
 }
 
-onMounted(() => {
-  fetchActivite()
+const checkFavoriStatus = async () => {
+  if (!isLoggedIn.value) return
+  try {
+    const response = await $fetch<any>(`${config.public.apiBase}/favoris`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${authToken.value}`
+      }
+    })
+
+    const favorisList = response.data || response
+    isFavori.value = favorisList.some((fav: any) => fav.id_activite === Number(route.params.id))
+  } catch (error) {
+    console.error('Erreur lors de la vérification du statut favori:', error)
+  }
+}
+
+const handleToggleFavori = async () => {
+  try {
+    const response = await $fetch<any>(`${config.public.apiBase}/activites/${route.params.id}/favori`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${authToken.value}`,
+        'Accept': 'application/json'
+      }
+    })
+
+    isFavori.value = response.is_favori
+  } catch (error) {
+    console.error('Erreur lors du changement de statut favori:', error)
+  }
+}
+
+onMounted(async () => {
+  await fetchActivite()
+  await checkFavoriStatus()
 })
 
 const getVideoUrl = (path: string) => {
