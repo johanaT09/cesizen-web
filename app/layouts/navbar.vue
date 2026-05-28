@@ -22,32 +22,58 @@
             </svg>
           </div>
           <div class="flex flex-col leading-none">
-            <span class="font-heading text-xl font-bold uppercase tracking-tight text-primary">CESIZen</span>
+            <span class="font-heading text-xl font-bold uppercase tracking-tight text-textPrimary">CESIZen</span>
             <span class="text-[9px] font-bold uppercase text-gray-500">Ministère de la Santé</span>
           </div>
         </NuxtLink>
 
         <nav class="hidden items-center gap-1 md:flex">
-          <NuxtLink v-for="item in navLinks" :key="item.to" :to="item.to"
-            class="rounded-lg px-4 py-2 text-sm font-bold transition-colors"
-            :class="[route.path === item.to ? 'bg-buttonPrimary/10 text-buttonPrimary' : 'text-primary hover:bg-gray-100']">
-            {{ item.label }}
-          </NuxtLink>
+          <template v-for="(item, index) in navLinks" :key="index">
+
+            <NuxtLink v-if="!item.children" :to="item.to"
+              class="rounded-lg px-4 py-2 text-sm font-bold transition-colors"
+              :class="[route.path === item.to ? 'bg-buttonPrimary/10 text-buttonPrimary' : 'text-textPrimary hover:bg-gray-100']">
+              {{ item.label }}
+            </NuxtLink>
+
+            <div v-else class="relative group">
+              <button
+                class="flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-bold transition-colors text-textPrimary hover:bg-gray-100"
+                :class="route.path.startsWith('/admin') ? 'bg-buttonPrimary/10 text-buttonPrimary' : ''">
+                {{ item.label }}
+                <BaseIcon name="chevron-down" customClass="h-4 w-4 transition-transform group-hover:rotate-180" />
+              </button>
+
+              <div class="absolute left-0 top-full hidden w-56 pt-2 group-hover:block z-50">
+                <div class="rounded-xl bg-textSecondary shadow-xl border border-textPrimary/5 py-2 overflow-hidden">
+                  <NuxtLink v-for="subItem in item.children" :key="subItem.to" :to="subItem.to"
+                    class="block px-4 py-2.5 text-sm font-medium text-textPrimary/80 hover:bg-buttonPrimary/5 hover:text-buttonPrimary transition-colors"
+                    active-class="bg-buttonPrimary/5 text-buttonPrimary font-bold">
+                    {{ subItem.label }}
+                  </NuxtLink>
+                </div>
+              </div>
+            </div>
+
+          </template>
         </nav>
 
         <div class="hidden items-center gap-3 md:flex">
           <template v-if="isLoggedIn">
-            <NuxtLink to="/profil" class="text-sm font-bold text-primary hover:text-buttonPrimary capitalize">
+            <NuxtLink to="/profil" class="text-sm font-bold text-textPrimary hover:text-buttonPrimary capitalize">
               {{ userPrenom || 'Mon compte' }}
             </NuxtLink>
-            <button @click="handleLogout"
-              class="px-4 py-2 text-sm font-bold text-red-500 hover:bg-red-50 rounded-lg">Déconnexion</button>
+            <button @click="handleLogout" class="px-4 py-2 text-sm font-bold text-red-500 hover:bg-red-50 rounded-lg">
+              Déconnexion
+            </button>
           </template>
           <template v-else>
-            <NuxtLink to="/login" class="text-sm font-bold text-primary hover:text-buttonPrimary">Connexion</NuxtLink>
+            <NuxtLink to="/login" class="text-sm font-bold text-textPrimary hover:text-buttonPrimary">Connexion
+            </NuxtLink>
             <NuxtLink to="/inscription"
-              class="rounded-full bg-buttonPrimaryDegrade1 px-6 py-2.5 text-sm font-bold text-white shadow-md">Créer un
-              compte</NuxtLink>
+              class="rounded-full bg-buttonPrimaryDegrade1 px-6 py-2.5 text-sm font-bold text-white shadow-md">
+              Créer un compte
+            </NuxtLink>
           </template>
         </div>
 
@@ -57,40 +83,43 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
 
-const route = useRoute();
-const authToken = useCookie('auth_token');
-const userRole = useCookie<number | null>('user_role');
+const route = useRoute()
+const authToken = useCookie('auth_token')
+const userRole = useCookie<number | null>('user_role')
+const userPrenom = useCookie<string | null>('user_prenom')
 
-const userPrenom = useCookie<string | null>('user_prenom');
-
-const isLoggedIn = computed(() => !!authToken.value);
-const isAdmin = computed(() => isLoggedIn.value && String(userRole.value) === '2');
+const isLoggedIn = computed(() => !!authToken.value)
+const isAdmin = computed(() => isLoggedIn.value && String(userRole.value) === '2')
 
 const navLinks = computed(() => {
-  const links = [
+  const links: any[] = [
     { to: "/", label: "Accueil" },
     { to: "/informations", label: "Informations" },
     { to: "/activites", label: "Activités" },
-  ];
-
-  links.push({ to: "/about", label: "À propos" });
+    { to: "/about", label: "À propos" }
+  ]
 
   if (isAdmin.value) {
-    links.push({ to: "/admin", label: "Administration" });
+    links.push({
+      label: "Administration",
+      children: [
+        { to: "/admin/utilisateurs", label: "Comptes utilisateurs" },
+        { to: "/admin/informations", label: "Gestion des informations" },
+        { to: "/admin/activites", label: "Gestion des activités" }
+      ]
+    })
   } else if (isLoggedIn.value) {
-    links.push({ to: "/favoris", label: "Favoris" });
+    links.push({ to: "/favoris", label: "Favoris" })
   }
 
-  return links;
-});
+  return links
+})
 
 const handleLogout = () => {
-  authToken.value = null;
-  userRole.value = null;
-  userPrenom.value = null;
-
-  navigateTo('/login');
-};
+  authToken.value = null
+  userRole.value = null
+  userPrenom.value = null
+  navigateTo('/login')
+}
 </script>
