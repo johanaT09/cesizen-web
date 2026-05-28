@@ -47,8 +47,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
 const form = ref({
   email: '',
   password: ''
@@ -56,8 +54,8 @@ const form = ref({
 
 const loading = ref(false)
 const errorMessage = ref('')
-const { user } = useAuth();
-const config = useRuntimeConfig();
+const { user } = useAuth()
+const config = useRuntimeConfig()
 
 const handleLogin = async () => {
   if (loading.value) return
@@ -67,7 +65,6 @@ const handleLogin = async () => {
 
   try {
     const apiUrl = `${config.public.apiBase}/login`
-    console.log("Envoi de la requête vers l'API :", apiUrl)
 
     const data = await $fetch<any>(apiUrl, {
       method: 'POST',
@@ -99,12 +96,12 @@ const handleLogin = async () => {
     const userPrenom = useCookie('user_prenom', { maxAge: 60 * 60 * 24, path: '/' })
     userPrenom.value = userData.prenom ?? ''
 
-    console.log('Connexion réussie ! Utilisateur mis à jour :', user.value)
+    const userId = useCookie('user_id', { maxAge: 60 * 60 * 24, path: '/' })
+    userId.value = String(userData.id_utilisateur || userData.id)
 
     await navigateTo('/')
 
   } catch (err: any) {
-    console.error('Détail de l\'erreur de connexion :', err)
     errorMessage.value = err.data?.message || 'Identifiants incorrects ou serveur indisponible.'
   } finally {
     loading.value = false

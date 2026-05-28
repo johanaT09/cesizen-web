@@ -70,8 +70,9 @@
 
             <article v-else v-for="act in activities" :key="act.id_activite"
                 class="bg-textSecondary rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col border border-textPrimary/5">
+                
                 <div class="h-64 w-full bg-textVert/5 overflow-hidden relative">
-                    <img :src="getPlaceholderImage(act.id_categorie)"
+                    <img :src="getActivityImage(act)"
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         alt="Illustration de l'activité" />
                 </div>
@@ -93,7 +94,7 @@
                     </h3>
 
                     <p class="text-textPrimary/60 text-sm leading-relaxed line-clamp-2 mb-6 font-body">
-                        {{ act.description_activite }}
+                        {{ act.description_activite || act.contenu_activite }}
                     </p>
 
                     <div class="mt-auto">
@@ -125,8 +126,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
-
 const config = useRuntimeConfig()
 
 const activities = ref<any[]>([])
@@ -145,6 +144,14 @@ const filters = reactive({
 
 let searchTimeout: any = null
 
+const getActivityImage = (act: any) => {
+    if (act.image_path) {
+        const backendBase = config.public.apiBase.replace('/api', '')
+        return `${backendBase}/storage/${act.image_path}`
+    }
+    return getPlaceholderImage(act.id_categorie)
+}
+
 const fetchData = async (page = 1) => {
     loading.value = true
     try {
@@ -155,7 +162,7 @@ const fetchData = async (page = 1) => {
                 search: filters.search,
                 category_id: filters.category_id,
                 type_id: filters.type_id,
-                sort: 'recent' // Respect de ta préférence utilisateur par défaut
+                sort: 'recent'
             }
         })
 

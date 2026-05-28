@@ -14,6 +14,7 @@
 
       <article v-else-if="activite"
         class="bg-textSecondary p-6 md:p-12 rounded-3xl shadow-sm border border-textPrimary/5">
+
         <header class="mb-8">
           <div class="flex flex-wrap gap-2 mb-4 font-body">
             <span
@@ -30,27 +31,29 @@
             {{ activite.titre_activite }}
           </h1>
 
-          <div
-            class="py-4 border-y border-textPrimary/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div>
-              <p class="text-textPrimary font-bold text-sm md:text-base">
-                Durée estimée
-              </p>
-              <p class="text-textPrimary/50 text-xs md:text-sm font-body">
-                Environ {{ activite.duree_estimee || '5' }} minutes
-              </p>
-            </div>
-
-            <a v-if="activite.lien_ressource" :href="activite.lien_ressource" target="_blank"
-              class="bg-textVert text-textSecondary px-5 py-2.5 rounded-xl text-sm font-bold hover:opacity-90 transition-opacity font-body shadow-sm">
-              Accéder à la ressource
-            </a>
+          <div class="py-4 border-y border-textPrimary/5">
+            <p class="text-textPrimary font-bold text-sm md:text-base">
+              Durée estimée
+            </p>
+            <p class="text-textPrimary/50 text-xs md:text-sm font-body">
+              Environ {{ activite.duree_estimee || '5' }} minutes
+            </p>
           </div>
         </header>
+
+        <div v-if="activite.lien_ressource" class="w-full mb-10">
+          <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-inner">
+            <video controls controlsList="nodownload" class="w-full h-full object-contain">
+              <source :src="getVideoUrl(activite.lien_ressource)" type="video/mp4">
+              Votre navigateur ne supporte pas la lecture de vidéos.
+            </video>
+          </div>
+        </div>
 
         <div class="text-textPrimary/80 leading-relaxed text-base md:text-lg whitespace-pre-line font-body">
           {{ activite.contenu_activite }}
         </div>
+
       </article>
 
       <div v-else class="text-center py-20 font-body">
@@ -62,19 +65,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
-
 const route = useRoute()
 const config = useRuntimeConfig()
 
-const activite = ref < any > (null)
+const activite = ref<any>(null)
 const loading = ref(true)
 
 const fetchActivite = async () => {
   try {
     const id = route.params.id
-    const response = await $fetch < any > (`${config.public.apiBase}/activites/${id}`, {
+    const response = await $fetch<any>(`${config.public.apiBase}/activites/${id}`, {
       method: 'GET'
     })
 
@@ -91,6 +91,12 @@ const fetchActivite = async () => {
 onMounted(() => {
   fetchActivite()
 })
+
+const getVideoUrl = (path: string) => {
+  if (!path) return ''
+  const backendBase = config.public.apiBase.replace('/api', '')
+  return `${backendBase}/storage/${path}`
+}
 </script>
 
 <style scoped>
