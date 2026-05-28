@@ -69,8 +69,18 @@
             </div>
 
             <article v-else v-for="act in activities" :key="act.id_activite"
-                class="bg-textSecondary rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col border border-textPrimary/5">
+                class="bg-textSecondary rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col border border-textPrimary/5 relative">
                 
+                <button 
+                    v-if="isLoggedIn" 
+                    @click.stop.prevent="handleToggleFavori(act.id_activite)"
+                    class="absolute top-4 right-4 z-10 p-2.5 rounded-full backdrop-blur-md transition-all duration-200 shadow-sm border flex items-center justify-center"
+                    :class="favoriIds.includes(act.id_activite) ? 'bg-textVert/10 border-textVert/20 text-textVert' : 'bg-white/80 border-black/5 text-textPrimary/40 hover:text-textVert hover:bg-white'"
+                    title="Ajouter aux favoris"
+                >
+                    <BaseIcon :name="favoriIds.includes(act.id_activite) ? 'heart-filled' : 'heart-outline'" customClass="h-5 w-5" />
+                </button>
+
                 <div class="h-64 w-full bg-textVert/5 overflow-hidden relative">
                     <img :src="getActivityImage(act)"
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -127,10 +137,12 @@
 
 <script setup lang="ts">
 const config = useRuntimeConfig()
+const authToken = useCookie('auth_token')
 
 const activities = ref<any[]>([])
 const categories = ref<any[]>([])
 const types = ref<any[]>([])
+const favoriIds = ref<number[]>([])
 const loading = ref(true)
 const totalItems = ref(0)
 const totalPages = ref(1)
@@ -143,6 +155,8 @@ const filters = reactive({
 })
 
 let searchTimeout: any = null
+
+const isLoggedIn = computed(() => !!authToken.value)
 
 const getActivityImage = (act: any) => {
     if (act.image_path) {
@@ -193,6 +207,40 @@ const fetchFilters = async () => {
     }
 }
 
+const fetchFavorisStatus = async () => {
+    if (!isLoggedIn.value) return
+    try {
+        const response = await $fetch<any>(`${config.public.apiBase}/favoris`, {
+            method: 'GET',
+            headers: { 'Authorization': `Bearer ${authToken.value}` }
+        })
+        const favorisList = response.data || response
+        favoriIds.value = favorisList.map((fav: any) => fav.id_activite)
+    } catch (e) {
+        console.error("Erreur lors du chargement des favoris :", e)
+    }
+}
+
+const handleToggleFavori = async (id: number) => {
+    try {
+        const response = await $fetch<any>(`${config.public.apiBase}/activites/${id}/favori`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${authToken.value}`,
+                'Accept': 'application/json'
+            }
+        })
+        
+        if (response.is_favori) {
+            favoriIds.value.push(id)
+        } else {
+            favoriIds.value = favoriIds.value.filter(favId => favId !== id)
+        }
+    } catch (error) {
+        console.error('Erreur lors du changement de favori :', error)
+    }
+}
+
 const onSearch = () => {
     clearTimeout(searchTimeout)
     searchTimeout = setTimeout(() => fetchData(1), 400)
@@ -217,5 +265,6 @@ const getPlaceholderImage = (id: number | string) => {
 onMounted(() => {
     fetchFilters()
     fetchData()
+    fetchFavorisStatus()
 })
 </script>
