@@ -1,15 +1,25 @@
 <template>
     <div class="bg-backgroundPrimary min-h-screen py-12 md:py-20 px-6 sm:px-12 lg:px-24">
 
-        <header class="max-w-7xl mx-auto mb-12">
-            <p class="text-textVert font-bold tracking-widest text-sm uppercase mb-4 font-body">Activités</p>
-            <h1 class="text-4xl md:text-5xl font-serif font-bold text-textPrimary leading-tight mb-6 max-w-3xl">
-                Trouvez l'activité qui vous fait du bien
-            </h1>
-            <p class="text-textPrimary/70 text-lg max-w-2xl leading-relaxed font-body">
-                Méditation, respiration, relaxation, exercices anti-stress : choisissez selon votre temps et vos
-                besoins.
-            </p>
+        <header class="max-w-7xl mx-auto mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+                <p class="text-textVert font-bold tracking-widest text-sm uppercase mb-4 font-body">Activités</p>
+                <h1 class="text-4xl md:text-5xl font-serif font-bold text-textPrimary leading-tight mb-6 max-w-3xl">
+                    Trouvez l'activité qui vous fait du bien
+                </h1>
+                <p class="text-textPrimary/70 text-lg max-w-2xl leading-relaxed font-body">
+                    Méditation, respiration, relaxation, exercices anti-stress : choisissez selon votre temps et vos
+                    besoins.
+                </p>
+            </div>
+
+            <div v-if="isLoggedIn" class="flex items-center gap-3 self-start md:self-end">
+                <NuxtLink to="/reprendre"
+                    class="bg-textSecondary hover:bg-backgroundPrimary border border-textPrimary/10 text-textPrimary px-5 py-3 rounded-xl font-bold transition shadow-sm text-sm flex items-center gap-2 font-body">
+                    <BaseIcon name="select-arrow" class="h-4 w-4 rotate-90 text-textVert" />
+                    Continuer mes lectures
+                </NuxtLink>
+            </div>
         </header>
 
         <div class="max-w-7xl mx-auto bg-textSecondary p-6 rounded-2xl shadow-sm border border-textPrimary/5 mb-16">
@@ -70,15 +80,13 @@
 
             <article v-else v-for="act in activities" :key="act.id_activite"
                 class="bg-textSecondary rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col border border-textPrimary/5 relative">
-                
-                <button 
-                    v-if="isLoggedIn" 
-                    @click.stop.prevent="handleToggleFavori(act.id_activite)"
+
+                <button v-if="isLoggedIn" @click.stop.prevent="handleToggleFavori(act.id_activite)"
                     class="absolute top-4 right-4 z-10 p-2.5 rounded-full backdrop-blur-md transition-all duration-200 shadow-sm border flex items-center justify-center"
                     :class="favoriIds.includes(act.id_activite) ? 'bg-textVert/10 border-textVert/20 text-textVert' : 'bg-white/80 border-black/5 text-textPrimary/40 hover:text-textVert hover:bg-white'"
-                    title="Ajouter aux favoris"
-                >
-                    <BaseIcon :name="favoriIds.includes(act.id_activite) ? 'heart-filled' : 'heart-outline'" customClass="h-5 w-5" />
+                    title="Ajouter aux favoris">
+                    <BaseIcon :name="favoriIds.includes(act.id_activite) ? 'heart-filled' : 'heart-outline'"
+                        customClass="h-5 w-5" />
                 </button>
 
                 <div class="h-64 w-full bg-textVert/5 overflow-hidden relative">
@@ -230,7 +238,7 @@ const handleToggleFavori = async (id: number) => {
                 'Accept': 'application/json'
             }
         })
-        
+
         if (response.is_favori) {
             favoriIds.value.push(id)
         } else {
