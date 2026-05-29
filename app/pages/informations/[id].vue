@@ -56,13 +56,13 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const config = useRuntimeConfig()
 
-const article = ref < any > (null)
+const article = ref<any>(null)
 const loading = ref(true)
 
 const fetchArticle = async () => {
   try {
     const id = route.params.id
-    const response = await $fetch < any > (`${config.public.apiBase}/information/${id}`, {
+    const response = await $fetch<any>(`${config.public.apiBase}/information/${id}`, {
       method: 'GET'
     })
 

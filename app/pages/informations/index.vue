@@ -43,7 +43,7 @@
       </div>
 
       <article v-else v-for="article in articles" :key="article.id_information"
-        class="bg-textSecondary p-6 md:p-8 rounded-3xl border border-textPrimary/5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+        class="bg-textSecondary p-6 md:p-8 rounded-3xl border border-textPrimary/5 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between">
         <div>
           <div class="flex flex-wrap items-center gap-2 mb-4">
             <span
@@ -63,7 +63,7 @@
           </p>
         </div>
 
-        <NuxtLink :to="`/information/${article.id_information}`"
+        <NuxtLink :to="`/informations/${article.id_information}`"
           class="text-textVert font-semibold text-sm hover:underline inline-flex items-center gap-1 font-body">
           Lire l'article &rarr;
         </NuxtLink>
@@ -94,18 +94,18 @@ import { ref, onMounted } from 'vue'
 
 const config = useRuntimeConfig()
 
-const articles = ref < any[] > ([])
-const categories = ref < any[] > ([])
+const articles = ref<any[]>([])
+const categories = ref<any[]>([])
 const loading = ref(true)
 const searchQuery = ref('')
-const selectedCategory = ref < number | null > (null)
+const selectedCategory = ref<number | null>(null)
 const currentPage = ref(1)
 const totalPages = ref(1)
 let searchTimeout: any = null
 
 const fetchCategories = async () => {
   try {
-    categories.value = await $fetch < any > (`${config.public.apiBase}/categories`)
+    categories.value = await $fetch<any>(`${config.public.apiBase}/categories`)
   } catch (error) {
     console.error("Erreur lors du chargement des catégories :", error)
   }
@@ -114,13 +114,13 @@ const fetchCategories = async () => {
 const fetchArticles = async (page = 1) => {
   loading.value = true
   try {
-    const response = await $fetch < any > (`${config.public.apiBase}/informations`, {
+    const response = await $fetch<any>(`${config.public.apiBase}/informations`, {
       method: 'GET',
       params: {
         page: page,
         search: searchQuery.value,
         category_id: selectedCategory.value,
-        sort: 'recent' // Application de ton choix par défaut : trier par le plus récent
+        sort: 'recent'
       }
     })
 
@@ -168,3 +168,5 @@ onMounted(() => {
   fetchArticles()
 })
 </script>
+
+<style scoped></style>

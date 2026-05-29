@@ -90,7 +90,7 @@
 
       <p class="text-center mt-8 text-sm text-textPrimary/60 font-body">
         Déjà inscrit ?
-        <NuxtLink to="/login" class="text-textVert font-bold hover:underline">Se connecter</NuxtLink>
+        <NuxtLink to="/auth/login" class="text-textVert font-bold hover:underline">Se connecter</NuxtLink>
       </p>
     </div>
   </div>
@@ -194,5 +194,4 @@ const handleRegister = async () => {
 </script>
 
 <style scoped>
-/* Les typographies pointent sur la conf globale de ton projet */
 </style>

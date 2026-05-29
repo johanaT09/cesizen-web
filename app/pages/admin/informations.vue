@@ -198,6 +198,8 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
+
 const config = useRuntimeConfig()
 const authToken = useCookie('auth_token')
 
@@ -395,3 +397,6 @@ onMounted(() => {
   fetchArticles(1)
 })
 </script>
+
+<style scoped>
+</style>
