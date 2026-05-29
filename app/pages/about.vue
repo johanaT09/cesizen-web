@@ -13,7 +13,7 @@
       <div class="space-y-6 text-textPrimary/70 leading-relaxed mb-16 text-sm md:text-base text-justify font-body">
         <p>
           CESIZen est une plateforme du <strong class="text-textPrimary font-bold">Ministère de la Santé et de la
-            Prévention</strong>, conçue pour offrir aux citoyens des outils accessibles et fiables afin de mieux gérer
+            Prévention</strong>, conçue pour offer aux citoyens des outils accessibles et fiables afin de mieux gérer
           le stress et préserver leur santé mentale.
         </p>
         <p>
@@ -103,3 +103,5 @@ const engagements = [
   "Indépendance totale vis-à-vis des laboratoires"
 ]
 </script>
+
+<style scoped></style>

@@ -68,9 +68,9 @@
             </button>
           </template>
           <template v-else>
-            <NuxtLink to="/login" class="text-sm font-bold text-textPrimary hover:text-buttonPrimary">Connexion
+            <NuxtLink to="/auth/login" class="text-sm font-bold text-textPrimary hover:text-buttonPrimary">Connexion
             </NuxtLink>
-            <NuxtLink to="/inscription"
+            <NuxtLink to="/auth/inscription"
               class="rounded-full bg-buttonPrimaryDegrade1 px-6 py-2.5 text-sm font-bold text-white shadow-md">
               Créer un compte
             </NuxtLink>
@@ -110,7 +110,7 @@ const navLinks = computed(() => {
       ]
     })
   } else if (isLoggedIn.value) {
-    links.push({ to: "/favoris", label: "Favoris" })
+    links.push({ to: "/activites/favoris", label: "Favoris" })
   }
 
   return links
@@ -120,6 +120,6 @@ const handleLogout = () => {
   authToken.value = null
   userRole.value = null
   userPrenom.value = null
-  navigateTo('/login')
+  navigateTo('/auth/login')
 }
 </script>

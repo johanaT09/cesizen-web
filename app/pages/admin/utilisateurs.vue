@@ -169,7 +169,6 @@
                                 </template>
 
                                 <template v-else>
-
                                     <button @click="openEditModal(user)"
                                         class="px-4 py-2 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition-all text-xs font-bold">
                                         Modifier
@@ -189,7 +188,6 @@
                                         class="px-4 py-2 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 transition-all text-xs font-bold">
                                         Supprimer
                                     </button>
-
                                 </template>
                             </td>
                         </tr>
@@ -257,7 +255,6 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
                         <div class="space-y-1">
                             <label class="text-xs font-bold text-textPrimary">Genre</label>
                             <div class="relative">
@@ -291,7 +288,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                     <div class="flex items-center gap-3 pt-2">
@@ -571,3 +567,5 @@ onMounted(() => {
     fetchDependencies()
 })
 </script>
+
+<style scoped></style>

@@ -5,8 +5,7 @@
       <NuxtLink :to="activite?.id_categorie ? `/activites?categorie=${activite.id_categorie}` : '/activites'"
         class="text-textVert hover:underline inline-flex items-center gap-2 font-medium mb-6 md:mb-10 text-sm font-body">
         <BaseIcon name="arrow-left" customClass="h-4 w-4" />
-        Retour aux activités {{ activite?.categorie?.libelle_categorie ? `(${activite.categorie.libelle_categorie})` :
-        '' }}
+        Retour aux activités {{ activite?.categorie?.libelle_categorie ? `(${activite.categorie.libelle_categorie})` : '' }}
       </NuxtLink>
 
       <div v-if="loading" class="text-center py-20">

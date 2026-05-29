@@ -24,9 +24,14 @@
         </div>
 
         <div class="space-y-2">
-          <label for="password" class="block text-sm font-bold text-textPrimary">
-            Mot de passe
-          </label>
+          <div class="flex justify-between items-center">
+            <label for="password" class="block text-sm font-bold text-textPrimary">
+              Mot de passe
+            </label>
+            <NuxtLink to="/auth/forgot-password" class="text-xs text-textVert hover:underline font-medium font-body">
+              Mot de passe oublié ?
+            </NuxtLink>
+          </div>
           <input id="password" type="password" v-model="form.password" placeholder="••••••••"
             class="w-full px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20 outline-none transition-all text-sm text-textPrimary"
             required />
@@ -108,3 +113,6 @@ const handleLogin = async () => {
   }
 }
 </script>
+
+<style scoped>
+</style>
