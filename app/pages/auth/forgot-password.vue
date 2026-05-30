@@ -20,7 +20,7 @@
             <form @submit.prevent="handleSubmit" class="space-y-5">
                 <div class="space-y-2">
                     <label for="email" class="block text-sm font-bold text-textPrimary">Adresse e-mail</label>
-                    <input id="email" type="email" v-model="email" placeholder="johana.terrier@viacesi.fr"
+                    <input id="email" type="email" v-model="email" placeholder="utilisateur@example.com,"
                         class="w-full px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20 outline-none transition-all text-sm text-textPrimary font-body"
                         required />
                 </div>

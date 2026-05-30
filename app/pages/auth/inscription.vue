@@ -22,19 +22,21 @@
           </p>
         </div>
 
-        <div class="space-y-2">
+        <div class="space-y-2 relative">
           <label for="gender" class="block text-sm font-bold text-textPrimary">* Genre</label>
-          <div class="relative">
-            <select id="gender" v-model="form.genderId" @blur="touched.genderId = true"
-              :class="['w-full px-4 py-3 rounded-xl bg-backgroundPrimary border outline-none transition-all text-sm appearance-none cursor-pointer text-textPrimary', fieldErrors.genderId ? 'border-red-500' : 'border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20']"
-              required>
-              <option value="" disabled selected>Sélectionnez votre genre</option>
-              <option v-for="genre in genres" :key="genre.id_genre" :value="genre.id_genre">
-                {{ genre.libelle_genre }}
-              </option>
-            </select>
-            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-textPrimary/40">
-              <BaseIcon name="chevron-down" customClass="h-4 w-4" />
+          <button @click="isGenderDropdownOpen = !isGenderDropdownOpen" type="button"
+            :class="['w-full flex items-center justify-between px-4 py-3 rounded-xl bg-backgroundPrimary border outline-none transition-all text-sm text-textPrimary text-left cursor-pointer', fieldErrors.genderId ? 'border-red-500' : 'border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20']">
+            <span>{{ currentGenderLabel }}</span>
+            <BaseIcon name="chevron-down" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+              :class="{ 'rotate-180': isGenderDropdownOpen }" />
+          </button>
+          
+          <div v-if="isGenderDropdownOpen"
+            class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-40">
+            <div v-for="genre in genres" :key="genre.id_genre" @click="selectGender(genre.id_genre)"
+              class="px-4 py-3 text-sm cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5 first:border-none"
+              :class="{ 'bg-textVert/10 text-textVert font-bold': form.genderId === genre.id_genre }">
+              {{ genre.libelle_genre }}
             </div>
           </div>
           <p v-if="fieldErrors.genderId" class="text-red-500 text-[10px] font-bold italic">{{ fieldErrors.genderId }}
@@ -42,10 +44,15 @@
         </div>
 
         <div class="space-y-2">
-          <label for="birthday" class="block text-sm font-bold text-textPrimary">* Date de naissance</label>
-          <input id="birthday" type="date" v-model="form.birthday" @blur="touched.birthday = true"
-            :class="['w-full px-4 py-3 rounded-xl bg-backgroundPrimary border outline-none transition-all text-sm text-textPrimary', fieldErrors.birthday ? 'border-red-500' : 'border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20']"
-            required />
+          <label class="block text-sm font-bold text-textPrimary">* Date de naissance</label>
+          <div class="grid grid-cols-3 gap-2">
+            <input v-model="birthDateSplit.day" type="text" inputmode="numeric" maxlength="2" placeholder="JJ" @blur="touched.birthday = true"
+              :class="['w-full px-4 py-3 rounded-xl bg-backgroundPrimary border outline-none transition-all text-center text-sm text-textPrimary', fieldErrors.birthday ? 'border-red-500' : 'border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20']" required />
+            <input v-model="birthDateSplit.month" type="text" inputmode="numeric" maxlength="2" placeholder="MM" @blur="touched.birthday = true"
+              :class="['w-full px-4 py-3 rounded-xl bg-backgroundPrimary border outline-none transition-all text-center text-sm text-textPrimary', fieldErrors.birthday ? 'border-red-500' : 'border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20']" required />
+            <input v-model="birthDateSplit.year" type="text" inputmode="numeric" maxlength="4" placeholder="AAAA" @blur="touched.birthday = true"
+              :class="['w-full px-4 py-3 rounded-xl bg-backgroundPrimary border outline-none transition-all text-center text-sm text-textPrimary', fieldErrors.birthday ? 'border-red-500' : 'border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20']" required />
+          </div>
           <p v-if="fieldErrors.birthday" class="text-red-500 text-[10px] font-bold italic">{{ fieldErrors.birthday }}
           </p>
         </div>
@@ -97,12 +104,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, reactive, computed, watch, onMounted } from 'vue'
 
 const config = useRuntimeConfig()
 const loading = ref(false)
 const errorMessage = ref('')
 const genres = ref<any[]>([])
+const isGenderDropdownOpen = ref(false)
 
 const form = ref({
   firstName: '',
@@ -113,6 +121,12 @@ const form = ref({
   acceptTerms: false
 })
 
+const birthDateSplit = reactive({
+  day: '',
+  month: '',
+  year: ''
+})
+
 const touched = ref({
   firstName: false,
   genderId: false,
@@ -120,6 +134,31 @@ const touched = ref({
   email: false,
   password: false
 })
+
+watch(
+  () => [birthDateSplit.day, birthDateSplit.month, birthDateSplit.year],
+  () => {
+    if (birthDateSplit.day && birthDateSplit.month && birthDateSplit.year) {
+      const d = birthDateSplit.day.padStart(2, '0')
+      const m = birthDateSplit.month.padStart(2, '0')
+      const y = birthDateSplit.year
+      form.value.birthday = `${y}-${m}-${d}`
+    } else {
+      form.value.birthday = ''
+    }
+  }
+)
+
+const currentGenderLabel = computed(() => {
+  if (!form.value.genderId) return 'Sélectionnez votre genre'
+  const genre = genres.value.find(g => g.id_genre === form.value.genderId)
+  return genre ? genre.libelle_genre : 'Sélectionnez votre genre'
+})
+
+const selectGender = (id: any) => {
+  form.value.genderId = id
+  isGenderDropdownOpen.value = false
+}
 
 const fieldErrors = computed(() => {
   const errors: any = {}

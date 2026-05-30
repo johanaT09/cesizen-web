@@ -19,15 +19,25 @@
         </div>
 
         <div class="relative w-full md:w-72">
-          <select v-model="selectedCategory" @change="fetchArticles(1)"
-            class="w-full px-5 py-4 rounded-2xl border border-textPrimary/10 bg-textSecondary text-textPrimary focus:ring-2 focus:ring-textVert focus:border-textVert outline-none shadow-sm transition-all appearance-none cursor-pointer text-sm md:text-base">
-            <option :value="null">Toutes les catégories</option>
-            <option v-for="cat in categories" :key="cat.id_categorie" :value="cat.id_categorie">
+          <button @click="isCategoryDropdownOpen = !isCategoryDropdownOpen" type="button"
+            class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-textPrimary/10 bg-textSecondary text-textPrimary focus:ring-2 focus:ring-textVert focus:border-textVert outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer">
+            <span>{{ currentCategoryLabel }}</span>
+            <BaseIcon name="select-arrow" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+              :class="{ 'rotate-180': isCategoryDropdownOpen }" />
+          </button>
+
+          <div v-if="isCategoryDropdownOpen"
+            class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-2xl shadow-xl overflow-hidden z-40">
+            <div @click="selectCategory(null)"
+              class="px-5 py-3.5 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
+              :class="{ 'bg-textVert/10 text-textVert font-bold': selectedCategory === null }">
+              Toutes les catégories
+            </div>
+            <div v-for="cat in categories" :key="cat.id_categorie" @click="selectCategory(cat.id_categorie)"
+              class="px-5 py-3.5 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
+              :class="{ 'bg-textVert/10 text-textVert font-bold': selectedCategory === cat.id_categorie }">
               {{ cat.libelle_categorie }}
-            </option>
-          </select>
-          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-textPrimary/40">
-            <BaseIcon name="select-arrow" customClass="h-4 w-4" />
+            </div>
           </div>
         </div>
       </div>
@@ -90,7 +100,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 
 const config = useRuntimeConfig()
 
@@ -101,7 +111,20 @@ const searchQuery = ref('')
 const selectedCategory = ref<number | null>(null)
 const currentPage = ref(1)
 const totalPages = ref(1)
+const isCategoryDropdownOpen = ref(false)
 let searchTimeout: any = null
+
+const currentCategoryLabel = computed(() => {
+  if (selectedCategory.value === null) return 'Toutes les catégories'
+  const cat = categories.value.find(c => c.id_categorie === selectedCategory.value)
+  return cat ? cat.libelle_categorie : 'Toutes les catégories'
+})
+
+const selectCategory = (id: number | null) => {
+  selectedCategory.value = id
+  isCategoryDropdownOpen.value = false
+  fetchArticles(1)
+}
 
 const fetchCategories = async () => {
   try {
