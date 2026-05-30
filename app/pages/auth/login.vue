@@ -18,7 +18,7 @@
           <label for="email" class="block text-sm font-bold text-textPrimary">
             Adresse email
           </label>
-          <input id="email" type="email" v-model="form.email" placeholder="johana.terrier@viacesi.fr"
+          <input id="email" type="email" v-model="form.email" placeholder="utilisateur@example.com,"
             class="w-full px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20 outline-none transition-all text-sm text-textPrimary"
             required />
         </div>
@@ -114,5 +114,4 @@ const handleLogin = async () => {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

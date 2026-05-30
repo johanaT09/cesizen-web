@@ -29,36 +29,53 @@
           <span class="absolute left-4 top-1/2 -translate-y-1/2 text-textPrimary/40">
             <BaseIcon name="search" customClass="h-5 w-5" />
           </span>
-          <input v-model="filters.search" @input="onSearch" type="text"
-            placeholder="Rechercher par titre uniquement..."
+          <input v-model="filters.search" @input="onSearch" type="text" placeholder="Rechercher par titre uniquement..."
             class="w-full pl-12 pr-6 py-4 rounded-2xl bg-backgroundPrimary border border-textPrimary/5 focus:bg-textSecondary focus:ring-2 focus:ring-textVert outline-none transition-all text-textPrimary font-body" />
         </div>
 
         <div class="relative w-full lg:w-64">
-          <select v-model="filters.category_id" @change="fetchData(1)"
-            class="w-full px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none appearance-none cursor-pointer focus:border-textVert transition-all pr-10 font-body">
-            <option :value="null">Catégorie : Toutes</option>
-            <option v-for="cat in categories" :key="cat.id_categorie" :value="cat.id_categorie">
+          <button @click="isCategoryDropdownOpen = !isCategoryDropdownOpen; isTypeDropdownOpen = false" type="button"
+            class="w-full flex items-center justify-between px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body">
+            <span>{{ currentCategoryLabel }}</span>
+            <BaseIcon name="select-arrow" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+              :class="{ 'rotate-180': isCategoryDropdownOpen }" />
+          </button>
+
+          <div v-if="isCategoryDropdownOpen"
+            class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-40">
+            <div @click="selectCategory(null)"
+              class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
+              :class="{ 'bg-textVert/10 text-textVert font-bold': filters.category_id === null }">
+              Catégorie : Toutes
+            </div>
+            <div v-for="cat in categories" :key="cat.id_categorie" @click="selectCategory(cat.id_categorie)"
+              class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
+              :class="{ 'bg-textVert/10 text-textVert font-bold': filters.category_id === cat.id_categorie }">
               {{ cat.libelle_categorie }}
-            </option>
-          </select>
-          <div
-            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-textPrimary/40">
-            <BaseIcon name="select-arrow" customClass="h-4 w-4" />
+            </div>
           </div>
         </div>
 
         <div class="relative w-full lg:w-64">
-          <select v-model="filters.type_id" @change="fetchData(1)"
-            class="w-full px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none appearance-none cursor-pointer focus:border-textVert transition-all pr-10 font-body">
-            <option :value="null">Type : Tous les types</option>
-            <option v-for="t in types" :key="t.id_type" :value="t.id_type">
+          <button @click="isTypeDropdownOpen = !isTypeDropdownOpen; isCategoryDropdownOpen = false" type="button"
+            class="w-full flex items-center justify-between px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body">
+            <span>{{ currentTypeLabel }}</span>
+            <BaseIcon name="select-arrow" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+              :class="{ 'rotate-180': isTypeDropdownOpen }" />
+          </button>
+
+          <div v-if="isTypeDropdownOpen"
+            class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-40">
+            <div @click="selectType(null)"
+              class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
+              :class="{ 'bg-textVert/10 text-textVert font-bold': filters.type_id === null }">
+              Type : Tous les types
+            </div>
+            <div v-for="t in types" :key="t.id_type" @click="selectType(t.id_type)"
+              class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
+              :class="{ 'bg-textVert/10 text-textVert font-bold': filters.type_id === t.id_type }">
               {{ t.libelle_type }}
-            </option>
-          </select>
-          <div
-            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-textPrimary/40">
-            <BaseIcon name="select-arrow" customClass="h-4 w-4" />
+            </div>
           </div>
         </div>
       </div>
@@ -73,8 +90,7 @@
         Chargement...
       </div>
 
-      <div v-else-if="activities.length === 0"
-        class="col-span-full text-center py-20 text-textPrimary/50 font-body">
+      <div v-else-if="activities.length === 0" class="col-span-full text-center py-20 text-textPrimary/50 font-body">
         Aucune activité trouvée.
       </div>
 
@@ -96,8 +112,7 @@
         </div>
 
         <div class="p-8 flex flex-col flex-grow">
-          <div
-            class="flex flex-wrap items-center gap-3 mb-4 text-[10px] font-bold uppercase tracking-wider font-body">
+          <div class="flex flex-wrap items-center gap-3 mb-4 text-[10px] font-bold uppercase tracking-wider font-body">
             <span class="px-3 py-1 rounded-lg bg-textVert/10 text-textVert">
               {{ act.categorie?.libelle_categorie }}
             </span>
@@ -144,6 +159,8 @@
 </template>
 
 <script setup lang="ts">
+import { ref, reactive, computed, onMounted } from 'vue'
+
 const route = useRoute()
 const config = useRuntimeConfig()
 const authToken = useCookie('auth_token')
@@ -157,6 +174,9 @@ const totalItems = ref(0)
 const totalPages = ref(1)
 const currentPage = ref(1)
 
+const isCategoryDropdownOpen = ref(false)
+const isTypeDropdownOpen = ref(false)
+
 const filters = reactive({
   search: '',
   category_id: null as number | null,
@@ -166,6 +186,30 @@ const filters = reactive({
 let searchTimeout: any = null
 
 const isLoggedIn = computed(() => !!authToken.value)
+
+const currentCategoryLabel = computed(() => {
+  if (filters.category_id === null) return 'Catégorie : Toutes'
+  const cat = categories.value.find(c => c.id_categorie === filters.category_id)
+  return cat ? cat.libelle_categorie : 'Catégorie : Toutes'
+})
+
+const currentTypeLabel = computed(() => {
+  if (filters.type_id === null) return 'Type : Tous les types'
+  const t = types.value.find(type => type.id_type === filters.type_id)
+  return t ? t.libelle_type : 'Type : Tous les types'
+})
+
+const selectCategory = (id: number | null) => {
+  filters.category_id = id
+  isCategoryDropdownOpen.value = false
+  fetchData(1)
+}
+
+const selectType = (id: number | null) => {
+  filters.type_id = id
+  isTypeDropdownOpen.value = false
+  fetchData(1)
+}
 
 const getActivityImage = (act: any) => {
   if (act.image_path) {
@@ -282,5 +326,4 @@ onMounted(async () => {
 })
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

@@ -34,24 +34,29 @@
         </div>
 
         <div class="relative w-full lg:w-64">
-          <select v-model="selectedCategory" @change="fetchArticles(1)" class="w-full px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none appearance-none cursor-pointer focus:border-textVert transition-all pr-10 font-body">
-            <option :value="null">Toutes les catégories</option>
-            <option v-for="cat in categories" :key="cat.id_categorie" :value="cat.id_categorie">{{ cat.libelle_categorie }}</option>
-          </select>
-          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-textPrimary/40">
-            <BaseIcon name="select-arrow" customClass="h-4 w-4" />
+          <button @click="toggleDropdown('category')" type="button" class="w-full flex items-center justify-between px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body">
+            <span>{{ currentCategoryLabel }}</span>
+            <BaseIcon name="select-arrow" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200" :class="{ 'rotate-180': isCategoryDropdownOpen }" />
+          </button>
+          <div v-if="isCategoryDropdownOpen" class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-40">
+            <div @click="selectCategory(null)" class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert" :class="{ 'bg-textVert/10 text-textVert font-bold': selectedCategory === null }">
+              Toutes les catégories
+            </div>
+            <div v-for="cat in categories" :key="cat.id_categorie" @click="selectCategory(cat.id_categorie)" class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5" :class="{ 'bg-textVert/10 text-textVert font-bold': selectedCategory === cat.id_categorie }">
+              {{ cat.libelle_categorie }}
+            </div>
           </div>
         </div>
 
         <div class="relative w-full lg:w-44">
-          <select v-model="perPage" @change="fetchArticles(1)" class="w-full px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none appearance-none cursor-pointer focus:border-textVert transition-all pr-10 font-body">
-            <option :value="20">Afficher : 20</option>
-            <option :value="50">Afficher : 50</option>
-            <option :value="100">Afficher : 100</option>
-            <option :value="500">Afficher : 500</option>
-          </select>
-          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-textPrimary/40">
-            <BaseIcon name="select-arrow" customClass="h-4 w-4" />
+          <button @click="toggleDropdown('perPage')" type="button" class="w-full flex items-center justify-between px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body">
+            <span>Afficher : {{ perPage }}</span>
+            <BaseIcon name="select-arrow" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200" :class="{ 'rotate-180': isPerPageDropdownOpen }" />
+          </button>
+          <div v-if="isPerPageDropdownOpen" class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-40">
+            <div v-for="size in [20, 50, 100, 500]" :key="size" @click="selectPerPage(size)" class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5 first:border-none" :class="{ 'bg-textVert/10 text-textVert font-bold': perPage === size }">
+              Afficher : {{ size }}
+            </div>
           </div>
         </div>
 
@@ -132,14 +137,16 @@
             <input v-model="articleForm.titre_information" type="text" required class="w-full px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm text-textPrimary font-body" />
           </div>
           
-          <div class="space-y-1">
+          <div class="space-y-1 relative">
             <label class="text-xs font-bold text-textPrimary">Catégorie</label>
-            <div class="relative">
-              <select v-model="articleForm.id_categorie" required class="w-full px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm text-textPrimary appearance-none font-body">
-                <option :value="null" disabled>Choisir une catégorie</option>
-                <option v-for="cat in categories" :key="cat.id_categorie" :value="cat.id_categorie">{{ cat.libelle_categorie }}</option>
-              </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-textPrimary/40"><BaseIcon name="chevron-down" customClass="h-4 w-4" /></div>
+            <button @click="isModalCategoryDropdownOpen = !isModalCategoryDropdownOpen" type="button" class="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm text-textPrimary text-left cursor-pointer font-body">
+              <span>{{ currentModalCategoryLabel }}</span>
+              <BaseIcon name="chevron-down" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200" :class="{ 'rotate-180': isModalCategoryDropdownOpen }" />
+            </button>
+            <div v-if="isModalCategoryDropdownOpen" class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-50 max-h-48 overflow-y-auto">
+              <div v-for="cat in categories" :key="cat.id_categorie" @click="selectModalCategory(cat.id_categorie)" class="px-4 py-2.5 text-sm cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5 first:border-none" :class="{ 'bg-textVert/10 text-textVert font-bold': articleForm.id_categorie === cat.id_categorie }">
+                {{ cat.libelle_categorie }}
+              </div>
             </div>
           </div>
           
@@ -148,7 +155,7 @@
             <textarea v-model="articleForm.contenu_information" required rows="8" class="w-full px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm text-textPrimary resize-none font-body leading-relaxed"></textarea>
           </div>
           
-          <div v-if="isEditingArticle" class="flex items-center gap-3 pt-2">
+          <div class="flex items-center gap-3 pt-2">
             <input type="checkbox" id="art_actif" v-model="articleForm.est_actif" class="w-4 h-4 text-textVert bg-backgroundPrimary border-textPrimary/20 rounded focus:ring-textVert" />
             <label for="art_actif" class="text-sm font-bold text-textPrimary cursor-pointer font-body">Article en ligne (visible par le public)</label>
           </div>
@@ -198,7 +205,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 
 const config = useRuntimeConfig()
 const authToken = useCookie('auth_token')
@@ -215,6 +222,10 @@ const totalPages = ref(1)
 const totalItems = ref(0)
 let searchTimeout: any = null
 
+const isCategoryDropdownOpen = ref(false)
+const isPerPageDropdownOpen = ref(false)
+const isModalCategoryDropdownOpen = ref(false)
+
 const showArticleModal = ref(false)
 const isEditingArticle = ref(false)
 const isSavingArticle = ref(false)
@@ -227,6 +238,45 @@ const isEditingCat = ref(false)
 const currentCatId = ref<number | null>(null)
 const catError = ref('')
 const catForm = ref({ libelle_categorie: '' })
+
+const currentCategoryLabel = computed(() => {
+  if (selectedCategory.value === null) return 'Toutes les catégories'
+  const cat = categories.value.find(c => c.id_categorie === selectedCategory.value)
+  return cat ? cat.libelle_categorie : 'Toutes les catégories'
+})
+
+const currentModalCategoryLabel = computed(() => {
+  if (articleForm.value.id_categorie === null) return 'Choisir une catégorie'
+  const cat = categories.value.find(c => c.id_categorie === articleForm.value.id_categorie)
+  return cat ? cat.libelle_categorie : 'Choisir une catégorie'
+})
+
+const toggleDropdown = (menu: string) => {
+  if (menu === 'category') {
+    isCategoryDropdownOpen.value = !isCategoryDropdownOpen.value
+    isPerPageDropdownOpen.value = false
+  } else if (menu === 'perPage') {
+    isPerPageDropdownOpen.value = !isPerPageDropdownOpen.value
+    isCategoryDropdownOpen.value = false
+  }
+}
+
+const selectCategory = (id: number | null) => {
+  selectedCategory.value = id
+  isCategoryDropdownOpen.value = false
+  fetchArticles(1)
+}
+
+const selectModalCategory = (id: number) => {
+  articleForm.value.id_categorie = id
+  isModalCategoryDropdownOpen.value = false
+}
+
+const selectPerPage = (value: number) => {
+  perPage.value = value
+  isPerPageDropdownOpen.value = false
+  fetchArticles(1)
+}
 
 const formatDate = (dateString: string) => {
   if (!dateString) return '-'

@@ -32,44 +32,76 @@
                 </div>
 
                 <div class="relative w-full lg:w-64">
-                    <select v-model="filterRole" @change="fetchUsers(1)"
-                        class="w-full px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none appearance-none cursor-pointer focus:border-textVert transition-all pr-10 font-body">
-                        <option value="">Rôle : Tous</option>
-                        <option v-for="role in roles" :key="role.id_role" :value="String(role.id_role)">
+                    <button @click="toggleDropdown('role')" type="button"
+                        class="w-full flex items-center justify-between px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body">
+                        <span>{{ currentRoleLabel }}</span>
+                        <BaseIcon name="select-arrow"
+                            customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+                            :class="{ 'rotate-180': isRoleDropdownOpen }" />
+                    </button>
+                    <div v-if="isRoleDropdownOpen"
+                        class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-40">
+                        <div @click="selectRole('')"
+                            class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
+                            :class="{ 'bg-textVert/10 text-textVert font-bold': filterRole === '' }">
+                            Rôle : Tous
+                        </div>
+                        <div v-for="role in roles" :key="role.id_role" @click="selectRole(String(role.id_role))"
+                            class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
+                            :class="{ 'bg-textVert/10 text-textVert font-bold': filterRole === String(role.id_role) }">
                             {{ role.libelle }}
-                        </option>
-                    </select>
-                    <div
-                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-textPrimary/40">
-                        <BaseIcon name="select-arrow" customClass="h-4 w-4" />
+                        </div>
                     </div>
                 </div>
 
                 <div class="relative w-full lg:w-64">
-                    <select v-model="filterStatus" @change="fetchUsers(1)"
-                        class="w-full px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none appearance-none cursor-pointer focus:border-textVert transition-all pr-10 font-body">
-                        <option value="">Statut : Tous</option>
-                        <option value="actif">Comptes actifs</option>
-                        <option value="desactive">Désactivés</option>
-                        <option value="anonymise">Anonymisés</option>
-                    </select>
-                    <div
-                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-textPrimary/40">
-                        <BaseIcon name="select-arrow" customClass="h-4 w-4" />
+                    <button @click="toggleDropdown('status')" type="button"
+                        class="w-full flex items-center justify-between px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body">
+                        <span>{{ currentStatusLabel }}</span>
+                        <BaseIcon name="select-arrow"
+                            customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+                            :class="{ 'rotate-180': isStatusDropdownOpen }" />
+                    </button>
+                    <div v-if="isStatusDropdownOpen"
+                        class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-40">
+                        <div @click="selectStatus('')"
+                            class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
+                            :class="{ 'bg-textVert/10 text-textVert font-bold': filterStatus === '' }">
+                            Statut : Tous
+                        </div>
+                        <div @click="selectStatus('actif')"
+                            class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
+                            :class="{ 'bg-textVert/10 text-textVert font-bold': filterStatus === 'actif' }">
+                            Comptes actifs
+                        </div>
+                        <div @click="selectStatus('desactive')"
+                            class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
+                            :class="{ 'bg-textVert/10 text-textVert font-bold': filterStatus === 'desactive' }">
+                            Désactivés
+                        </div>
+                        <div @click="selectStatus('anonymise')"
+                            class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
+                            :class="{ 'bg-textVert/10 text-textVert font-bold': filterStatus === 'anonymise' }">
+                            Anonymisés
+                        </div>
                     </div>
                 </div>
 
                 <div class="relative w-full lg:w-44">
-                    <select v-model="perPage" @change="fetchUsers(1)"
-                        class="w-full px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none appearance-none cursor-pointer focus:border-textVert transition-all pr-10 font-body">
-                        <option :value="20">Afficher : 20</option>
-                        <option :value="50">Afficher : 50</option>
-                        <option :value="100">Afficher : 100</option>
-                        <option :value="500">Afficher : 500</option>
-                    </select>
-                    <div
-                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-textPrimary/40">
-                        <BaseIcon name="select-arrow" customClass="h-4 w-4" />
+                    <button @click="toggleDropdown('perPage')" type="button"
+                        class="w-full flex items-center justify-between px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body">
+                        <span>Afficher : {{ perPage }}</span>
+                        <BaseIcon name="select-arrow"
+                            customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+                            :class="{ 'rotate-180': isPerPageDropdownOpen }" />
+                    </button>
+                    <div v-if="isPerPageDropdownOpen"
+                        class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-40">
+                        <div v-for="size in [20, 50, 100, 500]" :key="size" @click="selectPerPage(size)"
+                            class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5 first:border-none"
+                            :class="{ 'bg-textVert/10 text-textVert font-bold': perPage === size }">
+                            Afficher : {{ size }}
+                        </div>
                     </div>
                 </div>
 
@@ -154,7 +186,6 @@
                             </td>
 
                             <td class="px-4 py-5 text-right pr-8 space-x-2 whitespace-nowrap">
-
                                 <template v-if="user.id_utilisateur === currentUserId">
                                     <span
                                         class="text-[10px] font-bold text-textPrimary/30 uppercase tracking-widest px-2">
@@ -234,8 +265,17 @@
 
                         <div class="space-y-1">
                             <label class="text-xs font-bold text-textPrimary">Date de naissance</label>
-                            <input v-model="userForm.date_naissance" type="date" required
-                                class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm font-body text-textPrimary" />
+                            <div class="grid grid-cols-3 gap-2">
+                                <input v-model="birthDateSplit.day" type="text" inputmode="numeric" maxlength="2"
+                                    placeholder="JJ" required
+                                    class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-center text-sm font-body text-textPrimary" />
+                                <input v-model="birthDateSplit.month" type="text" inputmode="numeric" maxlength="2"
+                                    placeholder="MM" required
+                                    class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-center text-sm font-body text-textPrimary" />
+                                <input v-model="birthDateSplit.year" type="text" inputmode="numeric" maxlength="4"
+                                    placeholder="AAAA" required
+                                    class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-center text-sm font-body text-textPrimary" />
+                            </div>
                         </div>
                     </div>
 
@@ -255,36 +295,41 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="space-y-1">
+                        <div class="space-y-1 relative">
                             <label class="text-xs font-bold text-textPrimary">Genre</label>
-                            <div class="relative">
-                                <select v-model="userForm.id_genre" required
-                                    class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm font-body text-textPrimary appearance-none">
-                                    <option :value="null" disabled>Sélectionner</option>
-                                    <option v-for="genre in genres" :key="genre.id_genre" :value="genre.id_genre">
-                                        {{ genre.libelle_genre }}
-                                    </option>
-                                </select>
-                                <div
-                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-textPrimary/40">
-                                    <BaseIcon name="chevron-down" customClass="h-4 w-4" />
+                            <button @click="toggleDropdown('modalGenre')" type="button"
+                                class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm font-body text-textPrimary text-left cursor-pointer">
+                                <span>{{ currentModalGenreLabel }}</span>
+                                <BaseIcon name="chevron-down"
+                                    customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+                                    :class="{ 'rotate-180': isModalGenreDropdownOpen }" />
+                            </button>
+                            <div v-if="isModalGenreDropdownOpen"
+                                class="absolute left-0 right-0 bottom-full mb-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-[70] max-h-48 overflow-y-auto">
+                                <div v-for="genre in genres" :key="genre.id_genre"
+                                    @click="selectModalGenre(genre.id_genre)"
+                                    class="px-4 py-2.5 text-sm cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
+                                    :class="{ 'bg-textVert/10 text-textVert font-bold': userForm.id_genre === genre.id_genre }">
+                                    {{ genre.libelle_genre }}
                                 </div>
                             </div>
                         </div>
 
-                        <div class="space-y-1">
+                        <div class="space-y-1 relative">
                             <label class="text-xs font-bold text-textPrimary">Rôle</label>
-                            <div class="relative">
-                                <select v-model="userForm.id_role" required
-                                    class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm font-body text-textPrimary appearance-none">
-                                    <option :value="null" disabled>Sélectionner</option>
-                                    <option v-for="role in roles" :key="role.id_role" :value="role.id_role">
-                                        {{ role.libelle }}
-                                    </option>
-                                </select>
-                                <div
-                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-textPrimary/40">
-                                    <BaseIcon name="chevron-down" customClass="h-4 w-4" />
+                            <button @click="toggleDropdown('modalRole')" type="button"
+                                class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm font-body text-textPrimary text-left cursor-pointer">
+                                <span>{{ currentModalRoleLabel }}</span>
+                                <BaseIcon name="chevron-down"
+                                    customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+                                    :class="{ 'rotate-180': isModalRoleDropdownOpen }" />
+                            </button>
+                            <div v-if="isModalRoleDropdownOpen"
+                                class="absolute left-0 right-0 bottom-full mb-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-[70] max-h-48 overflow-y-auto">
+                                <div v-for="role in roles" :key="role.id_role" @click="selectModalRole(role.id_role)"
+                                    class="px-4 py-2.5 text-sm cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
+                                    :class="{ 'bg-textVert/10 text-textVert font-bold': userForm.id_role === role.id_role }">
+                                    {{ role.libelle }}
                                 </div>
                             </div>
                         </div>
@@ -314,6 +359,8 @@
 </template>
 
 <script setup lang="ts">
+import { ref, reactive, computed, watch, onMounted } from 'vue'
+
 const config = useRuntimeConfig()
 const authToken = useCookie('auth_token')
 const currentUserId = Number(useCookie('user_id').value)
@@ -331,6 +378,12 @@ const perPage = ref(20)
 const totalPages = ref(1)
 const totalItems = ref(0)
 let searchTimeout: any = null
+
+const isRoleDropdownOpen = ref(false)
+const isStatusDropdownOpen = ref(false)
+const isPerPageDropdownOpen = ref(false)
+const isModalGenreDropdownOpen = ref(false)
+const isModalRoleDropdownOpen = ref(false)
 
 const showDeleteModal = ref(false)
 const userToDelete = ref<any>(null)
@@ -350,6 +403,101 @@ const userForm = ref({
     id_role: null as any,
     est_actif: true
 })
+
+const birthDateSplit = reactive({
+    day: '',
+    month: '',
+    year: ''
+})
+
+watch(
+    () => [birthDateSplit.day, birthDateSplit.month, birthDateSplit.year],
+    () => {
+        if (birthDateSplit.day && birthDateSplit.month && birthDateSplit.year) {
+            const d = birthDateSplit.day.padStart(2, '0')
+            const m = birthDateSplit.month.padStart(2, '0')
+            const y = birthDateSplit.year
+            userForm.value.date_naissance = `${y}-${m}-${d}`
+        } else {
+            userForm.value.date_naissance = ''
+        }
+    }
+)
+
+const currentRoleLabel = computed(() => {
+    if (!filterRole.value) return 'Rôle : Tous'
+    const role = roles.value.find(r => String(r.id_role) === filterRole.value)
+    return role ? role.libelle : 'Rôle : Tous'
+})
+
+const currentStatusLabel = computed(() => {
+    if (filterStatus.value === 'actif') return 'Comptes actifs'
+    if (filterStatus.value === 'desactive') return 'Désactivés'
+    if (filterStatus.value === 'anonymise') return 'Anonymisés'
+    return 'Statut : Tous'
+})
+
+const currentModalGenreLabel = computed(() => {
+    if (userForm.value.id_genre === null) return 'Sélectionner'
+    const genre = genres.value.find(g => g.id_genre === userForm.value.id_genre)
+    return genre ? genre.libelle_genre : 'Sélectionner'
+})
+
+const currentModalRoleLabel = computed(() => {
+    if (userForm.value.id_role === null) return 'Sélectionner'
+    const role = roles.value.find(r => r.id_role === userForm.value.id_role)
+    return role ? role.libelle : 'Sélectionner'
+})
+
+const toggleDropdown = (type: string) => {
+    if (type === 'role') {
+        isRoleDropdownOpen.value = !isRoleDropdownOpen.value
+        isStatusDropdownOpen.value = false
+        isPerPageDropdownOpen.value = false
+    } else if (type === 'status') {
+        isStatusDropdownOpen.value = !isStatusDropdownOpen.value
+        isRoleDropdownOpen.value = false
+        isPerPageDropdownOpen.value = false
+    } else if (type === 'perPage') {
+        isPerPageDropdownOpen.value = !isPerPageDropdownOpen.value
+        isRoleDropdownOpen.value = false
+        isStatusDropdownOpen.value = false
+    } else if (type === 'modalGenre') {
+        isModalGenreDropdownOpen.value = !isModalGenreDropdownOpen.value
+        isModalRoleDropdownOpen.value = false
+    } else if (type === 'modalRole') {
+        isModalRoleDropdownOpen.value = !isModalRoleDropdownOpen.value
+        isModalGenreDropdownOpen.value = false
+    }
+}
+
+const selectRole = (value: string) => {
+    filterRole.value = value
+    isRoleDropdownOpen.value = false
+    fetchUsers(1)
+}
+
+const selectStatus = (value: string) => {
+    filterStatus.value = value
+    isStatusDropdownOpen.value = false
+    fetchUsers(1)
+}
+
+const selectPerPage = (value: number) => {
+    perPage.value = value
+    isPerPageDropdownOpen.value = false
+    fetchUsers(1)
+}
+
+const selectModalGenre = (id: number) => {
+    userForm.value.id_genre = id
+    isModalGenreDropdownOpen.value = false
+}
+
+const selectModalRole = (id: number) => {
+    userForm.value.id_role = id
+    isModalRoleDropdownOpen.value = false
+}
 
 const formatDate = (dateString: string | null) => {
     if (!dateString) return '-'
@@ -469,6 +617,9 @@ const executeDelete = async () => {
 const openCreateModal = () => {
     isEditing.value = false
     currentEditId.value = null
+    birthDateSplit.day = ''
+    birthDateSplit.month = ''
+    birthDateSplit.year = ''
     userForm.value = {
         prenom: '',
         email: '',
@@ -485,13 +636,25 @@ const openCreateModal = () => {
 const openEditModal = (user: any) => {
     isEditing.value = true
     currentEditId.value = user.id_utilisateur
-    const formattedDate = user.date_naissance ? new Date(user.date_naissance).toISOString().split('T')[0] : ''
+
+    if (user.date_naissance) {
+        const parts = user.date_naissance.split('T')[0].split('-')
+        if (parts.length === 3) {
+            birthDateSplit.year = parts[0]
+            birthDateSplit.month = parts[1]
+            birthDateSplit.day = parts[2]
+        }
+    } else {
+        birthDateSplit.day = ''
+        birthDateSplit.month = ''
+        birthDateSplit.year = ''
+    }
 
     userForm.value = {
         prenom: user.prenom,
         email: user.email,
         mot_de_passe: '',
-        date_naissance: formattedDate || '',
+        date_naissance: user.date_naissance ? user.date_naissance.split('T')[0] : '',
         id_genre: user.id_genre ? Number(user.id_genre) : (null as any),
         id_role: user.id_role ? Number(user.id_role) : (null as any),
         est_actif: Boolean(user.est_actif)
