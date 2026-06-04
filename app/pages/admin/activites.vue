@@ -33,11 +33,11 @@
           </div>
         </div>
 
-        <div class="relative w-full lg:w-72">
+        <div class="relative w-full lg:w-72 lg:flex-shrink-0">
           <button @click="toggleFilterDropdown('category')" type="button"
-            class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-textPrimary/10 bg-textSecondary text-textPrimary focus:ring-2 focus:ring-textVert focus:border-textVert outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body">
-            <span>{{ currentCategoryLabel }}</span>
-            <BaseIcon name="select-arrow" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+            class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-textPrimary/10 bg-textSecondary text-textPrimary focus:ring-2 focus:ring-textVert focus:border-textVert outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body whitespace-nowrap">
+            <span class="truncate pr-2">{{ currentCategoryLabel }}</span>
+            <BaseIcon name="select-arrow" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200 flex-shrink-0"
               :class="{ 'rotate-180': isCategoryDropdownOpen }" />
           </button>
           <div v-if="isCategoryDropdownOpen"
@@ -55,11 +55,11 @@
           </div>
         </div>
 
-        <div class="relative w-full lg:w-72">
+        <div class="relative w-full lg:w-72 lg:flex-shrink-0">
           <button @click="toggleFilterDropdown('type')" type="button"
-            class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-textPrimary/10 bg-textSecondary text-textPrimary focus:ring-2 focus:ring-textVert focus:border-textVert outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body">
-            <span>{{ currentTypeLabel }}</span>
-            <BaseIcon name="select-arrow" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+            class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-textPrimary/10 bg-textSecondary text-textPrimary focus:ring-2 focus:ring-textVert focus:border-textVert outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body whitespace-nowrap">
+            <span class="truncate pr-2">{{ currentTypeLabel }}</span>
+            <BaseIcon name="select-arrow" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200 flex-shrink-0"
               :class="{ 'rotate-180': isTypeDropdownOpen }" />
           </button>
           <div v-if="isTypeDropdownOpen"
@@ -77,11 +77,11 @@
           </div>
         </div>
 
-        <div class="relative w-full lg:w-56">
+        <div class="relative w-full lg:w-56 lg:flex-shrink-0">
           <button @click="toggleFilterDropdown('perPage')" type="button"
-            class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body">
+            class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body whitespace-nowrap">
             <span>Afficher : {{ perPage }}</span>
-            <BaseIcon name="select-arrow" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+            <BaseIcon name="select-arrow" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200 flex-shrink-0"
               :class="{ 'rotate-180': isPerPageDropdownOpen }" />
           </button>
           <div v-if="isPerPageDropdownOpen"

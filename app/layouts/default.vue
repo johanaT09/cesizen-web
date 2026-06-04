@@ -1,14 +1,23 @@
-<script setup lang="ts">
-import NavBar from './navbar.vue'
-import Footer from './footer.vue'
-</script>
-
 <template>
-  <div class="min-h-screen flex flex-col">
-    <NavBar />
-    <main class="flex-1">
+  <div class="flex flex-col min-h-screen bg-backgroundPrimary">
+    <Navbar />
+
+    <main class="flex-grow" :class="isNative ? 'pb-24' : ''">
       <slot />
     </main>
-    <Footer />
+
+    <AppBottomNav v-if="isNative" />
+
+    <Footer v-if="!isNative" />
   </div>
 </template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+import { Capacitor } from '@capacitor/core'
+import Navbar from './navbar.vue'
+import Footer from './footer.vue'
+import AppBottomNav from './appBottomNav.vue'
+
+const isNative = computed(() => process.client && Capacitor.isNativePlatform())
+</script>

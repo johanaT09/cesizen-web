@@ -3,14 +3,12 @@
 
     <transition enter-active-class="transform ease-out duration-300 transition"
       enter-from-class="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
-      enter-to-class="translate-y-0 opacity-100 sm:translate-x-0"
-      leave-active-class="transition ease-in duration-200" leave-from-class="opacity-100"
-      leave-to-class="opacity-0">
+      enter-to-class="translate-y-0 opacity-100 sm:translate-x-0" leave-active-class="transition ease-in duration-200"
+      leave-from-class="opacity-100" leave-to-class="opacity-0">
       <div v-if="notification.show"
         class="fixed top-4 right-4 left-4 sm:left-auto sm:w-full sm:max-w-sm bg-white border border-gray-100 rounded-2xl shadow-xl p-4 z-50 flex items-start gap-3"
         role="status" aria-live="polite">
-        <div
-          class="flex-shrink-0 w-8 h-8 rounded-full bg-green-50 flex items-center justify-center text-green-500">
+        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-green-50 flex items-center justify-center text-green-500">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd"
               d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
@@ -24,10 +22,8 @@
         <button @click="notification.show = false" type="button"
           class="text-textPrimary/40 hover:text-textPrimary/70 transition-colors p-1"
           aria-label="Fermer la notification">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M6 18L18 6M6 6l12 12" />
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
@@ -38,12 +34,12 @@
 
       <header class="border-b border-gray-100 pb-6">
         <h1 class="text-textPrimary text-3xl font-bold font-heading mb-2">Mon compte</h1>
-        <p class="text-textPrimary/60 text-sm font-body">Consultez et gérez vos informations personnelles ainsi que la sécurité de votre compte.</p>
+        <p class="text-textPrimary/60 text-sm font-body">Consultez et gérez vos informations personnelles ainsi que la
+          sécurité de votre compte.</p>
       </header>
 
       <section class="space-y-6" aria-labelledby="title-infos">
-        <div
-          class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-50 pb-2">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-50 pb-2">
           <h2 id="title-infos" class="text-textPrimary text-xl font-bold font-heading">Informations personnelles</h2>
 
           <button @click="toggleEdit('info')" type="button" :aria-expanded="isEditingInfo"
@@ -61,14 +57,15 @@
               <input v-if="isEditingInfo" id="prenom" v-model="form.prenom" type="text"
                 class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 text-sm text-textPrimary outline-none focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20"
                 required />
-              <p v-else class="text-base font-medium text-textPrimary py-1.5 px-1">{{ form.prenom || 'Non renseigné' }}</p>
-              <p v-if="isEditingInfo && errors.prenom" class="text-xs text-red-500 mt-1 font-medium"
-                role="alert">{{ errors.prenom }}</p>
+              <p v-else class="text-base font-medium text-textPrimary py-1.5 px-1">{{ form.prenom || 'Non renseigné' }}
+              </p>
+              <p v-if="isEditingInfo && errors.prenom" class="text-xs text-red-500 mt-1 font-medium" role="alert">{{
+                errors.prenom }}</p>
             </div>
 
             <div>
-              <label
-                class="block text-xs font-bold text-textPrimary/50 uppercase tracking-wider mb-1">Adresse email</label>
+              <label class="block text-xs font-bold text-textPrimary/50 uppercase tracking-wider mb-1">Adresse
+                email</label>
               <p
                 class="text-base font-medium text-textPrimary/50 py-1.5 px-1 bg-gray-50/50 rounded-xl border border-dashed border-gray-100">
                 {{ form.email || 'Chargement...' }}
@@ -77,13 +74,14 @@
 
             <div>
               <label for="date_naissance"
-                class="block text-xs font-bold text-textPrimary/50 uppercase tracking-wider mb-1">Date de naissance</label>
+                class="block text-xs font-bold text-textPrimary/50 uppercase tracking-wider mb-1">Date de
+                naissance</label>
               <input v-if="isEditingInfo" id="date_naissance" v-model="form.date_naissance" type="date"
                 class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 text-sm text-textPrimary outline-none focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20"
                 required />
               <p v-else class="text-base font-medium text-textPrimary py-1.5 px-1">{{ displayDate }}</p>
-              <p v-if="isEditingInfo && errors.date_naissance"
-                class="text-xs text-red-500 mt-1 font-medium" role="alert">{{ errors.date_naissance }}
+              <p v-if="isEditingInfo && errors.date_naissance" class="text-xs text-red-500 mt-1 font-medium"
+                role="alert">{{ errors.date_naissance }}
               </p>
             </div>
 
@@ -96,8 +94,8 @@
                 <option :value="2">Femme</option>
               </select>
               <p v-else class="text-base font-medium text-textPrimary py-1.5 px-1">{{ currentGenreLabel }}</p>
-              <p v-if="isEditingInfo && errors.id_genre" class="text-xs text-red-500 mt-1 font-medium"
-                role="alert">{{ errors.id_genre }}</p>
+              <p v-if="isEditingInfo && errors.id_genre" class="text-xs text-red-500 mt-1 font-medium" role="alert">{{
+                errors.id_genre }}</p>
             </div>
           </div>
 
@@ -111,8 +109,7 @@
       </section>
 
       <section class="space-y-6 pt-6 border-t border-gray-100" aria-labelledby="title-security">
-        <div
-          class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-50 pb-2">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-50 pb-2">
           <h2 id="title-security" class="text-textPrimary text-xl font-bold font-heading">Sécurité</h2>
 
           <button @click="toggleEdit('password')" type="button" :aria-expanded="isEditingPassword"
@@ -123,8 +120,7 @@
         </div>
 
         <div v-if="errors.global"
-          class="p-4 bg-red-50 border border-red-200 text-red-600 rounded-xl text-sm font-medium"
-          role="alert">
+          class="p-4 bg-red-50 border border-red-200 text-red-600 rounded-xl text-sm font-medium" role="alert">
           {{ errors.global }}
         </div>
 
@@ -132,58 +128,97 @@
           <div v-if="isEditingPassword" class="space-y-4">
             <div>
               <label for="current_password"
-                class="block text-xs font-bold text-textPrimary/50 uppercase tracking-wider mb-1">Mot de passe actuel</label>
-              <input id="current_password" v-model="form.current_password" type="password"
-                placeholder="••••••••"
+                class="block text-xs font-bold text-textPrimary/50 uppercase tracking-wider mb-1">Mot de passe
+                actuel</label>
+              <input id="current_password" v-model="form.current_password" type="password" placeholder="••••••••"
                 class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 text-sm text-textPrimary outline-none focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20"
                 required />
-              <p v-if="errors.current_password" class="text-xs text-red-500 mt-1 font-medium"
-                role="alert">{{ errors.current_password }}</p>
+              <p v-if="errors.current_password" class="text-xs text-red-500 mt-1 font-medium" role="alert">{{
+                errors.current_password }}</p>
             </div>
 
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <label for="new_password"
-                  class="block text-xs font-bold text-textPrimary/50 uppercase tracking-wider mb-1">Nouveau mot de passe</label>
-                <input id="new_password" v-model="form.new_password" type="password"
-                  placeholder="••••••••"
+                  class="block text-xs font-bold text-textPrimary/50 uppercase tracking-wider mb-1">Nouveau mot de
+                  passe</label>
+                <input id="new_password" v-model="form.new_password" type="password" placeholder="••••••••"
                   class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 text-sm text-textPrimary outline-none focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20"
                   required />
-                <p v-if="errors.new_password" class="text-xs text-red-500 mt-1 font-medium"
-                  role="alert">{{ errors.new_password }}</p>
+                <p v-if="errors.new_password" class="text-xs text-red-500 mt-1 font-medium" role="alert">{{
+                  errors.new_password }}</p>
               </div>
 
               <div>
                 <label for="new_password_confirmation"
-                  class="block text-xs font-bold text-textPrimary/50 uppercase tracking-wider mb-1">Confirmer le nouveau mot de passe</label>
-                <input id="new_password_confirmation" v-model="form.new_password_confirmation"
-                  type="password" placeholder="••••••••"
+                  class="block text-xs font-bold text-textPrimary/50 uppercase tracking-wider mb-1">Confirmer le nouveau
+                  mot de passe</label>
+                <input id="new_password_confirmation" v-model="form.new_password_confirmation" type="password"
+                  placeholder="••••••••"
                   class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 text-sm text-textPrimary outline-none focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20"
                   required />
-                <p v-if="errors.new_password_confirmation" class="text-xs text-red-500 mt-1 font-medium"
-                  role="alert">{{ errors.new_password_confirmation }}</p>
+                <p v-if="errors.new_password_confirmation" class="text-xs text-red-500 mt-1 font-medium" role="alert">{{
+                  errors.new_password_confirmation }}</p>
               </div>
             </div>
 
             <div class="pt-2 flex justify-end">
-            <button :disabled="loading" type="submit"
-              class="w-full sm:w-auto px-6 py-3 bg-buttonPrimaryDegrade1 text-white font-bold rounded-xl shadow-lg disabled:opacity-50 text-sm active:scale-[0.98] transition-all focus-visible:ring-2 focus-visible:ring-buttonPrimary">
-              {{ loading ? 'Mise à jour...' : 'Mettre à jour le mot de passe' }}
-            </button>
+              <button :disabled="loading" type="submit"
+                class="w-full sm:w-auto px-6 py-3 bg-buttonPrimaryDegrade1 text-white font-bold rounded-xl shadow-lg disabled:opacity-50 text-sm active:scale-[0.98] transition-all focus-visible:ring-2 focus-visible:ring-buttonPrimary">
+                {{ loading ? 'Mise à jour...' : 'Mettre à jour le mot de passe' }}
+              </button>
+            </div>
           </div>
-        </div>
 
           <div v-else>
-            <label class="block text-xs font-bold text-textPrimary/50 uppercase tracking-wider mb-1">Mot de passe</label>
+            <label class="block text-xs font-bold text-textPrimary/50 uppercase tracking-wider mb-1">Mot de
+              passe</label>
             <p class="text-lg font-medium text-textPrimary/30 py-1 tracking-widest">••••••••••••••••</p>
           </div>
         </form>
       </section>
 
-      <section class="space-y-4 pt-6 border-t border-gray-100 bg-red-50/20 -mx-6 md:-mx-10 px-6 md:px-10 pb-4 rounded-b-[32px]" v-if="!isAdmin" aria-labelledby="title-danger">
+      <section class="space-y-4 pt-6 border-t border-gray-100" aria-labelledby="title-legal">
+        <div class="border-b border-gray-50 pb-2">
+          <h2 id="title-legal" class="text-textPrimary text-xl font-bold font-heading">Informations applicatives</h2>
+        </div>
+
+        <div
+          class="divide-y divide-gray-100 border border-gray-100 rounded-2xl overflow-hidden bg-backgroundPrimary/10">
+
+          <NuxtLink to="/mentions-legales"
+            class="flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 active:scale-[0.99] transition-all font-body">
+            <span class="text-sm font-medium text-textPrimary/80">Mentions légales</span>
+            <span class="text-textPrimary/30 text-xs">➔</span>
+          </NuxtLink>
+
+          <NuxtLink to="/confidentialite"
+            class="flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 active:scale-[0.99] transition-all font-body">
+            <span class="text-sm font-medium text-textPrimary/80">Politique de confidentialité</span>
+            <span class="text-textPrimary/30 text-xs">➔</span>
+          </NuxtLink>
+
+          <NuxtLink to="/accessibilite-rgaa"
+            class="flex items-center justify-between px-4 py-3.5 hover:bg-gray-50 active:scale-[0.99] transition-all font-body">
+            <div class="flex flex-col gap-0.5">
+              <span class="text-sm font-medium text-textPrimary/80">Déclaration d'accessibilité</span>
+              <span class="text-[10px] text-orange-600 font-bold tracking-wide">Non conforme</span>
+            </div>
+            <span class="text-textPrimary/30 text-xs">➔</span>
+          </NuxtLink>
+
+        </div>
+        <p class="text-[10px] text-center text-textPrimary/30 pt-1 font-body">CESIZen Mobile • Version 1.0.0
+          (Simulation)</p>
+      </section>
+
+      <section
+        class="space-y-4 pt-6 border-t border-gray-100 bg-red-50/20 -mx-6 md:-mx-10 px-6 md:px-10 pb-4 rounded-b-[32px]"
+        v-if="!isAdmin" aria-labelledby="title-danger">
         <div>
           <h2 id="title-danger" class="text-red-600 text-lg font-bold font-heading">Zone de danger</h2>
-          <p class="text-textPrimary/60 text-xs font-body">Actions importantes relatives à la gestion de vos données et de votre compte.</p>
+          <p class="text-textPrimary/60 text-xs font-body">Actions importantes relatives à la gestion de vos données et
+            de votre compte.</p>
         </div>
 
         <div
@@ -191,7 +226,9 @@
           <div class="space-y-1">
             <h3 class="text-sm font-bold text-textPrimary">Supprimer mon compte</h3>
             <p class="text-xs text-textPrimary/60 max-w-md leading-relaxed">
-              Votre compte sera définitivement supprimé. Afin de respecter nos obligations légales et à des fins exclusivement statistiques, vos données d'activité seront conservées sous une forme strictement anonymisée.
+              Votre compte sera définitivement supprimé. Afin de respecter nos obligations légales et à des fins
+              exclusivement statistiques, vos données d'activité seront conservées sous une forme strictement
+              anonymisée.
             </p>
           </div>
           <button @click="showDeleteModal = true" type="button"
@@ -358,7 +395,7 @@ const submitUpdate = async (type: 'info' | 'password') => {
 };
 
 const executeDelete = async () => {
-  showDeleteModal.value = false; 
+  showDeleteModal.value = false;
   loading.value = true;
 
   try {
@@ -383,5 +420,4 @@ const executeDelete = async () => {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
