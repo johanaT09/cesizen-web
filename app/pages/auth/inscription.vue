@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-[90vh] flex items-center justify-center bg-backgroundPrimary px-4 py-12">
+  <div class="min-h-[90vh] flex flex-col items-center justify-center bg-backgroundPrimary px-4 py-12 gap-6">
     <div
-      class="bg-textSecondary p-8 md:p-10 rounded-[32px] shadow-xl shadow-textPrimary/5 w-full max-w-[480px] border border-textPrimary/5">
+      class="bg-textSecondary p-8 md:p-10 rounded-[32px] shadow-xl shadow-textPrimary/5 w-full max-w-[480px] border border-textPrimary/5 relative">
 
       <div class="mb-8">
         <h1 class="text-textPrimary text-3xl font-serif font-bold mb-3">Créer mon espace</h1>
@@ -80,10 +80,10 @@
             class="mt-1 w-4 h-4 rounded border-textPrimary/20 text-textVert focus:ring-textVert bg-backgroundPrimary"
             required />
           <label for="terms" class="text-xs text-textPrimary/60 leading-normal font-body">
-            * J'accepte la réglementation RGPD et la
-            <NuxtLink to="/politique" class="text-textVert hover:underline font-medium">
-              politique de confidentialité
-            </NuxtLink>.
+            * J'accepte la réglementation RGPD et la politique de confidentialité.
+            <button @click.prevent="isRgpdModalOpen = true" type="button" class="inline-flex items-center justify-center text-textVert hover:text-buttonPrimaryDegrade1 font-bold ml-1 transition-colors align-middle" aria-label="Plus d'informations sur la politique RGPD">
+              <span class="flex items-center justify-center border border-textVert rounded-full w-4 h-4 text-[10px] font-sans pb-0.5">i</span>
+            </button>
           </label>
         </div>
 
@@ -100,6 +100,39 @@
         <NuxtLink to="/auth/login" class="text-textVert font-bold hover:underline">Se connecter</NuxtLink>
       </p>
     </div>
+
+    <Transition
+      enter-active-class="duration-200 ease-out"
+      enter-from-class="opacity-0 scale-95"
+      enter-to-class="opacity-100 scale-100"
+      leave-active-class="duration-150 ease-in"
+      leave-from-class="opacity-100 scale-100"
+      leave-to-class="opacity-0 scale-95"
+    >
+      <div v-if="isRgpdModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm" @click.self="isRgpdModalOpen = false">
+        <div class="bg-textSecondary border border-textPrimary/5 p-6 md:p-8 rounded-[32px] shadow-2xl max-w-md w-full max-h-[80vh] flex flex-col justify-between">
+          
+          <div class="overflow-y-auto space-y-4 pr-1">
+            <h2 class="text-textPrimary text-xl font-bold font-heading">Protection de vos données (RGPD)</h2>
+            <p class="text-xs text-textPrimary/70 leading-relaxed font-body">
+              Conformément aux directives de protection de la vie privée du Ministère de la Santé, l'application <strong>CESIZen</strong> applique une politique de minimisation stricte.
+            </p>
+            <div class="space-y-2 text-xs text-textPrimary/80 font-body pl-2 border-l-2 border-textVert">
+              <p>• <strong>Aucun nom de famille</strong> ni diagnostic de santé sensible n'est collecté ou stocké.</p>
+              <p>• Votre prénom et email servent uniquement à sécuriser et identifier votre connexion.</p>
+              <p>• Votre date de naissance et votre genre sont conservés à des fins exclusivement statistiques pour les indicateurs de santé publique.</p>
+            </div>
+            <p class="text-xs text-textPrimary/70 leading-relaxed font-body">
+              Vous conservez un droit absolu de modification ou de suppression définitive de vos données personnelles à tout moment depuis votre page profil.
+            </p>
+          </div>
+
+          <button @click="isRgpdModalOpen = false" type="button" class="mt-6 w-full bg-textVert text-textSecondary font-bold py-2.5 rounded-xl text-sm transition-all active:scale-[0.98]">
+            Compris
+          </button>
+        </div>
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -111,6 +144,7 @@ const loading = ref(false)
 const errorMessage = ref('')
 const genres = ref<any[]>([])
 const isGenderDropdownOpen = ref(false)
+const isRgpdModalOpen = ref(false) // 💡 Nouvel état pour gérer la popup RGPD
 
 const form = ref({
   firstName: '',

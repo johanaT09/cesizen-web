@@ -100,6 +100,7 @@
 </template>
 
 <script setup lang="ts">
+import { useRuntimeConfig } from 'nuxt/app'
 import { ref, computed, onMounted } from 'vue'
 
 const config = useRuntimeConfig()
