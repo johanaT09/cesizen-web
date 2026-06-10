@@ -1,0 +1,50 @@
+:root {
+  --footer: #fbf9f4;
+  --navbar: #fefcf8;
+
+  --background-primary: #fdfcf7;
+
+  --text-primary: #1a2b3b;
+  --text-secondary: #ffffff;
+
+  --button-primary: #00be62;
+  --button-secondary: #ffde58;
+
+  --button-primary-degrade-1: #50cc7e;
+  --button-primary-degrade-2: #faf7cd;
+
+  --button-secondary-degrade-1: #ffde58;
+  --button-secondary-degrade-2: #00be62;
+
+  --text-vert: #00be62;
+
+  --degrade-1: #dffae4;
+  --degrade-2: #fff6c8;
+  --degrade-3: #edf8d9;
+}
+
+
+.dark {
+  --footer: #111827;
+  --navbar: #0f172a;
+
+  --background-primary: #0f172a;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #1a2b3b;
+
+  --button-primary: #22c55e;
+  --button-secondary: #facc15;
+
+  --button-primary-degrade-1: #16a34a;
+  --button-primary-degrade-2: #14532d;
+
+  --button-secondary-degrade-1: #facc15;
+  --button-secondary-degrade-2: #ca8a04;
+
+  --text-vert: #4ade80;
+
+  --degrade-1: #1e293b;
+  --degrade-2: #334155;
+  --degrade-3: #475569;
+}

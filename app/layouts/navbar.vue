@@ -25,6 +25,7 @@
             <span class="text-[9px] font-bold uppercase text-gray-500">Ministère de la Santé</span>
           </div>
         </NuxtLink>
+        <ThemeToggle />
 
         <!-- 💻 NAVIGATION DESKTOP (Ordinateur) -->
         <nav class="hidden items-center gap-1 md:flex">
@@ -170,6 +171,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { Capacitor } from '@capacitor/core'
+import ThemeToggle from '~/components/ThemeToggle.vue'
 
 const route = useRoute()
 const authToken = useCookie('auth_token')
