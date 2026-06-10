@@ -5,7 +5,15 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
 
-  modules: ["@nuxtjs/tailwindcss"],
+  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/color-mode"],
+
+  css: ["~/assets/css/main.css"],
+
+  colorMode: {
+    preference: "system",
+    fallback: "light",
+    classSuffix: "",
+  },
 
   app: {
     head: {
