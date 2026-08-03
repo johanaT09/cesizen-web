@@ -1,0 +1,22 @@
+node_modules
+.nuxt
+.output
+.nitro
+.data
+.cache
+dist
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+
+# Mobile (Capacitor) - non utilisé pour l'image web
+android
+ios
+
+# Divers
+*.log
+README.md
+.vscode
+.idea
