@@ -13,11 +13,11 @@
       </div>
       
       <div class="flex items-center gap-3 self-start md:self-end">
-        <button @click="openCategoryManager" class="px-5 py-3 border border-textPrimary/10 bg-textSecondary hover:bg-backgroundPrimary text-textPrimary font-bold rounded-xl text-sm transition font-body">
+        <button class="px-5 py-3 border border-textPrimary/10 bg-textSecondary hover:bg-backgroundPrimary text-textPrimary font-bold rounded-xl text-sm transition font-body" @click="openCategoryManager">
           Gérer les catégories
         </button>
-        <button @click="openCreateArticleModal" class="bg-buttonPrimary hover:bg-buttonPrimaryDegrade1 text-textSecondary px-5 py-3 rounded-xl font-bold transition shadow-lg shadow-buttonPrimary/20 text-sm flex items-center gap-2 font-body">
-          <BaseIcon name="check" customClass="h-5 w-5" />
+        <button class="bg-buttonPrimary hover:bg-buttonPrimaryDegrade1 text-textSecondary px-5 py-3 rounded-xl font-bold transition shadow-lg shadow-buttonPrimary/20 text-sm flex items-center gap-2 font-body" @click="openCreateArticleModal">
+          <BaseIcon name="check" custom-class="h-5 w-5" />
           Écrire un article
         </button>
       </div>
@@ -28,33 +28,33 @@
 
         <div class="relative flex-[3] w-full">
           <span class="absolute left-4 top-1/2 -translate-y-1/2 text-textPrimary/40">
-            <BaseIcon name="search" customClass="h-5 w-5" />
+            <BaseIcon name="search" custom-class="h-5 w-5" />
           </span>
-          <input v-model="searchQuery" @input="onSearch" type="text" placeholder="Rechercher par titre, auteur..." class="w-full pl-12 pr-6 py-4 rounded-2xl bg-backgroundPrimary border border-textPrimary/5 focus:bg-textSecondary focus:ring-2 focus:ring-textVert outline-none transition-all text-textPrimary font-body" />
+          <input v-model="searchQuery" type="text" placeholder="Rechercher par titre, auteur..." class="w-full pl-12 pr-6 py-4 rounded-2xl bg-backgroundPrimary border border-textPrimary/5 focus:bg-textSecondary focus:ring-2 focus:ring-textVert outline-none transition-all text-textPrimary font-body" @input="onSearch" >
         </div>
 
         <div class="relative w-full lg:w-64">
-          <button @click="toggleDropdown('category')" type="button" class="w-full flex items-center justify-between px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body">
+          <button type="button" class="w-full flex items-center justify-between px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body" @click="toggleDropdown('category')">
             <span>{{ currentCategoryLabel }}</span>
-            <BaseIcon name="select-arrow" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200" :class="{ 'rotate-180': isCategoryDropdownOpen }" />
+            <BaseIcon name="select-arrow" custom-class="h-4 w-4 text-textPrimary/40 transition-transform duration-200" :class="{ 'rotate-180': isCategoryDropdownOpen }" />
           </button>
           <div v-if="isCategoryDropdownOpen" class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-40">
-            <div @click="selectCategory(null)" class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert" :class="{ 'bg-textVert/10 text-textVert font-bold': selectedCategory === null }">
+            <div class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert" :class="{ 'bg-textVert/10 text-textVert font-bold': selectedCategory === null }" @click="selectCategory(null)">
               Toutes les catégories
             </div>
-            <div v-for="cat in categories" :key="cat.id_categorie" @click="selectCategory(cat.id_categorie)" class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5" :class="{ 'bg-textVert/10 text-textVert font-bold': selectedCategory === cat.id_categorie }">
+            <div v-for="cat in categories" :key="cat.id_categorie" class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5" :class="{ 'bg-textVert/10 text-textVert font-bold': selectedCategory === cat.id_categorie }" @click="selectCategory(cat.id_categorie)">
               {{ cat.libelle_categorie }}
             </div>
           </div>
         </div>
 
         <div class="relative w-full lg:w-44">
-          <button @click="toggleDropdown('perPage')" type="button" class="w-full flex items-center justify-between px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body">
+          <button type="button" class="w-full flex items-center justify-between px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body" @click="toggleDropdown('perPage')">
             <span>Afficher : {{ perPage }}</span>
-            <BaseIcon name="select-arrow" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200" :class="{ 'rotate-180': isPerPageDropdownOpen }" />
+            <BaseIcon name="select-arrow" custom-class="h-4 w-4 text-textPrimary/40 transition-transform duration-200" :class="{ 'rotate-180': isPerPageDropdownOpen }" />
           </button>
           <div v-if="isPerPageDropdownOpen" class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-40">
-            <div v-for="size in [20, 50, 100, 500]" :key="size" @click="selectPerPage(size)" class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5 first:border-none" :class="{ 'bg-textVert/10 text-textVert font-bold': perPage === size }">
+            <div v-for="size in [20, 50, 100, 500]" :key="size" class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5 first:border-none" :class="{ 'bg-textVert/10 text-textVert font-bold': perPage === size }" @click="selectPerPage(size)">
               Afficher : {{ size }}
             </div>
           </div>
@@ -86,7 +86,7 @@
             <tr v-else-if="articles.length === 0" class="text-center">
               <td colspan="6" class="px-8 py-16 text-textPrimary/50 text-base">Aucun article trouvé.</td>
             </tr>
-            <tr v-else v-for="article in articles" :key="article.id_information" class="hover:bg-backgroundPrimary/40 transition-colors duration-200">
+            <tr v-for="article in articles" v-else :key="article.id_information" class="hover:bg-backgroundPrimary/40 transition-colors duration-200">
               <td class="px-6 py-5 pl-8 max-w-xs truncate font-bold text-textPrimary text-base">
                 {{ article.titre_information }}
               </td>
@@ -102,16 +102,17 @@
                 {{ article.utilisateur?.prenom || 'Admin' }}
               </td>
               <td class="px-6 py-5">
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold font-body"
+                <span
+class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold font-body"
                       :class="article.est_actif ? 'bg-textVert/10 text-textVert' : 'bg-gray-100 text-gray-500'">
                   {{ article.est_actif ? 'En ligne' : 'Masqué' }}
                 </span>
               </td>
               <td class="px-6 py-5 text-right pr-8 space-x-2 whitespace-nowrap">
-                <button @click="openEditArticleModal(article)" class="px-4 py-2 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 font-bold text-xs transition font-body">
+                <button class="px-4 py-2 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 font-bold text-xs transition font-body" @click="openEditArticleModal(article)">
                   Modifier
                 </button>
-                <button @click="toggleArticleStatus(article.id_information)" class="px-4 py-2 rounded-xl border border-textPrimary/10 text-textPrimary/70 hover:bg-backgroundPrimary font-bold text-xs transition font-body">
+                <button class="px-4 py-2 rounded-xl border border-textPrimary/10 text-textPrimary/70 hover:bg-backgroundPrimary font-bold text-xs transition font-body" @click="toggleArticleStatus(article.id_information)">
                   {{ article.est_actif ? 'Masquer' : 'Afficher' }}
                 </button>
               </td>
@@ -122,29 +123,29 @@
     </div>
 
     <div v-if="totalPages > 1" class="max-w-7xl mx-auto mt-12 flex justify-center items-center gap-4">
-      <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1" class="px-4 py-2 border border-textPrimary/10 rounded-xl bg-textSecondary disabled:opacity-30 hover:bg-backgroundPrimary transition text-sm font-medium font-body">Précédent</button>
+      <button :disabled="currentPage === 1" class="px-4 py-2 border border-textPrimary/10 rounded-xl bg-textSecondary disabled:opacity-30 hover:bg-backgroundPrimary transition text-sm font-medium font-body" @click="changePage(currentPage - 1)">Précédent</button>
       <span class="text-sm font-medium text-textPrimary/60 font-body">Page {{ currentPage }} sur {{ totalPages }}</span>
-      <button @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages" class="px-4 py-2 border border-textPrimary/10 rounded-xl bg-textSecondary disabled:opacity-30 hover:bg-backgroundPrimary transition text-sm font-medium font-body">Suivant</button>
+      <button :disabled="currentPage === totalPages" class="px-4 py-2 border border-textPrimary/10 rounded-xl bg-textSecondary disabled:opacity-30 hover:bg-backgroundPrimary transition text-sm font-medium font-body" @click="changePage(currentPage + 1)">Suivant</button>
     </div>
 
     <div v-if="showArticleModal" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
       <div class="bg-white rounded-[32px] p-8 w-full max-w-2xl shadow-2xl animate-in fade-in zoom-in duration-200 overflow-y-auto max-h-[90vh]">
         <h3 class="text-2xl font-serif font-bold text-textPrimary mb-6">{{ isEditingArticle ? 'Modifier l\'article' : 'Rédiger un article' }}</h3>
         
-        <form @submit.prevent="saveArticle" class="space-y-4">
+        <form class="space-y-4" @submit.prevent="saveArticle">
           <div class="space-y-1">
             <label class="text-xs font-bold text-textPrimary">Titre de l'article</label>
-            <input v-model="articleForm.titre_information" type="text" required class="w-full px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm text-textPrimary font-body" />
+            <input v-model="articleForm.titre_information" type="text" required class="w-full px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm text-textPrimary font-body" >
           </div>
           
           <div class="space-y-1 relative">
             <label class="text-xs font-bold text-textPrimary">Catégorie</label>
-            <button @click="isModalCategoryDropdownOpen = !isModalCategoryDropdownOpen" type="button" class="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm text-textPrimary text-left cursor-pointer font-body">
+            <button type="button" class="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm text-textPrimary text-left cursor-pointer font-body" @click="isModalCategoryDropdownOpen = !isModalCategoryDropdownOpen">
               <span>{{ currentModalCategoryLabel }}</span>
-              <BaseIcon name="chevron-down" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200" :class="{ 'rotate-180': isModalCategoryDropdownOpen }" />
+              <BaseIcon name="chevron-down" custom-class="h-4 w-4 text-textPrimary/40 transition-transform duration-200" :class="{ 'rotate-180': isModalCategoryDropdownOpen }" />
             </button>
             <div v-if="isModalCategoryDropdownOpen" class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-50 max-h-48 overflow-y-auto">
-              <div v-for="cat in categories" :key="cat.id_categorie" @click="selectModalCategory(cat.id_categorie)" class="px-4 py-2.5 text-sm cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5 first:border-none" :class="{ 'bg-textVert/10 text-textVert font-bold': articleForm.id_categorie === cat.id_categorie }">
+              <div v-for="cat in categories" :key="cat.id_categorie" class="px-4 py-2.5 text-sm cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5 first:border-none" :class="{ 'bg-textVert/10 text-textVert font-bold': articleForm.id_categorie === cat.id_categorie }" @click="selectModalCategory(cat.id_categorie)">
                 {{ cat.libelle_categorie }}
               </div>
             </div>
@@ -152,18 +153,18 @@
           
           <div class="space-y-1">
             <label class="text-xs font-bold text-textPrimary">Contenu de l'article</label>
-            <textarea v-model="articleForm.contenu_information" required rows="8" class="w-full px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm text-textPrimary resize-none font-body leading-relaxed"></textarea>
+            <textarea v-model="articleForm.contenu_information" required rows="8" class="w-full px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm text-textPrimary resize-none font-body leading-relaxed"/>
           </div>
           
           <div class="flex items-center gap-3 pt-2">
-            <input type="checkbox" id="art_actif" v-model="articleForm.est_actif" class="w-4 h-4 text-textVert bg-backgroundPrimary border-textPrimary/20 rounded focus:ring-textVert" />
+            <input id="art_actif" v-model="articleForm.est_actif" type="checkbox" class="w-4 h-4 text-textVert bg-backgroundPrimary border-textPrimary/20 rounded focus:ring-textVert" >
             <label for="art_actif" class="text-sm font-bold text-textPrimary cursor-pointer font-body">Article en ligne (visible par le public)</label>
           </div>
 
           <p v-if="articleError" class="text-red-500 text-xs font-bold mt-2 font-body">{{ articleError }}</p>
           
           <div class="flex justify-end gap-3 pt-6 border-t border-textPrimary/5">
-            <button type="button" @click="showArticleModal = false" class="px-5 py-2.5 text-sm font-bold text-textPrimary bg-gray-100 hover:bg-gray-200 rounded-xl transition font-body">Annuler</button>
+            <button type="button" class="px-5 py-2.5 text-sm font-bold text-textPrimary bg-gray-100 hover:bg-gray-200 rounded-xl transition font-body" @click="showArticleModal = false">Annuler</button>
             <button type="submit" :disabled="isSavingArticle" class="px-5 py-2.5 text-sm font-bold text-white bg-buttonPrimary hover:bg-buttonPrimaryDegrade1 rounded-xl transition disabled:opacity-50 font-body">
               {{ isSavingArticle ? 'Enregistrement...' : 'Enregistrer' }}
             </button>
@@ -176,15 +177,15 @@
       <div class="bg-white rounded-[32px] p-8 w-full max-w-lg shadow-2xl animate-in fade-in zoom-in duration-200">
         <div class="flex justify-between items-center mb-6">
           <h3 class="text-2xl font-serif font-bold text-textPrimary">Gestion des Catégories</h3>
-          <button @click="showCategoryManager = false" class="text-textPrimary/40 hover:text-textPrimary text-sm font-bold font-body">Fermer</button>
+          <button class="text-textPrimary/40 hover:text-textPrimary text-sm font-bold font-body" @click="showCategoryManager = false">Fermer</button>
         </div>
         
-        <form @submit.prevent="submitCategory" class="flex gap-2 mb-6 p-4 bg-backgroundPrimary/60 rounded-2xl border border-textPrimary/5">
-          <input v-model="catForm.libelle_categorie" type="text" required :placeholder="isEditingCat ? 'Modifier le nom...' : 'Nouvelle catégorie...'" class="flex-grow px-4 py-2.5 rounded-xl bg-white border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm text-textPrimary font-body" />
+        <form class="flex gap-2 mb-6 p-4 bg-backgroundPrimary/60 rounded-2xl border border-textPrimary/5" @submit.prevent="submitCategory">
+          <input v-model="catForm.libelle_categorie" type="text" required :placeholder="isEditingCat ? 'Modifier le nom...' : 'Nouvelle catégorie...'" class="flex-grow px-4 py-2.5 rounded-xl bg-white border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm text-textPrimary font-body" >
           <button type="submit" class="px-4 py-2.5 text-sm font-bold text-white bg-textVert hover:bg-textVert/90 rounded-xl transition font-body">
             {{ isEditingCat ? 'OK' : 'Ajouter' }}
           </button>
-          <button v-if="isEditingCat" type="button" @click="cancelCatEdit" class="px-2 text-xs text-textPrimary/50 font-bold hover:underline font-body">Annuler</button>
+          <button v-if="isEditingCat" type="button" class="px-2 text-xs text-textPrimary/50 font-bold hover:underline font-body" @click="cancelCatEdit">Annuler</button>
         </form>
 
         <p v-if="catError" class="text-red-500 text-xs font-bold mb-4 ml-1 font-body">{{ catError }}</p>
@@ -193,8 +194,8 @@
           <div v-for="cat in categories" :key="cat.id_categorie" class="flex items-center justify-between pt-2 first:pt-0 group">
             <span class="font-medium text-textPrimary text-sm font-body">{{ cat.libelle_categorie }}</span>
             <div class="space-x-2">
-              <button @click="startCatEdit(cat)" class="text-[11px] font-bold text-blue-600 hover:underline font-body">Modifier</button>
-              <button @click="deleteCategory(cat.id_categorie)" class="text-[11px] font-bold text-red-600 hover:underline font-body">Supprimer</button>
+              <button class="text-[11px] font-bold text-blue-600 hover:underline font-body" @click="startCatEdit(cat)">Modifier</button>
+              <button class="text-[11px] font-bold text-red-600 hover:underline font-body" @click="deleteCategory(cat.id_categorie)">Supprimer</button>
             </div>
           </div>
         </div>

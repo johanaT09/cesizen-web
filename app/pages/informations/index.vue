@@ -11,31 +11,37 @@
 
       <div class="flex flex-col md:flex-row gap-4 mt-8">
         <div class="relative flex-grow">
-          <input v-model="searchQuery" @input="onSearch" type="text" placeholder="Rechercher par titre, auteur..."
-            class="w-full px-5 py-4 rounded-2xl border border-textPrimary/10 bg-textSecondary focus:ring-2 focus:ring-textVert focus:border-textVert outline-none shadow-sm transition-all text-sm md:text-base text-textPrimary" />
+          <input
+v-model="searchQuery" type="text" placeholder="Rechercher par titre, auteur..." class="w-full px-5 py-4 rounded-2xl border border-textPrimary/10 bg-textSecondary focus:ring-2 focus:ring-textVert focus:border-textVert outline-none shadow-sm transition-all text-sm md:text-base text-textPrimary"
+            @input="onSearch" >
           <div class="absolute right-5 top-4 text-textPrimary/40 hidden sm:block">
-            <BaseIcon name="search" customClass="h-6 w-6" />
+            <BaseIcon name="search" custom-class="h-6 w-6" />
           </div>
         </div>
 
         <div class="relative w-full md:w-72">
-          <button @click="isCategoryDropdownOpen = !isCategoryDropdownOpen" type="button"
-            class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-textPrimary/10 bg-textSecondary text-textPrimary focus:ring-2 focus:ring-textVert focus:border-textVert outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer">
+          <button
+type="button" class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-textPrimary/10 bg-textSecondary text-textPrimary focus:ring-2 focus:ring-textVert focus:border-textVert outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer"
+            @click="isCategoryDropdownOpen = !isCategoryDropdownOpen">
             <span>{{ currentCategoryLabel }}</span>
-            <BaseIcon name="select-arrow" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+            <BaseIcon
+name="select-arrow" custom-class="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
               :class="{ 'rotate-180': isCategoryDropdownOpen }" />
           </button>
 
-          <div v-if="isCategoryDropdownOpen"
+          <div
+v-if="isCategoryDropdownOpen"
             class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-2xl shadow-xl overflow-hidden z-40">
-            <div @click="selectCategory(null)"
-              class="px-5 py-3.5 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
-              :class="{ 'bg-textVert/10 text-textVert font-bold': selectedCategory === null }">
+            <div
+class="px-5 py-3.5 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
+              :class="{ 'bg-textVert/10 text-textVert font-bold': selectedCategory === null }"
+              @click="selectCategory(null)">
               Toutes les catégories
             </div>
-            <div v-for="cat in categories" :key="cat.id_categorie" @click="selectCategory(cat.id_categorie)"
-              class="px-5 py-3.5 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
-              :class="{ 'bg-textVert/10 text-textVert font-bold': selectedCategory === cat.id_categorie }">
+            <div
+v-for="cat in categories" :key="cat.id_categorie" class="px-5 py-3.5 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
+              :class="{ 'bg-textVert/10 text-textVert font-bold': selectedCategory === cat.id_categorie }"
+              @click="selectCategory(cat.id_categorie)">
               {{ cat.libelle_categorie }}
             </div>
           </div>
@@ -52,7 +58,8 @@
         Aucun article trouvé.
       </div>
 
-      <article v-else v-for="article in articles" :key="article.id_information"
+      <article
+v-for="article in articles" v-else :key="article.id_information"
         class="bg-textSecondary p-6 md:p-8 rounded-3xl border border-textPrimary/5 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between">
         <div>
           <div class="flex flex-wrap items-center gap-2 mb-4">
@@ -73,22 +80,26 @@
           </p>
         </div>
 
-        <NuxtLink :to="`/informations/${article.id_information}`"
+        <NuxtLink
+:to="`/informations/${article.id_information}`"
           class="text-textVert font-semibold text-sm hover:underline inline-flex items-center gap-1 font-body">
           Lire l'article &rarr;
         </NuxtLink>
       </article>
     </div>
 
-    <div v-if="totalPages > 1"
+    <div
+v-if="totalPages > 1"
       class="max-w-7xl mx-auto mt-12 flex flex-col sm:flex-row justify-center items-center gap-4">
       <div class="flex gap-4">
-        <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1"
-          class="px-5 py-2 border border-textPrimary/10 rounded-xl bg-textSecondary text-textPrimary disabled:opacity-30 text-sm font-medium transition active:scale-95">
+        <button
+:disabled="currentPage === 1" class="px-5 py-2 border border-textPrimary/10 rounded-xl bg-textSecondary text-textPrimary disabled:opacity-30 text-sm font-medium transition active:scale-95"
+          @click="changePage(currentPage - 1)">
           Précédent
         </button>
-        <button @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages"
-          class="px-5 py-2 border border-textPrimary/10 rounded-xl bg-textSecondary text-textPrimary disabled:opacity-30 text-sm font-medium transition active:scale-95">
+        <button
+:disabled="currentPage === totalPages" class="px-5 py-2 border border-textPrimary/10 rounded-xl bg-textSecondary text-textPrimary disabled:opacity-30 text-sm font-medium transition active:scale-95"
+          @click="changePage(currentPage + 1)">
           Suivant
         </button>
       </div>

@@ -6,7 +6,7 @@
         <div class="md:col-span-5 md:col-start-2 lg:col-span-4 lg:col-start-2">
           <div class="flex items-center gap-4 mb-6">
             <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-white overflow-hidden p-0.5 shadow-sm">
-              <img src="/logo.png" alt="Logo CESIZen" class="h-full w-full object-contain" />
+              <img src="/logo.png" alt="Logo CESIZen" class="h-full w-full object-contain" >
             </div>
             <div class="flex flex-col leading-none">
               <span class="font-heading text-2xl font-bold uppercase tracking-tight">CESIZen</span>

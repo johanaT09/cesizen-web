@@ -3,7 +3,7 @@ import { Capacitor } from "@capacitor/core";
 export default defineNuxtRouteMiddleware((to) => {
   const authToken = useCookie("auth_token");
   const userRole = useCookie("user_role");
-  const isNative = process.client && Capacitor.isNativePlatform();
+  const isNative = import.meta.client && Capacitor.isNativePlatform();
 
   if (to.path.startsWith("/admin")) {
     if (isNative) {

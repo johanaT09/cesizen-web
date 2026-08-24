@@ -18,7 +18,7 @@
         <!-- Logo & Titre -->
         <NuxtLink to="/" class="flex items-center gap-2 transition-opacity hover:opacity-90">
           <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-white overflow-hidden p-0.5 shadow-sm">
-            <img src="/logo.png" alt="Logo CESIZen" class="h-full w-full object-contain" />
+            <img src="/logo.png" alt="Logo CESIZen" class="h-full w-full object-contain" >
           </div>
           <div class="flex flex-col leading-none ml-1">
             <span class="font-heading text-xl font-bold uppercase tracking-tight text-textPrimary">CESIZen</span>
@@ -30,7 +30,8 @@
         <!-- 💻 NAVIGATION DESKTOP (Ordinateur) -->
         <nav class="hidden items-center gap-1 md:flex">
           <template v-for="(item, index) in navLinks" :key="index">
-            <NuxtLink v-if="!item.children" :to="item.to"
+            <NuxtLink
+v-if="!item.children" :to="item.to"
               class="rounded-lg px-4 py-2 text-sm font-bold transition-colors"
               :class="[route.path === item.to ? 'bg-buttonPrimary/10 text-buttonPrimary' : 'text-textPrimary hover:bg-gray-100']">
               {{ item.label }}
@@ -41,11 +42,12 @@
                 class="flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-bold transition-colors text-textPrimary hover:bg-gray-100"
                 :class="route.path.startsWith('/admin') ? 'bg-buttonPrimary/10 text-buttonPrimary' : ''">
                 {{ item.label }}
-                <BaseIcon name="chevron-down" customClass="h-4 w-4 transition-transform group-hover:rotate-180" />
+                <BaseIcon name="chevron-down" custom-class="h-4 w-4 transition-transform group-hover:rotate-180" />
               </button>
               <div class="absolute left-0 top-full hidden w-56 pt-2 group-hover:block z-50">
                 <div class="rounded-xl bg-textSecondary shadow-xl border border-textPrimary/5 py-2 overflow-hidden">
-                  <NuxtLink v-for="subItem in item.children" :key="subItem.to" :to="subItem.to"
+                  <NuxtLink
+v-for="subItem in item.children" :key="subItem.to" :to="subItem.to"
                     class="block px-4 py-2.5 text-sm font-medium text-textPrimary/80 hover:bg-buttonPrimary/5 hover:text-buttonPrimary transition-colors"
                     active-class="bg-buttonPrimary/5 text-buttonPrimary font-bold">
                     {{ subItem.label }}
@@ -65,14 +67,15 @@
               <NuxtLink to="/profil" class="text-sm font-bold text-textPrimary hover:text-buttonPrimary capitalize">
                 {{ userPrenom || 'Mon compte' }}
               </NuxtLink>
-              <button @click="handleLogout" class="px-4 py-2 text-sm font-bold text-red-500 hover:bg-red-50 rounded-lg">
+              <button class="px-4 py-2 text-sm font-bold text-red-500 hover:bg-red-50 rounded-lg" @click="handleLogout">
                 Déconnexion
               </button>
             </template>
             <template v-else>
               <NuxtLink to="/auth/login" class="text-sm font-bold text-textPrimary hover:text-buttonPrimary">Connexion
               </NuxtLink>
-              <NuxtLink to="/auth/inscription"
+              <NuxtLink
+to="/auth/inscription"
                 class="rounded-full bg-buttonPrimaryDegrade1 px-6 py-2.5 text-sm font-bold text-white shadow-md">
                 Créer un compte
               </NuxtLink>
@@ -80,22 +83,26 @@
           </div>
 
           <!-- 📱 BOUTON MENU BURGER (3 tirets) : Uniquement sur Site Web Mobile -->
-          <button v-if="!isNative" @click="isMenuOpen = !isMenuOpen" type="button"
-            class="md:hidden text-textPrimary hover:bg-gray-100 p-2 rounded-xl transition-colors outline-none">
-            <svg v-if="!isMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+          <button
+v-if="!isNative" type="button" class="md:hidden text-textPrimary hover:bg-gray-100 p-2 rounded-xl transition-colors outline-none"
+            @click="isMenuOpen = !isMenuOpen">
+            <svg
+v-if="!isMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
               stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
-            <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+            <svg
+v-else xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
               stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
 
           <!-- 📲 BOUTON DECONNEXION APPLI NATIVE (Capacitor) -->
-          <button v-if="isLoggedIn && isNative" @click="handleLogout"
-            class="md:hidden flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-50 text-red-500 hover:bg-red-100 active:scale-95 transition-all">
-            <BaseIcon name="logout" customClass="h-4 w-4" />
+          <button
+v-if="isLoggedIn && isNative" class="md:hidden flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-50 text-red-500 hover:bg-red-100 active:scale-95 transition-all"
+            @click="handleLogout">
+            <BaseIcon name="logout" custom-class="h-4 w-4" />
             <span class="text-xs font-bold tracking-wide">Déconnexion</span>
           </button>
         </div>
@@ -103,34 +110,40 @@
       </div>
 
       <!-- 📱 👑 NOUVEAU CALQUE FLOTTANT (OVERLAY) : Passe en 'absolute' pour flotter au-dessus -->
-      <div v-if="isMenuOpen && !isNative"
+      <div
+v-if="isMenuOpen && !isNative"
         class="absolute top-full left-0 right-0 md:hidden border-b border-gray-200 bg-textSecondary shadow-2xl py-5 px-6 space-y-4 animate-in slide-in-from-top duration-200 z-50">
 
         <!-- Liste verticale des liens -->
         <div class="flex flex-col gap-1">
           <template v-for="(item, index) in navLinks" :key="index">
-            <NuxtLink v-if="!item.children" :to="item.to" @click="isMenuOpen = false"
-              class="block rounded-xl px-4 py-2.5 text-sm font-bold text-textPrimary hover:bg-gray-50"
-              active-class="bg-buttonPrimary/10 text-buttonPrimary">
+            <NuxtLink
+v-if="!item.children" :to="item.to" class="block rounded-xl px-4 py-2.5 text-sm font-bold text-textPrimary hover:bg-gray-50"
+              active-class="bg-buttonPrimary/10 text-buttonPrimary"
+              @click="isMenuOpen = false">
               {{ item.label }}
             </NuxtLink>
 
             <div v-else class="mt-1 flex flex-col">
-              <button @click="isMobileAdminOpen = !isMobileAdminOpen" type="button"
-                class="flex items-center justify-between w-full rounded-xl px-4 py-2.5 text-sm font-bold text-textPrimary hover:bg-gray-50 outline-none text-left"
-                :class="route.path.startsWith('/admin') ? 'text-buttonPrimary bg-buttonPrimary/5' : ''">
+              <button
+type="button" class="flex items-center justify-between w-full rounded-xl px-4 py-2.5 text-sm font-bold text-textPrimary hover:bg-gray-50 outline-none text-left"
+                :class="route.path.startsWith('/admin') ? 'text-buttonPrimary bg-buttonPrimary/5' : ''"
+                @click="isMobileAdminOpen = !isMobileAdminOpen">
                 <span>{{ item.label }}</span>
-                <BaseIcon name="chevron-down"
-                  customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+                <BaseIcon
+name="chevron-down"
+                  custom-class="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
                   :class="{ 'rotate-180': isMobileAdminOpen }" />
               </button>
 
-              <div v-if="isMobileAdminOpen"
+              <div
+v-if="isMobileAdminOpen"
                 class="mt-1 ml-2 space-y-1 bg-backgroundPrimary/40 rounded-2xl p-2 border border-textPrimary/5 animate-in fade-in slide-in-from-top-2 duration-150">
-                <NuxtLink v-for="subItem in item.children" :key="subItem.to" :to="subItem.to"
-                  @click="isMenuOpen = false; isMobileAdminOpen = false"
+                <NuxtLink
+v-for="subItem in item.children" :key="subItem.to" :to="subItem.to"
                   class="block rounded-lg px-4 py-2 text-sm font-medium text-textPrimary/80 hover:bg-gray-50"
-                  active-class="text-buttonPrimary font-bold bg-white shadow-sm">
+                  active-class="text-buttonPrimary font-bold bg-white shadow-sm"
+                  @click="isMenuOpen = false; isMobileAdminOpen = false">
                   {{ subItem.label }}
                 </NuxtLink>
               </div>
@@ -140,24 +153,28 @@
 
         <div class="border-t border-gray-100 pt-4">
           <template v-if="isLoggedIn">
-            <NuxtLink to="/profil" @click="isMenuOpen = false"
-              class="flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-textPrimary hover:bg-gray-50 capitalize mb-2"
-              active-class="bg-buttonPrimary/10 text-buttonPrimary">
+            <NuxtLink
+to="/profil" class="flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-textPrimary hover:bg-gray-50 capitalize mb-2"
+              active-class="bg-buttonPrimary/10 text-buttonPrimary"
+              @click="isMenuOpen = false">
               {{ userPrenom || 'Mon compte' }}
             </NuxtLink>
-            <button @click="handleLogout(); isMenuOpen = false"
-              class="w-full text-left px-4 py-2.5 text-sm font-bold text-red-500 hover:bg-red-50 rounded-xl transition-colors">
+            <button
+class="w-full text-left px-4 py-2.5 text-sm font-bold text-red-500 hover:bg-red-50 rounded-xl transition-colors"
+              @click="handleLogout(); isMenuOpen = false">
               Déconnexion
             </button>
           </template>
           <template v-else>
-            <NuxtLink to="/auth/login" @click="isMenuOpen = false"
-              class="block px-4 py-2.5 text-sm font-bold text-textPrimary hover:bg-gray-50 mb-2"
-              active-class="bg-buttonPrimary/10 text-buttonPrimary">
+            <NuxtLink
+to="/auth/login" class="block px-4 py-2.5 text-sm font-bold text-textPrimary hover:bg-gray-50 mb-2"
+              active-class="bg-buttonPrimary/10 text-buttonPrimary"
+              @click="isMenuOpen = false">
               Connexion
             </NuxtLink>
-            <NuxtLink to="/auth/inscription" @click="isMenuOpen = false"
-              class="block text-center rounded-xl bg-buttonPrimaryDegrade1 px-6 py-3 text-sm font-bold text-white shadow-md">
+            <NuxtLink
+to="/auth/inscription" class="block text-center rounded-xl bg-buttonPrimaryDegrade1 px-6 py-3 text-sm font-bold text-white shadow-md"
+              @click="isMenuOpen = false">
               Créer un compte
             </NuxtLink>
           </template>
@@ -184,7 +201,7 @@ const isMobileAdminOpen = ref(false)
 
 const isLoggedIn = computed(() => !!authToken.value)
 const isAdmin = computed(() => isLoggedIn.value && String(userRole.value) === '2')
-const isNative = computed(() => process.client && Capacitor.isNativePlatform())
+const isNative = computed(() => import.meta.client && Capacitor.isNativePlatform())
 
 const navLinks = computed(() => {
   const links: any[] = [

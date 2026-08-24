@@ -4,9 +4,10 @@
             class="bg-textSecondary p-8 md:p-10 rounded-[32px] shadow-xl shadow-textPrimary/5 w-full max-w-[480px] border border-textPrimary/5">
 
             <div class="mb-6">
-                <NuxtLink to="/auth/login"
+                <NuxtLink
+to="/auth/login"
                     class="text-textVert hover:underline inline-flex items-center gap-2 text-sm font-body">
-                    <BaseIcon name="arrow-left" customClass="h-4 w-4" /> Retour à la connexion
+                    <BaseIcon name="arrow-left" custom-class="h-4 w-4" /> Retour à la connexion
                 </NuxtLink>
             </div>
 
@@ -17,20 +18,23 @@
                 </p>
             </div>
 
-            <form @submit.prevent="handleSubmit" class="space-y-5">
+            <form class="space-y-5" @submit.prevent="handleSubmit">
                 <div class="space-y-2">
                     <label for="email" class="block text-sm font-bold text-textPrimary">Adresse e-mail</label>
-                    <input id="email" type="email" v-model="email" placeholder="utilisateur@example.com,"
+                    <input
+id="email" v-model="email" type="email" placeholder="utilisateur@example.com,"
                         class="w-full px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20 outline-none transition-all text-sm text-textPrimary font-body"
-                        required />
+                        required >
                 </div>
 
-                <p v-if="statusMessage" class="text-xs font-bold p-3 rounded-xl text-center font-body"
+                <p
+v-if="statusMessage" class="text-xs font-bold p-3 rounded-xl text-center font-body"
                     :class="statusType === 'success' ? 'bg-textVert/10 text-textVert' : 'bg-red-500/10 text-red-500'">
                     {{ statusMessage }}
                 </p>
 
-                <button type="submit" :disabled="loading"
+                <button
+type="submit" :disabled="loading"
                     class="w-full bg-buttonPrimary hover:bg-buttonPrimaryDegrade1 text-textSecondary font-bold py-3.5 rounded-xl shadow-lg shadow-buttonPrimary/20 transition-all active:scale-[0.98] text-sm disabled:opacity-50">
                     {{ loading ? 'Envoi en cours...' : 'Envoyer la demande' }}
                 </button>

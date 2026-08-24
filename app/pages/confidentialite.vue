@@ -9,7 +9,7 @@
       <h1 class="text-3xl font-bold text-textPrimary font-heading">Politique de Confidentialité</h1>
       <p class="text-xs text-textPrimary/50">Dernière mise à jour : Mai 2026</p>
 
-      <hr class="border-textPrimary/5" />
+      <hr class="border-textPrimary/5" >
 
       <section class="space-y-3">
         <h2 class="text-xl font-bold text-textPrimary">1. Collecte des données</h2>

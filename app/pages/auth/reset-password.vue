@@ -9,7 +9,7 @@
         </p>
       </div>
 
-      <form @submit.prevent="handleReset" class="space-y-5">
+      <form class="space-y-5" @submit.prevent="handleReset">
         <div class="space-y-2">
           <label class="block text-sm font-bold text-textPrimary">Adresse e-mail validée</label>
           <input 
@@ -17,7 +17,7 @@
             type="email" 
             disabled
             class="w-full px-4 py-3 rounded-xl bg-gray-50 text-textPrimary/50 border border-textPrimary/5 outline-none text-sm font-body cursor-not-allowed"
-          />
+          >
         </div>
 
         <div class="space-y-2">
@@ -29,7 +29,7 @@
             placeholder="Minimum 8 caractères"
             class="w-full px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20 outline-none transition-all text-sm text-textPrimary font-body"
             required
-          />
+          >
         </div>
 
         <div class="space-y-2">
@@ -41,10 +41,11 @@
             placeholder="••••••••"
             class="w-full px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20 outline-none transition-all text-sm text-textPrimary font-body"
             required
-          />
+          >
         </div>
 
-        <p v-if="statusMessage" class="text-xs font-bold p-3 rounded-xl text-center font-body"
+        <p
+v-if="statusMessage" class="text-xs font-bold p-3 rounded-xl text-center font-body"
           :class="statusType === 'success' ? 'bg-textVert/10 text-textVert' : 'bg-red-500/10 text-red-500'">
           {{ statusMessage }}
         </p>

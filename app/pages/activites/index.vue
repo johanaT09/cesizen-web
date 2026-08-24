@@ -14,7 +14,8 @@
       </div>
 
       <div v-if="isLoggedIn" class="flex items-center gap-3 self-start md:self-end">
-        <NuxtLink to="/activites/reprendre"
+        <NuxtLink
+to="/activites/reprendre"
           class="bg-textSecondary hover:bg-backgroundPrimary border border-textPrimary/10 text-textPrimary px-5 py-3 rounded-xl font-bold transition shadow-sm text-sm flex items-center gap-2 font-body">
           <BaseIcon name="select-arrow" class="h-4 w-4 rotate-90 text-textVert" />
           Continuer mes lectures
@@ -27,53 +28,64 @@
 
         <div class="relative flex-[3] w-full">
           <span class="absolute left-4 top-1/2 -translate-y-1/2 text-textPrimary/40">
-            <BaseIcon name="search" customClass="h-5 w-5" />
+            <BaseIcon name="search" custom-class="h-5 w-5" />
           </span>
-          <input v-model="filters.search" @input="onSearch" type="text" placeholder="Rechercher par titre uniquement..."
-            class="w-full pl-12 pr-6 py-4 rounded-2xl bg-backgroundPrimary border border-textPrimary/5 focus:bg-textSecondary focus:ring-2 focus:ring-textVert outline-none transition-all text-textPrimary font-body" />
+          <input
+v-model="filters.search" type="text" placeholder="Rechercher par titre uniquement..." class="w-full pl-12 pr-6 py-4 rounded-2xl bg-backgroundPrimary border border-textPrimary/5 focus:bg-textSecondary focus:ring-2 focus:ring-textVert outline-none transition-all text-textPrimary font-body"
+            @input="onSearch" >
         </div>
 
         <div class="relative w-full lg:w-64">
-          <button @click="isCategoryDropdownOpen = !isCategoryDropdownOpen; isTypeDropdownOpen = false" type="button"
-            class="w-full flex items-center justify-between px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body">
+          <button
+type="button" class="w-full flex items-center justify-between px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body"
+            @click="isCategoryDropdownOpen = !isCategoryDropdownOpen; isTypeDropdownOpen = false">
             <span>{{ currentCategoryLabel }}</span>
-            <BaseIcon name="select-arrow" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+            <BaseIcon
+name="select-arrow" custom-class="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
               :class="{ 'rotate-180': isCategoryDropdownOpen }" />
           </button>
 
-          <div v-if="isCategoryDropdownOpen"
+          <div
+v-if="isCategoryDropdownOpen"
             class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-40">
-            <div @click="selectCategory(null)"
-              class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
-              :class="{ 'bg-textVert/10 text-textVert font-bold': filters.category_id === null }">
+            <div
+class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
+              :class="{ 'bg-textVert/10 text-textVert font-bold': filters.category_id === null }"
+              @click="selectCategory(null)">
               Catégorie : Toutes
             </div>
-            <div v-for="cat in categories" :key="cat.id_categorie" @click="selectCategory(cat.id_categorie)"
-              class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
-              :class="{ 'bg-textVert/10 text-textVert font-bold': filters.category_id === cat.id_categorie }">
+            <div
+v-for="cat in categories" :key="cat.id_categorie" class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
+              :class="{ 'bg-textVert/10 text-textVert font-bold': filters.category_id === cat.id_categorie }"
+              @click="selectCategory(cat.id_categorie)">
               {{ cat.libelle_categorie }}
             </div>
           </div>
         </div>
 
         <div class="relative w-full lg:w-64">
-          <button @click="isTypeDropdownOpen = !isTypeDropdownOpen; isCategoryDropdownOpen = false" type="button"
-            class="w-full flex items-center justify-between px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body">
+          <button
+type="button" class="w-full flex items-center justify-between px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body"
+            @click="isTypeDropdownOpen = !isTypeDropdownOpen; isCategoryDropdownOpen = false">
             <span>{{ currentTypeLabel }}</span>
-            <BaseIcon name="select-arrow" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+            <BaseIcon
+name="select-arrow" custom-class="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
               :class="{ 'rotate-180': isTypeDropdownOpen }" />
           </button>
 
-          <div v-if="isTypeDropdownOpen"
+          <div
+v-if="isTypeDropdownOpen"
             class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-40">
-            <div @click="selectType(null)"
-              class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
-              :class="{ 'bg-textVert/10 text-textVert font-bold': filters.type_id === null }">
+            <div
+class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
+              :class="{ 'bg-textVert/10 text-textVert font-bold': filters.type_id === null }"
+              @click="selectType(null)">
               Type : Tous les types
             </div>
-            <div v-for="t in types" :key="t.id_type" @click="selectType(t.id_type)"
-              class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
-              :class="{ 'bg-textVert/10 text-textVert font-bold': filters.type_id === t.id_type }">
+            <div
+v-for="t in types" :key="t.id_type" class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
+              :class="{ 'bg-textVert/10 text-textVert font-bold': filters.type_id === t.id_type }"
+              @click="selectType(t.id_type)">
               {{ t.libelle_type }}
             </div>
           </div>
@@ -94,21 +106,25 @@
         Aucune activité trouvée.
       </div>
 
-      <article v-else v-for="act in activities" :key="act.id_activite"
+      <article
+v-for="act in activities" v-else :key="act.id_activite"
         class="bg-textSecondary rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col border border-textPrimary/5 relative">
 
-        <button v-if="isLoggedIn" @click.stop.prevent="handleToggleFavori(act.id_activite)"
-          class="absolute top-4 right-4 z-10 p-2.5 rounded-full backdrop-blur-md transition-all duration-200 shadow-sm border flex items-center justify-center"
+        <button
+v-if="isLoggedIn" class="absolute top-4 right-4 z-10 p-2.5 rounded-full backdrop-blur-md transition-all duration-200 shadow-sm border flex items-center justify-center"
           :class="favoriIds.includes(act.id_activite) ? 'bg-textVert/10 border-textVert/20 text-textVert' : 'bg-white/80 border-black/5 text-textPrimary/40 hover:text-textVert hover:bg-white'"
-          title="Ajouter aux favoris">
-          <BaseIcon :name="favoriIds.includes(act.id_activite) ? 'heart-filled' : 'heart-outline'"
-            customClass="h-5 w-5" />
+          title="Ajouter aux favoris"
+          @click.stop.prevent="handleToggleFavori(act.id_activite)">
+          <BaseIcon
+:name="favoriIds.includes(act.id_activite) ? 'heart-filled' : 'heart-outline'"
+            custom-class="h-5 w-5" />
         </button>
 
         <div class="h-64 w-full bg-textVert/5 overflow-hidden relative">
-          <img :src="getActivityImage(act)"
+          <img
+:src="getActivityImage(act)"
             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            alt="Illustration de l'activité" />
+            alt="Illustration de l'activité" >
         </div>
 
         <div class="p-8 flex flex-col flex-grow">
@@ -131,7 +147,8 @@
           </p>
 
           <div class="mt-auto">
-            <NuxtLink :to="`/activites/${act.id_activite}`"
+            <NuxtLink
+:to="`/activites/${act.id_activite}`"
               class="text-textVert font-bold text-sm hover:underline font-body">
               Voir l'activité &rarr;
             </NuxtLink>
@@ -141,8 +158,9 @@
     </div>
 
     <div v-if="totalPages > 1" class="max-w-7xl mx-auto mt-12 flex justify-center items-center gap-4">
-      <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1"
-        class="px-4 py-2 border border-textPrimary/10 rounded-xl bg-textSecondary text-textPrimary disabled:opacity-30 disabled:cursor-not-allowed hover:bg-backgroundPrimary transition text-sm font-medium font-body">
+      <button
+:disabled="currentPage === 1" class="px-4 py-2 border border-textPrimary/10 rounded-xl bg-textSecondary text-textPrimary disabled:opacity-30 disabled:cursor-not-allowed hover:bg-backgroundPrimary transition text-sm font-medium font-body"
+        @click="changePage(currentPage - 1)">
         Précédent
       </button>
 
@@ -150,8 +168,9 @@
         Page {{ currentPage }} sur {{ totalPages }}
       </span>
 
-      <button @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages"
-        class="px-4 py-2 border border-textPrimary/10 rounded-xl bg-textSecondary text-textPrimary disabled:opacity-30 disabled:cursor-not-allowed hover:bg-backgroundPrimary transition text-sm font-medium font-body">
+      <button
+:disabled="currentPage === totalPages" class="px-4 py-2 border border-textPrimary/10 rounded-xl bg-textSecondary text-textPrimary disabled:opacity-30 disabled:cursor-not-allowed hover:bg-backgroundPrimary transition text-sm font-medium font-body"
+        @click="changePage(currentPage + 1)">
         Suivant
       </button>
     </div>

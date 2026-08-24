@@ -2,9 +2,10 @@
   <div class="bg-backgroundPrimary min-h-screen py-8 md:py-16 px-4 sm:px-8">
     <div class="max-w-3xl mx-auto">
 
-      <NuxtLink to="/informations"
+      <NuxtLink
+to="/informations"
         class="text-textVert hover:underline inline-flex items-center gap-2 font-medium mb-6 md:mb-10 text-sm font-body">
-        <BaseIcon name="arrow-left" customClass="h-4 w-4" />
+        <BaseIcon name="arrow-left" custom-class="h-4 w-4" />
         Retour
       </NuxtLink>
 
@@ -12,7 +13,8 @@
         Chargement de l'article...
       </div>
 
-      <article v-else-if="article"
+      <article
+v-else-if="article"
         class="bg-textSecondary p-6 md:p-12 rounded-3xl shadow-sm border border-textPrimary/5">
         <header class="mb-8">
           <div class="mb-4">

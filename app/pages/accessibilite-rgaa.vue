@@ -8,7 +8,7 @@
 
       <h1 class="text-3xl font-bold text-textPrimary font-heading">Déclaration d'Accessibilité</h1>
       
-      <hr class="border-textPrimary/5" />
+      <hr class="border-textPrimary/5" >
 
       <section class="space-y-3">
         <h2 class="text-xl font-bold text-textPrimary">Conformité au RGAA</h2>

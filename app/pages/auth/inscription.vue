@@ -10,32 +10,37 @@
         </p>
       </div>
 
-      <form @submit.prevent="handleRegister" class="space-y-5">
+      <form class="space-y-5" @submit.prevent="handleRegister">
 
         <div class="space-y-2">
           <label for="firstName" class="block text-sm font-bold text-textPrimary">* Prénom</label>
-          <input id="firstName" type="text" v-model="form.firstName" @blur="touched.firstName = true"
-            placeholder="Votre prénom"
+          <input
+id="firstName" v-model="form.firstName" type="text" placeholder="Votre prénom"
             :class="['w-full px-4 py-3 rounded-xl bg-backgroundPrimary border outline-none transition-all text-sm text-textPrimary', fieldErrors.firstName ? 'border-red-500 ring-1 ring-red-500/10' : 'border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20']"
-            required />
+            required
+            @blur="touched.firstName = true" >
           <p v-if="fieldErrors.firstName" class="text-red-500 text-[10px] font-bold italic">{{ fieldErrors.firstName }}
           </p>
         </div>
 
         <div class="space-y-2 relative">
           <label for="gender" class="block text-sm font-bold text-textPrimary">* Genre</label>
-          <button @click="isGenderDropdownOpen = !isGenderDropdownOpen" type="button"
-            :class="['w-full flex items-center justify-between px-4 py-3 rounded-xl bg-backgroundPrimary border outline-none transition-all text-sm text-textPrimary text-left cursor-pointer', fieldErrors.genderId ? 'border-red-500' : 'border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20']">
+          <button
+type="button" :class="['w-full flex items-center justify-between px-4 py-3 rounded-xl bg-backgroundPrimary border outline-none transition-all text-sm text-textPrimary text-left cursor-pointer', fieldErrors.genderId ? 'border-red-500' : 'border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20']"
+            @click="isGenderDropdownOpen = !isGenderDropdownOpen">
             <span>{{ currentGenderLabel }}</span>
-            <BaseIcon name="chevron-down" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+            <BaseIcon
+name="chevron-down" custom-class="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
               :class="{ 'rotate-180': isGenderDropdownOpen }" />
           </button>
           
-          <div v-if="isGenderDropdownOpen"
+          <div
+v-if="isGenderDropdownOpen"
             class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-40">
-            <div v-for="genre in genres" :key="genre.id_genre" @click="selectGender(genre.id_genre)"
-              class="px-4 py-3 text-sm cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5 first:border-none"
-              :class="{ 'bg-textVert/10 text-textVert font-bold': form.genderId === genre.id_genre }">
+            <div
+v-for="genre in genres" :key="genre.id_genre" class="px-4 py-3 text-sm cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5 first:border-none"
+              :class="{ 'bg-textVert/10 text-textVert font-bold': form.genderId === genre.id_genre }"
+              @click="selectGender(genre.id_genre)">
               {{ genre.libelle_genre }}
             </div>
           </div>
@@ -46,12 +51,15 @@
         <div class="space-y-2">
           <label class="block text-sm font-bold text-textPrimary">* Date de naissance</label>
           <div class="grid grid-cols-3 gap-2">
-            <input v-model="birthDateSplit.day" type="text" inputmode="numeric" maxlength="2" placeholder="JJ" @blur="touched.birthday = true"
-              :class="['w-full px-4 py-3 rounded-xl bg-backgroundPrimary border outline-none transition-all text-center text-sm text-textPrimary', fieldErrors.birthday ? 'border-red-500' : 'border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20']" required />
-            <input v-model="birthDateSplit.month" type="text" inputmode="numeric" maxlength="2" placeholder="MM" @blur="touched.birthday = true"
-              :class="['w-full px-4 py-3 rounded-xl bg-backgroundPrimary border outline-none transition-all text-center text-sm text-textPrimary', fieldErrors.birthday ? 'border-red-500' : 'border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20']" required />
-            <input v-model="birthDateSplit.year" type="text" inputmode="numeric" maxlength="4" placeholder="AAAA" @blur="touched.birthday = true"
-              :class="['w-full px-4 py-3 rounded-xl bg-backgroundPrimary border outline-none transition-all text-center text-sm text-textPrimary', fieldErrors.birthday ? 'border-red-500' : 'border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20']" required />
+            <input
+v-model="birthDateSplit.day" type="text" inputmode="numeric" maxlength="2" placeholder="JJ" :class="['w-full px-4 py-3 rounded-xl bg-backgroundPrimary border outline-none transition-all text-center text-sm text-textPrimary', fieldErrors.birthday ? 'border-red-500' : 'border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20']"
+              required @blur="touched.birthday = true" >
+            <input
+v-model="birthDateSplit.month" type="text" inputmode="numeric" maxlength="2" placeholder="MM" :class="['w-full px-4 py-3 rounded-xl bg-backgroundPrimary border outline-none transition-all text-center text-sm text-textPrimary', fieldErrors.birthday ? 'border-red-500' : 'border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20']"
+              required @blur="touched.birthday = true" >
+            <input
+v-model="birthDateSplit.year" type="text" inputmode="numeric" maxlength="4" placeholder="AAAA" :class="['w-full px-4 py-3 rounded-xl bg-backgroundPrimary border outline-none transition-all text-center text-sm text-textPrimary', fieldErrors.birthday ? 'border-red-500' : 'border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20']"
+              required @blur="touched.birthday = true" >
           </div>
           <p v-if="fieldErrors.birthday" class="text-red-500 text-[10px] font-bold italic">{{ fieldErrors.birthday }}
           </p>
@@ -59,29 +67,32 @@
 
         <div class="space-y-2">
           <label for="email" class="block text-sm font-bold text-textPrimary">* Adresse email</label>
-          <input id="email" type="email" v-model="form.email" @blur="touched.email = true" placeholder="votre@email.com"
-            :class="['w-full px-4 py-3 rounded-xl bg-backgroundPrimary border outline-none transition-all text-sm text-textPrimary', fieldErrors.email ? 'border-red-500' : 'border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20']"
-            required />
+          <input
+id="email" v-model="form.email" type="email" placeholder="votre@email.com" :class="['w-full px-4 py-3 rounded-xl bg-backgroundPrimary border outline-none transition-all text-sm text-textPrimary', fieldErrors.email ? 'border-red-500' : 'border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20']"
+            required
+            @blur="touched.email = true" >
           <p v-if="fieldErrors.email" class="text-red-500 text-[10px] font-bold italic">{{ fieldErrors.email }}</p>
         </div>
 
         <div class="space-y-2">
           <label for="password" class="block text-sm font-bold text-textPrimary">* Mot de passe</label>
-          <input id="password" type="password" v-model="form.password" @input="touched.password = true"
-            @blur="touched.password = true" placeholder="8 caractères minimum"
-            :class="['w-full px-4 py-3 rounded-xl bg-backgroundPrimary border outline-none transition-all text-sm text-textPrimary', fieldErrors.password ? 'border-red-500' : 'border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20']"
-            required />
+          <input
+id="password" v-model="form.password" type="password" placeholder="8 caractères minimum"
+            :class="['w-full px-4 py-3 rounded-xl bg-backgroundPrimary border outline-none transition-all text-sm text-textPrimary', fieldErrors.password ? 'border-red-500' : 'border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20']" required
+            @input="touched.password = true"
+            @blur="touched.password = true" >
           <p v-if="fieldErrors.password" class="text-red-500 text-[10px] font-bold italic">{{ fieldErrors.password }}
           </p>
         </div>
 
         <div class="flex items-start gap-3 py-2">
-          <input type="checkbox" id="terms" v-model="form.acceptTerms"
+          <input
+id="terms" v-model="form.acceptTerms" type="checkbox"
             class="mt-1 w-4 h-4 rounded border-textPrimary/20 text-textVert focus:ring-textVert bg-backgroundPrimary"
-            required />
+            required >
           <label for="terms" class="text-xs text-textPrimary/60 leading-normal font-body">
             * J'accepte la réglementation RGPD et la politique de confidentialité.
-            <button @click.prevent="isRgpdModalOpen = true" type="button" class="inline-flex items-center justify-center text-textVert hover:text-buttonPrimaryDegrade1 font-bold ml-1 transition-colors align-middle" aria-label="Plus d'informations sur la politique RGPD">
+            <button type="button" class="inline-flex items-center justify-center text-textVert hover:text-buttonPrimaryDegrade1 font-bold ml-1 transition-colors align-middle" aria-label="Plus d'informations sur la politique RGPD" @click.prevent="isRgpdModalOpen = true">
               <span class="flex items-center justify-center border border-textVert rounded-full w-4 h-4 text-[10px] font-sans pb-0.5">i</span>
             </button>
           </label>
@@ -89,7 +100,8 @@
 
         <p v-if="errorMessage" class="text-red-500 text-xs text-center font-bold mb-4">{{ errorMessage }}</p>
 
-        <button type="submit" :disabled="isFormInvalid"
+        <button
+type="submit" :disabled="isFormInvalid"
           :class="['w-full font-bold py-3.5 rounded-xl shadow-lg transition-all active:scale-[0.98] text-sm text-textSecondary', isFormInvalid ? 'bg-textPrimary/10 shadow-none cursor-not-allowed text-textPrimary/40' : 'bg-textVert hover:bg-buttonPrimaryDegrade1 shadow-textVert/20']">
           {{ loading ? 'Chargement...' : 'Créer mon compte' }}
         </button>
@@ -127,7 +139,7 @@
             </p>
           </div>
 
-          <button @click="isRgpdModalOpen = false" type="button" class="mt-6 w-full bg-textVert text-textSecondary font-bold py-2.5 rounded-xl text-sm transition-all active:scale-[0.98]">
+          <button type="button" class="mt-6 w-full bg-textVert text-textSecondary font-bold py-2.5 rounded-xl text-sm transition-all active:scale-[0.98]" @click="isRgpdModalOpen = false">
             Compris
           </button>
         </div>
