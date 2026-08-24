@@ -12,9 +12,10 @@
         </header>
 
         <div class="max-w-7xl mx-auto flex justify-end mb-6">
-            <button @click="openCreateModal"
-                class="bg-buttonPrimary hover:bg-buttonPrimaryDegrade1 text-textSecondary px-6 py-3 rounded-xl font-bold transition-all shadow-lg shadow-buttonPrimary/20 text-sm flex items-center gap-2">
-                <BaseIcon name="check" customClass="h-5 w-5" />
+            <button
+class="bg-buttonPrimary hover:bg-buttonPrimaryDegrade1 text-textSecondary px-6 py-3 rounded-xl font-bold transition-all shadow-lg shadow-buttonPrimary/20 text-sm flex items-center gap-2"
+                @click="openCreateModal">
+                <BaseIcon name="check" custom-class="h-5 w-5" />
                 Créer un compte
             </button>
         </div>
@@ -24,82 +25,99 @@
 
                 <div class="relative flex-[3] w-full">
                     <span class="absolute left-4 top-1/2 -translate-y-1/2 text-textPrimary/40">
-                        <BaseIcon name="search" customClass="h-5 w-5" />
+                        <BaseIcon name="search" custom-class="h-5 w-5" />
                     </span>
-                    <input v-model="searchQuery" @input="onSearch" type="text"
-                        placeholder="Rechercher par adresse email..."
-                        class="w-full pl-12 pr-6 py-4 rounded-2xl bg-backgroundPrimary border border-textPrimary/5 focus:bg-textSecondary focus:ring-2 focus:ring-textVert outline-none transition-all text-textPrimary font-body" />
+                    <input
+v-model="searchQuery" type="text" placeholder="Rechercher par adresse email..."
+                        class="w-full pl-12 pr-6 py-4 rounded-2xl bg-backgroundPrimary border border-textPrimary/5 focus:bg-textSecondary focus:ring-2 focus:ring-textVert outline-none transition-all text-textPrimary font-body"
+                        @input="onSearch" >
                 </div>
 
                 <div class="relative w-full lg:w-64">
-                    <button @click="toggleDropdown('role')" type="button"
-                        class="w-full flex items-center justify-between px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body">
+                    <button
+type="button" class="w-full flex items-center justify-between px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body"
+                        @click="toggleDropdown('role')">
                         <span>{{ currentRoleLabel }}</span>
-                        <BaseIcon name="select-arrow"
-                            customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+                        <BaseIcon
+name="select-arrow"
+                            custom-class="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
                             :class="{ 'rotate-180': isRoleDropdownOpen }" />
                     </button>
-                    <div v-if="isRoleDropdownOpen"
+                    <div
+v-if="isRoleDropdownOpen"
                         class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-40">
-                        <div @click="selectRole('')"
-                            class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
-                            :class="{ 'bg-textVert/10 text-textVert font-bold': filterRole === '' }">
+                        <div
+class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
+                            :class="{ 'bg-textVert/10 text-textVert font-bold': filterRole === '' }"
+                            @click="selectRole('')">
                             Rôle : Tous
                         </div>
-                        <div v-for="role in roles" :key="role.id_role" @click="selectRole(String(role.id_role))"
-                            class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
-                            :class="{ 'bg-textVert/10 text-textVert font-bold': filterRole === String(role.id_role) }">
+                        <div
+v-for="role in roles" :key="role.id_role" class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
+                            :class="{ 'bg-textVert/10 text-textVert font-bold': filterRole === String(role.id_role) }"
+                            @click="selectRole(String(role.id_role))">
                             {{ role.libelle }}
                         </div>
                     </div>
                 </div>
 
                 <div class="relative w-full lg:w-64">
-                    <button @click="toggleDropdown('status')" type="button"
-                        class="w-full flex items-center justify-between px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body">
+                    <button
+type="button" class="w-full flex items-center justify-between px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body"
+                        @click="toggleDropdown('status')">
                         <span>{{ currentStatusLabel }}</span>
-                        <BaseIcon name="select-arrow"
-                            customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+                        <BaseIcon
+name="select-arrow"
+                            custom-class="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
                             :class="{ 'rotate-180': isStatusDropdownOpen }" />
                     </button>
-                    <div v-if="isStatusDropdownOpen"
+                    <div
+v-if="isStatusDropdownOpen"
                         class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-40">
-                        <div @click="selectStatus('')"
-                            class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
-                            :class="{ 'bg-textVert/10 text-textVert font-bold': filterStatus === '' }">
+                        <div
+class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
+                            :class="{ 'bg-textVert/10 text-textVert font-bold': filterStatus === '' }"
+                            @click="selectStatus('')">
                             Statut : Tous
                         </div>
-                        <div @click="selectStatus('actif')"
-                            class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
-                            :class="{ 'bg-textVert/10 text-textVert font-bold': filterStatus === 'actif' }">
+                        <div
+class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
+                            :class="{ 'bg-textVert/10 text-textVert font-bold': filterStatus === 'actif' }"
+                            @click="selectStatus('actif')">
                             Comptes actifs
                         </div>
-                        <div @click="selectStatus('desactive')"
-                            class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
-                            :class="{ 'bg-textVert/10 text-textVert font-bold': filterStatus === 'desactive' }">
+                        <div
+class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
+                            :class="{ 'bg-textVert/10 text-textVert font-bold': filterStatus === 'desactive' }"
+                            @click="selectStatus('desactive')">
                             Désactivés
                         </div>
-                        <div @click="selectStatus('anonymise')"
-                            class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
-                            :class="{ 'bg-textVert/10 text-textVert font-bold': filterStatus === 'anonymise' }">
+                        <div
+class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
+                            :class="{ 'bg-textVert/10 text-textVert font-bold': filterStatus === 'anonymise' }"
+                            @click="selectStatus('anonymise')">
                             Anonymisés
                         </div>
                     </div>
                 </div>
 
                 <div class="relative w-full lg:w-44">
-                    <button @click="toggleDropdown('perPage')" type="button"
-                        class="w-full flex items-center justify-between px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body">
+                    <button
+type="button" class="w-full flex items-center justify-between px-4 py-4 rounded-xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body"
+                        @click="toggleDropdown('perPage')">
                         <span>Afficher : {{ perPage }}</span>
-                        <BaseIcon name="select-arrow"
-                            customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+                        <BaseIcon
+name="select-arrow"
+                            custom-class="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
                             :class="{ 'rotate-180': isPerPageDropdownOpen }" />
                     </button>
-                    <div v-if="isPerPageDropdownOpen"
+                    <div
+v-if="isPerPageDropdownOpen"
                         class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-40">
-                        <div v-for="size in [20, 50, 100, 500]" :key="size" @click="selectPerPage(size)"
-                            class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5 first:border-none"
-                            :class="{ 'bg-textVert/10 text-textVert font-bold': perPage === size }">
+                        <div
+v-for="size in [20, 50, 100, 500]" :key="size" class="px-4 py-3 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5 first:border-none"
+                            :class="{ 'bg-textVert/10 text-textVert font-bold': perPage === size }"
+                            @click="selectPerPage(size)">
                             Afficher : {{ size }}
                         </div>
                     </div>
@@ -139,7 +157,8 @@
                                 correspond à vos critères.</td>
                         </tr>
 
-                        <tr v-else v-for="user in users" :key="user.id_utilisateur"
+                        <tr
+v-for="user in users" v-else :key="user.id_utilisateur"
                             class="hover:bg-backgroundPrimary/40 transition-colors duration-200">
 
                             <td class="px-4 py-5 pl-8">
@@ -168,18 +187,19 @@
                             </td>
 
                             <td class="px-4 py-5">
-                                <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold"
+                                <span
+class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold"
                                     :class="{
                                         'bg-textVert/10 text-textVert': user.est_actif,
                                         'bg-orange-500/10 text-orange-600': !user.est_actif && !user.date_anonymisation,
                                         'bg-red-500/10 text-red-600': user.date_anonymisation
                                     }">
-                                    <span class="w-1.5 h-1.5 rounded-full" :class="{
+                                    <span
+class="w-1.5 h-1.5 rounded-full" :class="{
                                         'bg-textVert': user.est_actif,
                                         'bg-orange-500': !user.est_actif && !user.date_anonymisation,
                                         'bg-red-500': user.date_anonymisation
-                                    }">
-                                    </span>
+                                    }"/>
                                     {{ user.est_actif ? 'Actif' : (user.date_anonymisation ? 'Anonymisé' : 'Désactivé')
                                     }}
                                 </span>
@@ -200,23 +220,27 @@
                                 </template>
 
                                 <template v-else>
-                                    <button @click="openEditModal(user)"
-                                        class="px-4 py-2 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition-all text-xs font-bold">
+                                    <button
+class="px-4 py-2 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition-all text-xs font-bold"
+                                        @click="openEditModal(user)">
                                         Modifier
                                     </button>
 
-                                    <button v-if="user.est_actif" @click="deactivateUser(user.id_utilisateur)"
-                                        class="px-4 py-2 rounded-xl border border-textPrimary/10 text-textPrimary/70 hover:bg-backgroundPrimary hover:text-textPrimary transition-all text-xs font-bold">
+                                    <button
+v-if="user.est_actif" class="px-4 py-2 rounded-xl border border-textPrimary/10 text-textPrimary/70 hover:bg-backgroundPrimary hover:text-textPrimary transition-all text-xs font-bold"
+                                        @click="deactivateUser(user.id_utilisateur)">
                                         Désactiver
                                     </button>
 
-                                    <button v-else @click="reactivateUser(user.id_utilisateur)"
-                                        class="px-4 py-2 rounded-xl bg-textVert/10 text-textVert hover:bg-textVert/20 transition-all text-xs font-bold">
+                                    <button
+v-else class="px-4 py-2 rounded-xl bg-textVert/10 text-textVert hover:bg-textVert/20 transition-all text-xs font-bold"
+                                        @click="reactivateUser(user.id_utilisateur)">
                                         Réactiver
                                     </button>
 
-                                    <button @click="askDeleteConfirmation(user)"
-                                        class="px-4 py-2 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 transition-all text-xs font-bold">
+                                    <button
+class="px-4 py-2 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 transition-all text-xs font-bold"
+                                        @click="askDeleteConfirmation(user)">
                                         Supprimer
                                     </button>
                                 </template>
@@ -228,8 +252,9 @@
         </div>
 
         <div v-if="totalPages > 1" class="max-w-7xl mx-auto mt-12 flex justify-center items-center gap-4">
-            <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1"
-                class="px-4 py-2 border border-textPrimary/10 rounded-xl bg-textSecondary text-textPrimary disabled:opacity-30 disabled:cursor-not-allowed hover:bg-backgroundPrimary transition text-sm font-medium font-body">
+            <button
+:disabled="currentPage === 1" class="px-4 py-2 border border-textPrimary/10 rounded-xl bg-textSecondary text-textPrimary disabled:opacity-30 disabled:cursor-not-allowed hover:bg-backgroundPrimary transition text-sm font-medium font-body"
+                @click="changePage(currentPage - 1)">
                 Précédent
             </button>
 
@@ -237,17 +262,20 @@
                 Page {{ currentPage }} sur {{ totalPages }}
             </span>
 
-            <button @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages"
-                class="px-4 py-2 border border-textPrimary/10 rounded-xl bg-textSecondary text-textPrimary disabled:opacity-30 disabled:cursor-not-allowed hover:bg-backgroundPrimary transition text-sm font-medium font-body">
+            <button
+:disabled="currentPage === totalPages" class="px-4 py-2 border border-textPrimary/10 rounded-xl bg-textSecondary text-textPrimary disabled:opacity-30 disabled:cursor-not-allowed hover:bg-backgroundPrimary transition text-sm font-medium font-body"
+                @click="changePage(currentPage + 1)">
                 Suivant
             </button>
         </div>
 
-        <ConfirmModal :show="showDeleteModal" title="Anonymiser ce compte ?"
+        <ConfirmModal
+:show="showDeleteModal" title="Anonymiser ce compte ?"
             :message="`Êtes-vous sûr de vouloir supprimer et anonymiser le compte de ${userToDelete?.email} ? Cette action est irréversible (RGPD).`"
             @confirm="executeDelete" @cancel="showDeleteModal = false" />
 
-        <div v-if="showUserModal"
+        <div
+v-if="showUserModal"
             class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
             <div
                 class="bg-white rounded-[32px] p-8 w-full max-w-lg shadow-2xl animate-in fade-in zoom-in duration-200 overflow-y-auto max-h-[90vh]">
@@ -255,61 +283,71 @@
                     {{ isEditing ? 'Modifier le compte' : 'Créer un compte' }}
                 </h3>
 
-                <form @submit.prevent="saveUser" class="space-y-4">
+                <form class="space-y-4" @submit.prevent="saveUser">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="space-y-1">
                             <label class="text-xs font-bold text-textPrimary">Prénom</label>
-                            <input v-model="userForm.prenom" type="text" required
-                                class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm font-body text-textPrimary" />
+                            <input
+v-model="userForm.prenom" type="text" required
+                                class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm font-body text-textPrimary" >
                         </div>
 
                         <div class="space-y-1">
                             <label class="text-xs font-bold text-textPrimary">Date de naissance</label>
                             <div class="grid grid-cols-3 gap-2">
-                                <input v-model="birthDateSplit.day" type="text" inputmode="numeric" maxlength="2"
+                                <input
+v-model="birthDateSplit.day" type="text" inputmode="numeric" maxlength="2"
                                     placeholder="JJ" required
-                                    class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-center text-sm font-body text-textPrimary" />
-                                <input v-model="birthDateSplit.month" type="text" inputmode="numeric" maxlength="2"
+                                    class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-center text-sm font-body text-textPrimary" >
+                                <input
+v-model="birthDateSplit.month" type="text" inputmode="numeric" maxlength="2"
                                     placeholder="MM" required
-                                    class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-center text-sm font-body text-textPrimary" />
-                                <input v-model="birthDateSplit.year" type="text" inputmode="numeric" maxlength="4"
+                                    class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-center text-sm font-body text-textPrimary" >
+                                <input
+v-model="birthDateSplit.year" type="text" inputmode="numeric" maxlength="4"
                                     placeholder="AAAA" required
-                                    class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-center text-sm font-body text-textPrimary" />
+                                    class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-center text-sm font-body text-textPrimary" >
                             </div>
                         </div>
                     </div>
 
                     <div class="space-y-1">
                         <label class="text-xs font-bold text-textPrimary">Adresse Email</label>
-                        <input v-model="userForm.email" type="email" required
-                            class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm font-body text-textPrimary" />
+                        <input
+v-model="userForm.email" type="email" required
+                            class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm font-body text-textPrimary" >
                     </div>
 
                     <div class="space-y-1">
                         <label class="text-xs font-bold text-textPrimary">
                             {{ isEditing ? 'Nouveau mot de passe (Optionnel)' : 'Mot de passe' }}
                         </label>
-                        <input v-model="userForm.mot_de_passe" type="password" :required="!isEditing"
+                        <input
+v-model="userForm.mot_de_passe" type="password" :required="!isEditing"
                             :placeholder="isEditing ? 'Laisser vide pour ne pas modifier' : '8 caractères minimum'"
-                            class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm font-body text-textPrimary" />
+                            class="w-full px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm font-body text-textPrimary" >
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="space-y-1 relative">
                             <label class="text-xs font-bold text-textPrimary">Genre</label>
-                            <button @click="toggleDropdown('modalGenre')" type="button"
-                                class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm font-body text-textPrimary text-left cursor-pointer">
+                            <button
+type="button" class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm font-body text-textPrimary text-left cursor-pointer"
+                                @click="toggleDropdown('modalGenre')">
                                 <span>{{ currentModalGenreLabel }}</span>
-                                <BaseIcon name="chevron-down"
-                                    customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+                                <BaseIcon
+name="chevron-down"
+                                    custom-class="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
                                     :class="{ 'rotate-180': isModalGenreDropdownOpen }" />
                             </button>
-                            <div v-if="isModalGenreDropdownOpen"
+                            <div
+v-if="isModalGenreDropdownOpen"
                                 class="absolute left-0 right-0 bottom-full mb-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-[70] max-h-48 overflow-y-auto">
-                                <div v-for="genre in genres" :key="genre.id_genre"
-                                    @click="selectModalGenre(genre.id_genre)"
+                                <div
+v-for="genre in genres" :key="genre.id_genre"
                                     class="px-4 py-2.5 text-sm cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
-                                    :class="{ 'bg-textVert/10 text-textVert font-bold': userForm.id_genre === genre.id_genre }">
+                                    :class="{ 'bg-textVert/10 text-textVert font-bold': userForm.id_genre === genre.id_genre }"
+                                    @click="selectModalGenre(genre.id_genre)">
                                     {{ genre.libelle_genre }}
                                 </div>
                             </div>
@@ -317,18 +355,22 @@
 
                         <div class="space-y-1 relative">
                             <label class="text-xs font-bold text-textPrimary">Rôle</label>
-                            <button @click="toggleDropdown('modalRole')" type="button"
-                                class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm font-body text-textPrimary text-left cursor-pointer">
+                            <button
+type="button" class="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm font-body text-textPrimary text-left cursor-pointer"
+                                @click="toggleDropdown('modalRole')">
                                 <span>{{ currentModalRoleLabel }}</span>
-                                <BaseIcon name="chevron-down"
-                                    customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+                                <BaseIcon
+name="chevron-down"
+                                    custom-class="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
                                     :class="{ 'rotate-180': isModalRoleDropdownOpen }" />
                             </button>
-                            <div v-if="isModalRoleDropdownOpen"
+                            <div
+v-if="isModalRoleDropdownOpen"
                                 class="absolute left-0 right-0 bottom-full mb-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-[70] max-h-48 overflow-y-auto">
-                                <div v-for="role in roles" :key="role.id_role" @click="selectModalRole(role.id_role)"
-                                    class="px-4 py-2.5 text-sm cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
-                                    :class="{ 'bg-textVert/10 text-textVert font-bold': userForm.id_role === role.id_role }">
+                                <div
+v-for="role in roles" :key="role.id_role" class="px-4 py-2.5 text-sm cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
+                                    :class="{ 'bg-textVert/10 text-textVert font-bold': userForm.id_role === role.id_role }"
+                                    @click="selectModalRole(role.id_role)">
                                     {{ role.libelle }}
                                 </div>
                             </div>
@@ -336,17 +378,20 @@
                     </div>
 
                     <div class="flex items-center gap-3 pt-2">
-                        <input type="checkbox" id="est_actif" v-model="userForm.est_actif"
-                            class="w-4 h-4 text-textVert bg-backgroundPrimary border-textPrimary/20 rounded focus:ring-textVert" />
+                        <input
+id="est_actif" v-model="userForm.est_actif" type="checkbox"
+                            class="w-4 h-4 text-textVert bg-backgroundPrimary border-textPrimary/20 rounded focus:ring-textVert" >
                         <label for="est_actif" class="text-sm font-bold text-textPrimary">Compte actif</label>
                     </div>
 
                     <p v-if="formError" class="text-red-500 text-xs font-bold mt-2">{{ formError }}</p>
 
                     <div class="flex justify-end gap-3 pt-6 mt-4 border-t border-textPrimary/5">
-                        <button type="button" @click="closeUserModal"
-                            class="px-5 py-2.5 text-sm font-bold text-textPrimary bg-gray-100 hover:bg-gray-200 rounded-xl transition">Annuler</button>
-                        <button type="submit" :disabled="isSaving"
+                        <button
+type="button" class="px-5 py-2.5 text-sm font-bold text-textPrimary bg-gray-100 hover:bg-gray-200 rounded-xl transition"
+                            @click="closeUserModal">Annuler</button>
+                        <button
+type="submit" :disabled="isSaving"
                             class="px-5 py-2.5 text-sm font-bold text-white bg-buttonPrimary hover:bg-buttonPrimaryDegrade1 rounded-xl transition disabled:opacity-50">
                             {{ isSaving ? 'Enregistrement...' : (isEditing ? 'Mettre à jour' : 'Créer le compte') }}
                         </button>

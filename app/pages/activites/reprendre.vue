@@ -2,9 +2,10 @@
     <div class="bg-backgroundPrimary min-h-screen py-12 md:py-20 px-6 sm:px-12 lg:px-24">
 
         <div class="max-w-7xl mx-auto mb-6 md:mb-10">
-            <NuxtLink to="/activites"
+            <NuxtLink
+to="/activites"
                 class="text-textVert hover:underline inline-flex items-center gap-2 font-medium text-sm font-body">
-                <BaseIcon name="arrow-left" customClass="h-4 w-4" />
+                <BaseIcon name="arrow-left" custom-class="h-4 w-4" />
                 Retour aux activités
             </NuxtLink>
         </div>
@@ -25,7 +26,8 @@
                 Chargement de vos sessions en cours...
             </div>
 
-            <div v-else-if="inProgressActivities.length === 0"
+            <div
+v-else-if="inProgressActivities.length === 0"
                 class="col-span-full text-center py-20 text-textPrimary/50 font-body">
                 <p class="mb-4">Vous n'avez aucune activité en cours de lecture pour le moment.</p>
                 <NuxtLink to="/activites" class="text-textVert font-bold hover:underline">
@@ -33,13 +35,15 @@
                 </NuxtLink>
             </div>
 
-            <article v-else v-for="act in inProgressActivities" :key="act.id_activite"
+            <article
+v-for="act in inProgressActivities" v-else :key="act.id_activite"
                 class="bg-textSecondary rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col border border-textPrimary/5 relative">
 
                 <div class="h-64 w-full bg-textVert/5 overflow-hidden relative">
-                    <img :src="getActivityImage(act)"
+                    <img
+:src="getActivityImage(act)"
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        alt="Illustration de l'activité" />
+                        alt="Illustration de l'activité" >
                 </div>
 
                 <div class="p-8 flex flex-col flex-grow">
@@ -63,7 +67,8 @@
                     </p>
 
                     <div class="mt-auto">
-                        <NuxtLink :to="`/activites/${act.id_activite}`"
+                        <NuxtLink
+:to="`/activites/${act.id_activite}`"
                             class="text-textVert font-bold text-sm hover:underline font-body">
                             Reprendre l'activité &rarr;
                         </NuxtLink>

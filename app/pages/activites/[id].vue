@@ -2,9 +2,10 @@
   <div class="bg-backgroundPrimary min-h-screen py-8 md:py-16 px-4 sm:px-8">
     <div class="max-w-3xl mx-auto">
 
-      <NuxtLink :to="activite?.id_categorie ? `/activites?categorie=${activite.id_categorie}` : '/activites'"
+      <NuxtLink
+:to="activite?.id_categorie ? `/activites?categorie=${activite.id_categorie}` : '/activites'"
         class="text-textVert hover:underline inline-flex items-center gap-2 font-medium mb-6 md:mb-10 text-sm font-body">
-        <BaseIcon name="arrow-left" customClass="h-4 w-4" />
+        <BaseIcon name="arrow-left" custom-class="h-4 w-4" />
         Retour aux activités {{ activite?.categorie?.libelle_categorie ? `(${activite.categorie.libelle_categorie})` : '' }}
       </NuxtLink>
 
@@ -12,7 +13,8 @@
         <p class="text-textPrimary/50 italic font-body">Chargement de l'activité...</p>
       </div>
 
-      <article v-else-if="activite"
+      <article
+v-else-if="activite"
         class="bg-textSecondary p-6 md:p-12 rounded-3xl shadow-sm border border-textPrimary/5">
 
         <header class="mb-8">
@@ -32,17 +34,19 @@
               {{ activite.titre_activite }}
             </h1>
 
-            <button v-if="isLoggedIn" @click="handleToggleFavori"
-              class="p-3 rounded-2xl border transition-all duration-200 flex-shrink-0 flex items-center justify-center"
+            <button
+v-if="isLoggedIn" class="p-3 rounded-2xl border transition-all duration-200 flex-shrink-0 flex items-center justify-center"
               :class="isFavori ? 'bg-textVert/10 border-textVert/20 text-textVert' : 'bg-backgroundPrimary border-textPrimary/10 text-textPrimary/40 hover:text-textVert hover:bg-textVert/5'"
-              title="Ajouter aux favoris">
-              <BaseIcon :name="isFavori ? 'heart-filled' : 'heart-outline'" customClass="h-6 w-6" />
+              title="Ajouter aux favoris"
+              @click="handleToggleFavori">
+              <BaseIcon :name="isFavori ? 'heart-filled' : 'heart-outline'" custom-class="h-6 w-6" />
             </button>
           </div>
 
-          <div v-if="hasResumed && isVideo"
+          <div
+v-if="hasResumed && isVideo"
             class="mb-4 p-3 bg-textVert/10 text-textVert text-xs font-bold rounded-xl font-body flex items-center gap-2 animate-pulse">
-            <BaseIcon name="check" customClass="h-4 w-4" />
+            <BaseIcon name="check" custom-class="h-4 w-4" />
             Lecture reprise là où vous vous étiez arrêté.
           </div>
 
@@ -58,9 +62,10 @@
 
         <div v-if="isVideo && activite.lien_ressource" class="w-full mb-10">
           <div class="w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-inner mb-4">
-            <video ref="videoPlayer" @timeupdate="onTimeUpdate" @pause="saveSessionBackend(false)" @ended="onVideoEnded"
-              @loadedmetadata="onLoadedMetadata" controls controlsList="nodownload"
-              class="w-full h-full object-contain">
+            <video
+ref="videoPlayer" controls controlsList="nodownload" class="w-full h-full object-contain"
+              @timeupdate="onTimeUpdate" @pause="saveSessionBackend(false)" @ended="onVideoEnded"
+              @loadedmetadata="onLoadedMetadata">
               <source :src="getVideoUrl(activite.lien_ressource)" type="video/mp4">
               Votre navigateur ne supporte pas la lecture de vidéos.
             </video>
@@ -69,8 +74,9 @@
 
         <div v-else-if="isPhoto && activite.lien_ressource" class="w-full mb-10">
           <div class="w-full max-h-[450px] rounded-2xl overflow-hidden shadow-sm border border-textPrimary/5 mb-4">
-            <img :src="getFileUrl(activite.lien_ressource)" alt="Ressource de l'activité"
-              class="w-full h-full object-cover" />
+            <img
+:src="getFileUrl(activite.lien_ressource)" alt="Ressource de l'activité"
+              class="w-full h-full object-cover" >
           </div>
         </div>
 
@@ -79,14 +85,16 @@
         </div>
 
         <div v-if="isLoggedIn" class="flex justify-end font-body border-t border-textPrimary/5 pt-6">
-          <div v-if="isAlreadyTerminated"
+          <div
+v-if="isAlreadyTerminated"
             class="inline-flex items-center gap-2 text-textVert bg-textVert/10 px-4 py-2 rounded-xl text-sm font-bold">
-            <BaseIcon name="check" customClass="h-4 w-4" />
+            <BaseIcon name="check" custom-class="h-4 w-4" />
             Activité terminée
           </div>
-          <button v-else @click="handleManualComplete"
-            class="bg-textVert hover:bg-textVert/90 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-colors duration-200 flex items-center gap-2 shadow-sm">
-            <BaseIcon name="check" customClass="h-4 w-4" />
+          <button
+v-else class="bg-textVert hover:bg-textVert/90 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-colors duration-200 flex items-center gap-2 shadow-sm"
+            @click="handleManualComplete">
+            <BaseIcon name="check" custom-class="h-4 w-4" />
             Marquer comme terminée
           </button>
         </div>

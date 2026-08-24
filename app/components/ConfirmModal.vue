@@ -5,10 +5,10 @@
       <p class="text-sm text-textPrimary/60 mb-6 leading-relaxed">{{ message }}</p>
       
       <div class="flex flex-col gap-3">
-        <button @click="$emit('confirm')" class="w-full px-4 py-3 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition">
+        <button class="w-full px-4 py-3 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition" @click="$emit('confirm')">
           Confirmer la suppression
         </button>
-        <button @click="$emit('cancel')" class="w-full px-4 py-3 bg-gray-100 text-textPrimary font-bold rounded-xl hover:bg-gray-200 transition">
+        <button class="w-full px-4 py-3 bg-gray-100 text-textPrimary font-bold rounded-xl hover:bg-gray-200 transition" @click="$emit('cancel')">
           Annuler
         </button>
       </div>

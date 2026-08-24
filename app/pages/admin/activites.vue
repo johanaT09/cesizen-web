@@ -13,9 +13,10 @@
       </div>
 
       <div class="flex items-center gap-3 self-start md:self-end">
-        <button @click="openCreateModal"
-          class="bg-buttonPrimary hover:bg-buttonPrimaryDegrade1 text-textSecondary px-5 py-3 rounded-xl font-bold transition shadow-lg shadow-buttonPrimary/20 text-sm flex items-center gap-2 font-body">
-          <BaseIcon name="check" customClass="h-5 w-5" />
+        <button
+class="bg-buttonPrimary hover:bg-buttonPrimaryDegrade1 text-textSecondary px-5 py-3 rounded-xl font-bold transition shadow-lg shadow-buttonPrimary/20 text-sm flex items-center gap-2 font-body"
+          @click="openCreateModal">
+          <BaseIcon name="check" custom-class="h-5 w-5" />
           Ajouter une activité
         </button>
       </div>
@@ -25,70 +26,85 @@
       <div class="flex flex-col lg:flex-row items-center gap-4 w-full">
 
         <div class="relative flex-grow w-full">
-          <input v-model="searchQuery" @input="onSearch" type="text"
-            placeholder="Rechercher par titre, auteur..."
-            class="w-full px-5 py-4 pl-12 rounded-2xl border border-textPrimary/10 bg-textSecondary focus:ring-2 focus:ring-textVert focus:border-textVert outline-none shadow-sm transition-all text-sm md:text-base text-textPrimary font-body" />
+          <input
+v-model="searchQuery" type="text" placeholder="Rechercher par titre, auteur..."
+            class="w-full px-5 py-4 pl-12 rounded-2xl border border-textPrimary/10 bg-textSecondary focus:ring-2 focus:ring-textVert focus:border-textVert outline-none shadow-sm transition-all text-sm md:text-base text-textPrimary font-body"
+            @input="onSearch" >
           <div class="absolute left-4 top-1/2 -translate-y-1/2 text-textPrimary/40">
-            <BaseIcon name="search" customClass="h-5 w-5" />
+            <BaseIcon name="search" custom-class="h-5 w-5" />
           </div>
         </div>
 
         <div class="relative w-full lg:w-72 lg:flex-shrink-0">
-          <button @click="toggleFilterDropdown('category')" type="button"
-            class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-textPrimary/10 bg-textSecondary text-textPrimary focus:ring-2 focus:ring-textVert focus:border-textVert outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body whitespace-nowrap">
+          <button
+type="button" class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-textPrimary/10 bg-textSecondary text-textPrimary focus:ring-2 focus:ring-textVert focus:border-textVert outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body whitespace-nowrap"
+            @click="toggleFilterDropdown('category')">
             <span class="truncate pr-2">{{ currentCategoryLabel }}</span>
-            <BaseIcon name="select-arrow" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200 flex-shrink-0"
+            <BaseIcon
+name="select-arrow" custom-class="h-4 w-4 text-textPrimary/40 transition-transform duration-200 flex-shrink-0"
               :class="{ 'rotate-180': isCategoryDropdownOpen }" />
           </button>
-          <div v-if="isCategoryDropdownOpen"
+          <div
+v-if="isCategoryDropdownOpen"
             class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-2xl shadow-xl overflow-hidden z-40">
-            <div @click="selectCategory(null)"
-              class="px-5 py-3.5 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
-              :class="{ 'bg-textVert/10 text-textVert font-bold': selectedCategory === null }">
+            <div
+class="px-5 py-3.5 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
+              :class="{ 'bg-textVert/10 text-textVert font-bold': selectedCategory === null }"
+              @click="selectCategory(null)">
               Toutes les catégories
             </div>
-            <div v-for="cat in categories" :key="cat.id_categorie" @click="selectCategory(cat.id_categorie)"
-              class="px-5 py-3.5 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
-              :class="{ 'bg-textVert/10 text-textVert font-bold': selectedCategory === cat.id_categorie }">
+            <div
+v-for="cat in categories" :key="cat.id_categorie" class="px-5 py-3.5 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
+              :class="{ 'bg-textVert/10 text-textVert font-bold': selectedCategory === cat.id_categorie }"
+              @click="selectCategory(cat.id_categorie)">
               {{ cat.libelle_categorie }}
             </div>
           </div>
         </div>
 
         <div class="relative w-full lg:w-72 lg:flex-shrink-0">
-          <button @click="toggleFilterDropdown('type')" type="button"
-            class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-textPrimary/10 bg-textSecondary text-textPrimary focus:ring-2 focus:ring-textVert focus:border-textVert outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body whitespace-nowrap">
+          <button
+type="button" class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-textPrimary/10 bg-textSecondary text-textPrimary focus:ring-2 focus:ring-textVert focus:border-textVert outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body whitespace-nowrap"
+            @click="toggleFilterDropdown('type')">
             <span class="truncate pr-2">{{ currentTypeLabel }}</span>
-            <BaseIcon name="select-arrow" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200 flex-shrink-0"
+            <BaseIcon
+name="select-arrow" custom-class="h-4 w-4 text-textPrimary/40 transition-transform duration-200 flex-shrink-0"
               :class="{ 'rotate-180': isTypeDropdownOpen }" />
           </button>
-          <div v-if="isTypeDropdownOpen"
+          <div
+v-if="isTypeDropdownOpen"
             class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-2xl shadow-xl overflow-hidden z-40">
-            <div @click="selectType(null)"
-              class="px-5 py-3.5 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
-              :class="{ 'bg-textVert/10 text-textVert font-bold': selectedType === null }">
+            <div
+class="px-5 py-3.5 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
+              :class="{ 'bg-textVert/10 text-textVert font-bold': selectedType === null }"
+              @click="selectType(null)">
               Tous les types
             </div>
-            <div v-for="t in types" :key="t.id_type" @click="selectType(t.id_type)"
-              class="px-5 py-3.5 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
-              :class="{ 'bg-textVert/10 text-textVert font-bold': selectedType === t.id_type }">
+            <div
+v-for="t in types" :key="t.id_type" class="px-5 py-3.5 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5"
+              :class="{ 'bg-textVert/10 text-textVert font-bold': selectedType === t.id_type }"
+              @click="selectType(t.id_type)">
               {{ t.libelle_type || 'Type ' + t.id_type }}
             </div>
           </div>
         </div>
 
         <div class="relative w-full lg:w-56 lg:flex-shrink-0">
-          <button @click="toggleFilterDropdown('perPage')" type="button"
-            class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body whitespace-nowrap">
+          <button
+type="button" class="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-textPrimary/10 bg-textSecondary text-textPrimary outline-none shadow-sm transition-all text-sm md:text-base text-left cursor-pointer font-body whitespace-nowrap"
+            @click="toggleFilterDropdown('perPage')">
             <span>Afficher : {{ perPage }}</span>
-            <BaseIcon name="select-arrow" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200 flex-shrink-0"
+            <BaseIcon
+name="select-arrow" custom-class="h-4 w-4 text-textPrimary/40 transition-transform duration-200 flex-shrink-0"
               :class="{ 'rotate-180': isPerPageDropdownOpen }" />
           </button>
-          <div v-if="isPerPageDropdownOpen"
+          <div
+v-if="isPerPageDropdownOpen"
             class="absolute left-0 right-0 top-full mt-2 bg-textSecondary border border-textPrimary/10 rounded-2xl shadow-xl overflow-hidden z-40">
-            <div v-for="size in [20, 50, 100, 500]" :key="size" @click="selectPerPage(size)"
-              class="px-5 py-3.5 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5 first:border-none"
-              :class="{ 'bg-textVert/10 text-textVert font-bold': perPage === size }">
+            <div
+v-for="size in [20, 50, 100, 500]" :key="size" class="px-5 py-3.5 text-sm md:text-base cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert border-t border-textPrimary/5 first:border-none"
+              :class="{ 'bg-textVert/10 text-textVert font-bold': perPage === size }"
+              @click="selectPerPage(size)">
               Afficher : {{ size }}
             </div>
           </div>
@@ -121,7 +137,8 @@
             <tr v-else-if="activities.length === 0" class="text-center">
               <td colspan="6" class="px-8 py-16 text-textPrimary/50 text-base">Aucune activité enregistrée.</td>
             </tr>
-            <tr v-else v-for="act in activities" :key="act.id_activite"
+            <tr
+v-for="act in activities" v-else :key="act.id_activite"
               class="hover:bg-backgroundPrimary/40 transition-colors duration-200">
               <td class="px-6 py-5 pl-8 max-w-xs truncate font-bold text-textPrimary text-base">
                 {{ act.titre_activite }}
@@ -138,19 +155,22 @@
                 {{ act.duree_estimee || 'Non renseignée' }}
               </td>
               <td class="px-6 py-5">
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold font-body"
+                <span
+class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold font-body"
                   :class="act.est_actif ? 'bg-textVert/10 text-textVert' : 'bg-red-50 text-red-600'">
                   {{ act.est_actif ? 'Actif' : 'Désactivé' }}
                 </span>
               </td>
               <td class="px-6 py-5 text-right pr-8 space-x-2 whitespace-nowrap">
-                <button @click="openEditModal(act)"
-                  class="px-4 py-2 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 font-bold text-xs transition font-body">
+                <button
+class="px-4 py-2 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 font-bold text-xs transition font-body"
+                  @click="openEditModal(act)">
                   Modifier
                 </button>
-                <button @click="toggleStatus(act)"
-                  class="px-4 py-2 rounded-xl border font-bold text-xs transition font-body"
-                  :class="act.est_actif ? 'border-textPrimary/10 text-textPrimary/70 hover:bg-backgroundPrimary' : 'bg-textVert/10 text-textVert hover:bg-textVert/20'">
+                <button
+class="px-4 py-2 rounded-xl border font-bold text-xs transition font-body"
+                  :class="act.est_actif ? 'border-textPrimary/10 text-textPrimary/70 hover:bg-backgroundPrimary' : 'bg-textVert/10 text-textVert hover:bg-textVert/20'"
+                  @click="toggleStatus(act)">
                   {{ act.est_actif ? 'Désactiver' : 'Activer' }}
                 </button>
               </td>
@@ -161,21 +181,24 @@
     </div>
 
     <div v-if="totalPages > 1" class="max-w-7xl mx-auto mt-12 flex justify-center items-center gap-4">
-      <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1"
-        class="px-4 py-2 border border-textPrimary/10 rounded-xl bg-textSecondary disabled:opacity-30 hover:bg-backgroundPrimary transition text-sm font-medium font-body">Précédent</button>
+      <button
+:disabled="currentPage === 1" class="px-4 py-2 border border-textPrimary/10 rounded-xl bg-textSecondary disabled:opacity-30 hover:bg-backgroundPrimary transition text-sm font-medium font-body"
+        @click="changePage(currentPage - 1)">Précédent</button>
       <span class="text-sm font-medium text-textPrimary/60 font-body">Page {{ currentPage }} sur {{ totalPages }}</span>
-      <button @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages"
-        class="px-4 py-2 border border-textPrimary/10 rounded-xl bg-textSecondary disabled:opacity-30 hover:bg-backgroundPrimary transition text-sm font-medium font-body">Suivant</button>
+      <button
+:disabled="currentPage === totalPages" class="px-4 py-2 border border-textPrimary/10 rounded-xl bg-textSecondary disabled:opacity-30 hover:bg-backgroundPrimary transition text-sm font-medium font-body"
+        @click="changePage(currentPage + 1)">Suivant</button>
     </div>
 
-    <div v-if="showModal"
+    <div
+v-if="showModal"
       class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
       <div class="bg-white rounded-[32px] p-8 w-full max-w-2xl shadow-2xl animate-in fade-in zoom-in duration-200 overflow-y-auto max-h-[90vh]">
         <h3 class="text-2xl font-serif font-bold text-textPrimary mb-6">
           {{ isEditing ? 'Modifier l\'activité de détente' : 'Ajouter une nouvelle activité' }}
         </h3>
 
-        <form @submit.prevent="saveActivite" class="space-y-4">
+        <form class="space-y-4" @submit.prevent="saveActivite">
 
           <div class="space-y-2">
             <label class="text-xs font-bold text-textPrimary">
@@ -185,12 +208,12 @@
             <div class="flex items-center gap-4 p-4 bg-backgroundPrimary/50 rounded-xl border border-textPrimary/10">
 
               <div class="w-20 h-20 rounded-xl bg-gray-100 overflow-hidden flex items-center justify-center border border-textPrimary/5 flex-shrink-0">
-                <img v-if="imagePreview" :src="imagePreview" class="w-full h-full object-cover" />
+                <img v-if="imagePreview" :src="imagePreview" class="w-full h-full object-cover" >
                 <span v-else class="text-[10px] text-textPrimary/30 font-bold uppercase font-body tracking-wider">Aucune</span>
               </div>
 
               <div class="flex flex-col gap-1">
-                <input type="file" id="cover_image" @change="onFileChange" accept="image/*" class="hidden" />
+                <input id="cover_image" type="file" accept="image/*" class="hidden" @change="onFileChange" >
                 <label for="cover_image" class="px-4 py-2 text-xs font-bold text-textPrimary bg-textSecondary border border-textPrimary/10 rounded-lg shadow-sm hover:bg-backgroundPrimary cursor-pointer transition inline-block text-center w-fit font-body">
                   Sélectionner un fichier
                 </label>
@@ -202,24 +225,29 @@
 
           <div class="space-y-1">
             <label class="text-xs font-bold text-textPrimary">Titre de l'activité</label>
-            <input v-model="form.titre_activite" type="text" required
-              class="w-full px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm text-textPrimary font-body" />
+            <input
+v-model="form.titre_activite" type="text" required
+              class="w-full px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm text-textPrimary font-body" >
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="space-y-1 relative">
               <label class="text-xs font-bold text-textPrimary">Catégorie</label>
-              <button @click="toggleModalDropdown('category')" type="button"
-                class="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm text-textPrimary text-left cursor-pointer font-body">
+              <button
+type="button" class="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm text-textPrimary text-left cursor-pointer font-body"
+                @click="toggleModalDropdown('category')">
                 <span>{{ currentModalCategoryLabel }}</span>
-                <BaseIcon name="chevron-down" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+                <BaseIcon
+name="chevron-down" custom-class="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
                   :class="{ 'rotate-180': isModalCategoryDropdownOpen }" />
               </button>
-              <div v-if="isModalCategoryDropdownOpen"
+              <div
+v-if="isModalCategoryDropdownOpen"
                 class="absolute left-0 right-0 bottom-full mb-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-[70] max-h-48 overflow-y-auto">
-                <div v-for="cat in categories" :key="cat.id_categorie" @click="selectModalCategory(cat.id_categorie)"
-                  class="px-4 py-2.5 text-sm cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
-                  :class="{ 'bg-textVert/10 text-textVert font-bold': form.id_categorie === cat.id_categorie }">
+                <div
+v-for="cat in categories" :key="cat.id_categorie" class="px-4 py-2.5 text-sm cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
+                  :class="{ 'bg-textVert/10 text-textVert font-bold': form.id_categorie === cat.id_categorie }"
+                  @click="selectModalCategory(cat.id_categorie)">
                   {{ cat.libelle_categorie }}
                 </div>
               </div>
@@ -227,17 +255,21 @@
 
             <div class="space-y-1 relative">
               <label class="text-xs font-bold text-textPrimary">Type d'activité</label>
-              <button @click="toggleModalDropdown('type')" type="button"
-                class="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm text-textPrimary text-left cursor-pointer font-body">
+              <button
+type="button" class="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm text-textPrimary text-left cursor-pointer font-body"
+                @click="toggleModalDropdown('type')">
                 <span>{{ currentModalTypeLabel }}</span>
-                <BaseIcon name="chevron-down" customClass="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
+                <BaseIcon
+name="chevron-down" custom-class="h-4 w-4 text-textPrimary/40 transition-transform duration-200"
                   :class="{ 'rotate-180': isModalTypeDropdownOpen }" />
               </button>
-              <div v-if="isModalTypeDropdownOpen"
+              <div
+v-if="isModalTypeDropdownOpen"
                 class="absolute left-0 right-0 bottom-full mb-2 bg-textSecondary border border-textPrimary/10 rounded-xl shadow-xl overflow-hidden z-[70] max-h-48 overflow-y-auto">
-                <div v-for="t in types" :key="t.id_type" @click="selectModalType(t.id_type)"
-                  class="px-4 py-2.5 text-sm cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
-                  :class="{ 'bg-textVert/10 text-textVert font-bold': form.id_type === t.id_type }">
+                <div
+v-for="t in types" :key="t.id_type" class="px-4 py-2.5 text-sm cursor-pointer transition-colors text-textPrimary hover:bg-textVert/5 hover:text-textVert"
+                  :class="{ 'bg-textVert/10 text-textVert font-bold': form.id_type === t.id_type }"
+                  @click="selectModalType(t.id_type)">
                   {{ t.libelle_type || 'Type ' + t.id_type }}
                 </div>
               </div>
@@ -245,22 +277,25 @@
 
             <div class="space-y-1">
               <label class="text-xs font-bold text-textPrimary">Durée estimée (Ex: 10 min)</label>
-              <input v-model="form.duree_estimee" type="text" required placeholder="Ex: 15 min"
-                class="w-full px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm text-textPrimary font-body" />
+              <input
+v-model="form.duree_estimee" type="text" required placeholder="Ex: 15 min"
+                class="w-full px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm text-textPrimary font-body" >
             </div>
           </div>
 
           <div class="space-y-2">
             <label class="text-xs font-bold text-textPrimary">Fichier Vidéo de l'exercice (Optionnel)</label>
             <div class="p-4 bg-backgroundPrimary/50 rounded-xl border border-textPrimary/10">
-              <div v-if="isEditing && form.lien_ressource"
+              <div
+v-if="isEditing && form.lien_ressource"
                 class="mb-3 flex items-center gap-2 bg-textVert/10 text-textVert px-4 py-2 rounded-lg text-xs font-bold font-body">
-                <BaseIcon name="check" customClass="h-4 w-4" />
+                <BaseIcon name="check" custom-class="h-4 w-4" />
                 Une vidéo est actuellement enregistrée.
               </div>
 
-              <input type="file" @change="onVideoChange" accept="video/mp4,video/webm,video/ogg"
-                class="w-full text-sm text-textPrimary font-body file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-buttonPrimary/10 file:text-buttonPrimary hover:file:bg-buttonPrimary/20 transition cursor-pointer outline-none" />
+              <input
+type="file" accept="video/mp4,video/webm,video/ogg" class="w-full text-sm text-textPrimary font-body file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-buttonPrimary/10 file:text-buttonPrimary hover:file:bg-buttonPrimary/20 transition cursor-pointer outline-none"
+                @change="onVideoChange" >
 
               <p class="text-[11px] text-textPrimary/40 font-body mt-2">
                 Formats : MP4, WEBM (Max. 100 Mo).
@@ -271,13 +306,15 @@
 
           <div class="space-y-1">
             <label class="text-xs font-bold text-textPrimary">Description de l'exercice</label>
-            <textarea v-model="form.description_activite" rows="5"
-              class="w-full px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm text-textPrimary resize-none font-body leading-relaxed"></textarea>
+            <textarea
+v-model="form.description_activite" rows="5"
+              class="w-full px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary outline-none text-sm text-textPrimary resize-none font-body leading-relaxed"/>
           </div>
 
           <div class="flex items-center gap-3 pt-2">
-            <input type="checkbox" id="act_actif" v-model="form.est_actif"
-              class="w-4 h-4 text-textVert bg-backgroundPrimary border-textPrimary/20 rounded focus:ring-textVert" />
+            <input
+id="act_actif" v-model="form.est_actif" type="checkbox"
+              class="w-4 h-4 text-textVert bg-backgroundPrimary border-textPrimary/20 rounded focus:ring-textVert" >
             <label for="act_actif" class="text-sm font-bold text-textPrimary cursor-pointer font-body">
               Activité en ligne (disponible pour les utilisateurs)
             </label>
@@ -286,9 +323,11 @@
           <p v-if="errorMsg" class="text-red-500 text-xs font-bold mt-2 font-body">{{ errorMsg }}</p>
 
           <div class="flex justify-end gap-3 pt-6 border-t border-textPrimary/5">
-            <button type="button" @click="showModal = false"
-              class="px-5 py-2.5 text-sm font-bold text-textPrimary bg-gray-100 hover:bg-gray-200 rounded-xl transition font-body">Annuler</button>
-            <button type="submit" :disabled="isSaving"
+            <button
+type="button" class="px-5 py-2.5 text-sm font-bold text-textPrimary bg-gray-100 hover:bg-gray-200 rounded-xl transition font-body"
+              @click="showModal = false">Annuler</button>
+            <button
+type="submit" :disabled="isSaving"
               class="px-5 py-2.5 text-sm font-bold text-white bg-buttonPrimary hover:bg-buttonPrimaryDegrade1 rounded-xl transition disabled:opacity-50 font-body">
               {{ isSaving ? 'Enregistrement...' : 'Confirmer' }}
             </button>

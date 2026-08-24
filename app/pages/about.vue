@@ -31,7 +31,7 @@
           <ul class="space-y-4 font-body">
             <li v-for="(item, index) in engagements" :key="index" class="flex items-start gap-3">
               <div class="mt-1 flex-shrink-0">
-                <BaseIcon name="check" customClass="h-5 w-5 text-textVert" />
+                <BaseIcon name="check" custom-class="h-5 w-5 text-textVert" />
               </div>
               <span class="text-textPrimary/90 text-sm">{{ item }}</span>
             </li>

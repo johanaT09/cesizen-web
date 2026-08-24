@@ -19,7 +19,6 @@ import { Capacitor } from '@capacitor/core'
 import Navbar from './navbar.vue'
 import Footer from './footer.vue'
 import AppBottomNav from './appBottomNav.vue'
-import ThemeToggle from '~/components/ThemeToggle.vue'
 
-const isNative = computed(() => process.client && Capacitor.isNativePlatform())
+const isNative = computed(() => import.meta.client && Capacitor.isNativePlatform())
 </script>

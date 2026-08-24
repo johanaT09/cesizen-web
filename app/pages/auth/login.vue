@@ -12,15 +12,16 @@
         </p>
       </div>
 
-      <form @submit.prevent="handleLogin" class="space-y-5">
+      <form class="space-y-5" @submit.prevent="handleLogin">
 
         <div class="space-y-2">
           <label for="email" class="block text-sm font-bold text-textPrimary">
             Adresse email
           </label>
-          <input id="email" type="email" v-model="form.email" placeholder="utilisateur@example.com"
+          <input
+id="email" v-model="form.email" type="email" placeholder="utilisateur@example.com"
             class="w-full px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20 outline-none transition-all text-sm text-textPrimary"
-            required />
+            required >
         </div>
 
         <div class="space-y-2">
@@ -32,16 +33,18 @@
               Mot de passe oublié ?
             </NuxtLink>
           </div>
-          <input id="password" type="password" v-model="form.password" placeholder="••••••••"
+          <input
+id="password" v-model="form.password" type="password" placeholder="••••••••"
             class="w-full px-4 py-3 rounded-xl bg-backgroundPrimary border border-textPrimary/10 focus:border-buttonPrimary focus:ring-2 focus:ring-buttonPrimary/20 outline-none transition-all text-sm text-textPrimary"
-            required />
+            required >
         </div>
 
         <p v-if="errorMessage" class="text-red-500 text-xs text-center font-medium my-2">
           {{ errorMessage }}
         </p>
 
-        <button type="submit" :disabled="loading"
+        <button
+type="submit" :disabled="loading"
           class="w-full bg-buttonPrimary hover:bg-buttonPrimaryDegrade1 text-textSecondary font-bold py-3.5 rounded-xl shadow-lg shadow-buttonPrimary/20 transition-all active:scale-[0.98] mt-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm">
           {{ loading ? 'Connexion en cours...' : 'Se connecter' }}
         </button>
