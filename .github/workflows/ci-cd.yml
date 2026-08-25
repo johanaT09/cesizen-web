@@ -15,6 +15,13 @@ jobs:
     if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Scan des secrets (Gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Installer Node.js
         uses: actions/setup-node@v4
@@ -27,14 +34,30 @@ jobs:
       - name: Vérifier le style (ESLint)
         run: npm run lint
 
+      - name: Auditer les dépendances npm
+        run: npm audit --audit-level=high
+
+      - name: Vérifier le Dockerfile (Hadolint)
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Dockerfile
+
       - name: Lancer les tests
         run: npm run test
 
       - name: Construire l'application (vérification)
         run: npm run build
 
-      - name: Construire l'image Docker de production (vérification)
+      - name: Construire l'image Docker de production
         run: docker build --target prod -t cesizen-web .
+
+      - name: Scanner l'image (Trivy)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: cesizen-web
+          format: table
+          severity: CRITICAL,HIGH
+          exit-code: '0'
 
   build-and-push:
     runs-on: ubuntu-latest
