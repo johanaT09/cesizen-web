@@ -1,6 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 
+import Navbar from '../../app/layouts/navbar.vue'
+
 const isNativePlatform = vi.fn(() => false)
 
 vi.mock('@capacitor/core', () => ({
@@ -8,8 +10,6 @@ vi.mock('@capacitor/core', () => ({
     isNativePlatform: (...args: any[]) => isNativePlatform(...args),
   },
 }))
-
-import Navbar from '../../app/layouts/navbar.vue'
 
 const globalStubs = {
   NuxtLink: { template: '<a><slot /></a>', props: ['to'] },

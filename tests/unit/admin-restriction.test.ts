@@ -1,5 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
+import middleware from '../../app/middleware/admin-restriction.global'
+
 const isNativePlatform = vi.fn()
 
 vi.mock('@capacitor/core', () => ({
@@ -7,8 +9,6 @@ vi.mock('@capacitor/core', () => ({
     isNativePlatform: (...args: any[]) => isNativePlatform(...args),
   },
 }))
-
-import middleware from '../../app/middleware/admin-restriction.global'
 
 describe('admin-restriction.global middleware', () => {
   let cookies: Record<string, { value: any }>
