@@ -13,7 +13,7 @@ export const useAuth = () => {
   const logout = async () => {
     user.value = null;
     token.value = null;
-    await navigateTo("/login");
+    await navigateTo("/auth/login");
   };
 
   return { user, isAdmin, logout };
